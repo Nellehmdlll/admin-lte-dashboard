@@ -3,6 +3,8 @@ import { LayoutComponent } from './layout/layout/layout.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { UsersComponent } from './pages/users/users.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { DemandeFormComponent } from './pages/demande-form/demande-form.component';
+import { DemandesListComponent } from './pages/demandes-list/demandes-list.component';
 
 export const routes: Routes = [
   {
@@ -11,7 +13,16 @@ export const routes: Routes = [
     children: [
       { path: '', component: DashboardComponent },
       { path: 'users', component: UsersComponent },
-      { path: 'settings', component: SettingsComponent }
+      { path: 'settings', component: SettingsComponent },
+      { 
+        path: 'demande',
+        children: [
+          { path: 'new', component: DemandeFormComponent },
+          { path: 'edit/:id', component: DemandeFormComponent },
+          { path: ':id', component: DemandeFormComponent }
+        ]
+      },
+      { path: 'demandes', component: DemandesListComponent }
     ]
   }
 ];

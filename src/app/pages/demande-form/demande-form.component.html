@@ -1,0 +1,582 @@
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-primary">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">
+              <i class="fas {{ isViewMode ? 'fa-eye' : isEditMode ? 'fa-edit' : 'fa-plus' }} mr-2"></i>
+              {{ isViewMode ? 'Détails de la demande' : isEditMode ? 'Modifier la demande' : 'Nouvelle demande' }}
+              <span *ngIf="demande.numero" class="text-muted ml-2">
+                ({{ demande.numero }})
+              </span>
+            </h3>
+            <button type="button" class="close" (click)="onCancel()" *ngIf="!isLoading">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- Chargement -->
+          <div class="card-body text-center py-5" *ngIf="isLoading">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Chargement...</span>
+            </div>
+            <p class="mt-2 mb-0">Chargement de la demande...</p>
+          </div>
+
+          <!-- Formulaire -->
+          <div class="card-body" *ngIf="!isLoading">
+            <form (ngSubmit)="onSubmit()" *ngIf="!isViewMode; else viewModeTemplate">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Type de demande <span class="text-danger">*</span></label>
+                    <select class="form-control" [(ngModel)]="demande.type" name="type" [disabled]="isViewMode" required>
+                      <option *ngFor="let type of TypeDemande | keyvalue" [value]="type.value">
+                        {{ type.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Statut <span class="text-danger">*</span></label>
+                    <select class="form-control" [(ngModel)]="demande.statut" name="statut" [disabled]="isViewMode" required>
+                      <option *ngFor="let statut of StatutDemande | keyvalue" [value]="statut.value">
+                        {{ statut.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Motif <span class="text-danger">*</span></label>
+                    <select class="form-control" [(ngModel)]="demande.motif" name="motif" [disabled]="isViewMode" required>
+                      <option *ngFor="let motif of MotifDemande | keyvalue" [value]="motif.value">
+                        {{ motif.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Fichier joint <span class="text-danger">*</span></label>
+                    <select class="form-control" [(ngModel)]="demande.fichierJoint" name="fichierJoint" [disabled]="isViewMode" required>
+                      <option *ngFor="let fichier of FichierJoint | keyvalue" [value]="fichier.value">
+                        {{ fichier.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Informations sur le véhicule -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <h5 class="font-weight-bold text-primary">
+                    <i class="fas fa-motorcycle mr-2"></i>Informations sur le véhicule
+                  </h5>
+                  <hr class="mt-1">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Numéro d'immatriculation <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.numeroInscription" name="numeroInscription" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Marque <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.marque" name="marque" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Modèle <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.modele" name="modele" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Année de fabrication <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" [(ngModel)]="demande.anneeFabrication" name="anneeFabrication" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Numéro de châssis <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.numeroChassis" name="numeroChassis" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Pays d'origine <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.paysOrigine" name="paysOrigine" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Pays de provenance <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.paysProvenance" name="paysProvenance" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Informations sur l'importateur -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <h5 class="font-weight-bold text-primary">
+                    <i class="fas fa-building mr-2"></i>Informations sur l'importateur
+                  </h5>
+                  <hr class="mt-1">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Nom de l'importateur <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.nomImportateur" name="nomImportateur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Email de l'importateur <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" [(ngModel)]="demande.emailImportateur" name="emailImportateur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Adresse de l'importateur <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.adresseImportateur" name="adresseImportateur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Téléphone de l'importateur <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" [(ngModel)]="demande.telephoneImportateur" name="telephoneImportateur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Informations sur l'acheteur -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <h5 class="font-weight-bold text-primary">
+                    <i class="fas fa-user-tie mr-2"></i>Informations sur l'acheteur
+                  </h5>
+                  <hr class="mt-1">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Nom de l'acheteur <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.nomAcheteur" name="nomAcheteur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Email de l'acheteur <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" [(ngModel)]="demande.emailAcheteur" name="emailAcheteur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Adresse de l'acheteur <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" [(ngModel)]="demande.adresseAcheteur" name="adresseAcheteur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Téléphone de l'acheteur <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" [(ngModel)]="demande.telephoneAcheteur" name="telephoneAcheteur" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Informations complémentaires -->
+              <div class="row mt-4">
+                <div class="col-12">
+                  <h5 class="font-weight-bold text-primary">
+                    <i class="fas fa-info-circle mr-2"></i>Informations complémentaires
+                  </h5>
+                  <hr class="mt-1">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Détails complémentaires</label>
+                    <textarea class="form-control" rows="3" [(ngModel)]="demande.detailsComplementaires" name="detailsComplementaires" [readonly]="isViewMode"></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- Modifiez la section des documents fournis comme ceci : -->
+                  <div class="form-group" *ngIf="demande.documentsFournis">
+                    <label class="font-weight-bold">Documents fournis</label>
+                    <div *ngIf="!isViewMode">
+                      <div class="input-group mb-2" *ngFor="let doc of demande.documentsFournis; let i = index">
+                        <input type="text" class="form-control"
+                              [(ngModel)]="demande.documentsFournis[i]"
+                              [name]="'document' + i">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-danger" type="button" (click)="removeDocument(i)">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-primary" (click)="addDocument()">
+                        <i class="fas fa-plus mr-1"></i> Ajouter un document
+                      </button>
+                    </div>
+                    <div *ngIf="isViewMode">
+                      <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let doc of demande.documentsFournis">{{doc}}</li>
+                        <li class="list-group-item text-muted" *ngIf="!demande.documentsFournis.length">Aucun document fourni</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Date de soumission <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" [ngModel]="demande.dateSoumission | date:'yyyy-MM-dd'" (ngModelChange)="demande.dateSoumission = $event" name="dateSoumission" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Quantité de motos <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" [(ngModel)]="demande.quantiteMoto" name="quantiteMoto" min="1" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="font-weight-bold">Valeur (FCFA) <span class="text-danger">*</span></label>
+                    <input type="number" class="form-control" [(ngModel)]="demande.valeur" name="valeur" min="0" [readonly]="isViewMode" required>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-4">
+                <div class="col-12 text-right">
+                  <button type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">
+                    <i class="fas fa-times mr-1"></i> {{ isEditMode ? 'Annuler' : 'Retour' }}
+                  </button>
+                  <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                    <i class="fas {{ isEditMode ? 'fa-save' : 'fa-plus' }} mr-1"></i>
+                    {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+                  </button>
+                </div>
+              </div>
+            </form>
+
+            <!-- Mode consultation -->
+            <ng-template #viewModeTemplate>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-info"><i class="fas fa-tag"></i></span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Type de demande</span>
+                      <span class="info-box-number">{{ demande.type }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="info-box">
+                    <span class="info-box-icon" [ngClass]="'bg-' + ((demande.statut || StatutDemande.EN_ATTENTE) | statusColor)">
+                      <i class="fas" [ngClass]="getStatusIcon(demande.statut)"></i>
+                    </span>
+                    <div class="info-box-content">
+                      <span class="info-box-text">Statut</span>
+                      <span class="info-box-number">
+                        {{ getStatusText(demande.statut) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                  <div class="card mb-12">
+                    <div class="card-header bg-light">
+                      <h3 class="card-title">Informations générales</h3>
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Numéro</th>
+                              <td>{{ demande.numero || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Date de création</th>
+                              <td>{{ demande.date | date:'dd/MM/yyyy' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Date de soumission</th>
+                              <td>{{ demande.dateSoumission | date:'dd/MM/yyyy' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Type de demande</th>
+                              <td>{{ demande.type || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Statut</th>
+                              <td>
+                                <span class="badge" [ngClass]="'bg-' + (demande.statut ? (demande.statut | statusColor) : 'secondary')">
+                                  {{ demande.statut || '-' }}
+                                </span>
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Motif</th>
+                              <td>{{ demande.motif || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Fichier joint</th>
+                              <td>{{ demande.fichierJoint || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Quantité de motos</th>
+                              <td>{{ demande.quantiteMoto || '0' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Valeur (FCFA)</th>
+                              <td>{{ demande.valeur ? (demande.valeur | number:'1.0-0') + ' FCFA' : '-' }}</td>
+                            </tr>
+                            <tr *ngIf="demande.dateValidation">
+                              <th>Date de validation</th>
+                              <td>{{ demande.dateValidation | date:'dd/MM/yyyy' }}</td>
+                            </tr>
+                            <tr *ngIf="demande.motifRejet">
+                              <th>Motif de rejet</th>
+                              <td class="text-danger">{{ demande.motifRejet }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+
+              <!-- Section Véhicule -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-header bg-light">
+                      <h3 class="card-title">
+                        <i class="fas fa-motorcycle mr-2"></i>Informations sur le véhicule
+                      </h3>
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Numéro d'immatriculation</th>
+                              <td>{{ demande.numeroInscription || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Marque</th>
+                              <td>{{ demande.marque || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Modèle</th>
+                              <td>{{ demande.modele || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Année de fabrication</th>
+                              <td>{{ demande.anneeFabrication || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Numéro de châssis</th>
+                              <td>{{ demande.numeroChassis || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Pays d'origine</th>
+                              <td>{{ demande.paysOrigine || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Pays de provenance</th>
+                              <td>{{ demande.paysProvenance || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Importateur -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-header bg-light">
+                      <h3 class="card-title">
+                        <i class="fas fa-building mr-2"></i>Informations sur l'importateur
+                      </h3>
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Nom</th>
+                              <td>{{ demande.nomImportateur || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Adresse</th>
+                              <td>{{ demande.adresseImportateur || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Téléphone</th>
+                              <td>{{ demande.telephoneImportateur || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Email</th>
+                              <td>{{ demande.emailImportateur || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Acheteur -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-header bg-light">
+                      <h3 class="card-title">
+                        <i class="fas fa-user-tie mr-2"></i>Informations sur l'acheteur
+                      </h3>
+                    </div>
+                    <div class="card-body p-0">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Nom</th>
+                              <td>{{ demande.nomAcheteur || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Adresse</th>
+                              <td>{{ demande.adresseAcheteur || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                        <div class="col-md-6">
+                          <table class="table table-borderless mb-0">
+                            <tr>
+                              <th style="width: 40%">Téléphone</th>
+                              <td>{{ demande.telephoneAcheteur || '-' }}</td>
+                            </tr>
+                            <tr>
+                              <th>Email</th>
+                              <td>{{ demande.emailAcheteur || '-' }}</td>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Section Compléments -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card mb-3">
+                    <div class="card-header bg-light">
+                      <h3 class="card-title">
+                        <i class="fas fa-info-circle mr-2"></i>Informations complémentaires
+                      </h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Détails complémentaires</label>
+                        <p class="form-control-static" *ngIf="demande.detailsComplementaires; else noDetails">
+                          {{ demande.detailsComplementaires }}
+                        </p>
+                        <ng-template #noDetails>
+                          <p class="text-muted font-italic">Aucun détail complémentaire fourni</p>
+                        </ng-template>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="font-weight-bold">Documents fournis</label>
+                        <div *ngIf="demande.documentsFournis?.length; else noDocuments">
+                          <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let doc of demande.documentsFournis">
+                              <i class="fas fa-file-pdf text-danger mr-2"></i>{{ doc }}
+                            </li>
+                          </ul>
+                        </div>
+                        <ng-template #noDocuments>
+                          <p class="text-muted font-italic">Aucun document fourni</p>
+                        </ng-template>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+
+              <div class="row mt-3">
+                <div class="col-12 text-right">
+                  <button type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">
+                    <i class="fas fa-arrow-left mr-1"></i> Retour
+                  </button>
+                  <button type="button" class="btn btn-primary" (click)="onEdit()" *ngIf="!isEditMode">
+                    <i class="fas fa-edit mr-1"></i> Modifier
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
