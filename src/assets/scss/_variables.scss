@@ -1,0 +1,76 @@
+// Couleurs principales - Palette neutre
+$primary: #4a6fa5; // Bleu neutre
+$success: #4caf50; // Vert plus doux
+$warning: #ff9800; // Orange doux
+
+// Couleurs secondaires
+$secondary: #6c757d;
+$info: #2196f3; // Bleu plus clair
+$danger: #f44336; // Rouge plus doux
+$light: #f8f9fa;
+$dark: #343a40;
+
+// Couleurs personnalisées
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger,
+  "light": $light,
+  "dark": $dark
+);
+
+// Couleurs de texte
+$body-color: #212529;
+$text-muted: #6c757d;
+
+// Couleurs de fond
+$body-bg: #f8f9fa;
+
+// Bordures
+$border-color: #dee2e6;
+
+// Liens
+$link-color: $primary;
+$link-hover-color: darken($link-color, 15%);
+
+// Boutons
+$btn-border-radius: 0.25rem;
+$btn-padding-y: 0.375rem;
+$btn-padding-x: 0.75rem;
+
+// Cartes
+$card-cap-bg: rgba($primary, 0.1);
+$card-border-color: rgba($primary, 0.125);
+
+// Barre latérale
+$sidebar-dark-bg: $dark;
+$sidebar-dark-hover-bg: rgba($primary, 0.1);
+$sidebar-dark-color: #c2c7d0;
+$sidebar-dark-hover-color: #fff;
+$sidebar-dark-active-color: $primary;
+
+// En-têtes
+$card-cap-bg: rgba($primary, 0.03);
+
+// Alertes
+$alert-bg-scale: -80%;
+$alert-border-scale: -70%;
+$alert-color-scale: 40%;
+
+// Badges
+$badge-font-size: 85%;
+$badge-padding-y: 0.35em;
+$badge-padding-x: 0.65em;
+
+// Barre de navigation
+$navbar-dark-color: rgba(255, 255, 255, 0.8);
+$navbar-dark-hover-color: rgba(255, 255, 255, 1);
+$navbar-dark-active-color: #fff;
+$navbar-dark-disabled-color: rgba(255, 255, 255, 0.25);
+
+// Tableaux
+$table-hover-bg: rgba($primary, 0.04);
+$table-active-bg: rgba($primary, 0.1);

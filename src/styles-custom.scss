@@ -1,0 +1,148 @@
+// Fichier de surcharge des couleurs
+
+// Couleurs principales
+$primary: #ec2c2c;
+$success: #049c4b;
+$warning: #fdd118;
+
+// Importer Bootstrap avec les couleurs personnalisées
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+// Surcharger les variables de couleur
+$theme-colors: (
+  "primary": $primary,
+  "success": $success,
+  "warning": $warning
+);
+
+// Importer le reste de Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Styles personnalisés
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+// Cartes
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  
+  .card-header {
+    font-weight: 600;
+  }
+}
+
+// Boutons
+.btn {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &-primary {
+    color: #fff;
+  }
+  
+  &-warning {
+    color: #212529;
+  }
+}
+
+// Barre latérale
+[class*="sidebar-dark"] {
+  .nav-sidebar > .nav-item > .nav-link.active {
+    background-color: $primary;
+    color: #fff;
+  }
+  
+  .nav-sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+}
+
+// En-têtes de cartes
+.card-primary:not(.card-outline) > .card-header {
+  background-color: $primary;
+  color: #fff;
+}
+
+.card-success:not(.card-outline) > .card-header {
+  background-color: $success;
+  color: #fff;
+}
+
+.card-warning:not(.card-outline) > .card-header {
+  background-color: $warning;
+  color: #212529;
+}
+
+// Onglets
+.nav-tabs {
+  .nav-link {
+    &.active {
+      color: $primary;
+      border-bottom: 2px solid $primary;
+    }
+  }
+}
+
+// Pagination
+.page-item {
+  &.active .page-link {
+    background-color: $primary;
+    border-color: $primary;
+  }
+  
+  .page-link {
+    color: $primary;
+  }
+}
+
+// Alertes
+.alert {
+  border-left: 4px solid transparent;
+  
+  &-primary {
+    border-left-color: $primary;
+  }
+  
+  &-success {
+    border-left-color: $success;
+  }
+  
+  &-warning {
+    border-left-color: $warning;
+  }
+}
+
+// Badges
+.badge {
+  font-weight: 500;
+  
+  &-warning {
+    color: #212529;
+  }
+}
+
+// Champs de formulaire
+.form-control:focus, .custom-select:focus {
+  border-color: $primary;
+  box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+}
+
+// Tableaux
+.table {
+  thead th {
+    background-color: rgba($primary, 0.05);
+    border-bottom: 2px solid #dee2e6;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+  }
+  
+  tbody tr:hover {
+    background-color: rgba($primary, 0.04);
+  }
+}

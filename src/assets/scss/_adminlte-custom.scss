@@ -1,0 +1,202 @@
+// Surcharge des couleurs d'AdminLTE - Palette neutre
+$primary: #4a6fa5; // Bleu neutre
+$success: #4caf50; // Vert plus doux
+$warning: #ff9800; // Orange doux
+
+// Personnalisation de la barre latérale
+$sidebar-dark-bg: #2c3b41;
+$sidebar-dark-hover-bg: rgba($primary, 0.1);
+$sidebar-dark-color: #b8c7ce;
+$sidebar-dark-hover-color: #fff;
+$sidebar-dark-active-color: $primary;
+$sidebar-dark-submenu-bg: #2c3b41;
+$sidebar-dark-submenu-color: #b8c7ce;
+$sidebar-dark-submenu-hover-color: #fff;
+$sidebar-dark-submenu-hover-bg: lighten($sidebar-dark-bg, 5%);
+$sidebar-dark-submenu-active-color: $primary;
+
+// Personnalisation de la barre de navigation
+$navbar-dark-bg: $primary;
+$navbar-dark-color: rgba(255, 255, 255, 0.8);
+$navbar-dark-hover-color: #fff;
+$navbar-dark-active-color: #fff;
+$navbar-dark-disabled-color: rgba(255, 255, 255, 0.5);
+
+// Personnalisation des cartes
+$card-cap-bg: rgba($primary, 0.05);
+$card-border-color: rgba($primary, 0.125);
+
+// Personnalisation des boutons
+$btn-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+$btn-active-box-shadow: 0 0 0 0.2rem rgba($primary, 0.5);
+
+// Personnalisation des alertes
+$alert-bg-level: -10;
+$alert-border-level: -9;
+$alert-color-level: 6;
+
+// Personnalisation des onglets
+$nav-tabs-border-color: $primary;
+$nav-tabs-link-hover-border-color: $primary;
+$nav-tabs-link-active-color: $primary;
+$nav-tabs-link-active-bg: #fff;
+$nav-tabs-link-active-border-color: $primary;
+
+// Personnalisation des badges
+$badge-font-size: 85%;
+$badge-padding-y: 0.35em;
+$badge-padding-x: 0.65em;
+
+// Personnalisation des boutons de pagination
+$pagination-color: $primary;
+$pagination-bg: #fff;
+$pagination-border-color: #dee2e6;
+$pagination-hover-color: darken($primary, 15%);
+$pagination-hover-bg: #e9ecef;
+$pagination-hover-border-color: #dee2e6;
+$pagination-active-color: #fff;
+$pagination-active-bg: $primary;
+$pagination-active-border-color: $primary;
+
+// Personnalisation des champs de formulaire
+$input-focus-border-color: $primary;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+
+// Personnalisation des cases à cocher
+$custom-control-indicator-checked-bg: $primary;
+$custom-control-indicator-checked-border-color: $primary;
+$custom-control-indicator-focus-box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+
+// Personnalisation des boutons radio
+$custom-radio-indicator-icon-checked: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$primary}'/></svg>");
+
+// Personnalisation des barres de progression
+$progress-bar-bg: $primary;
+
+// Personnalisation des listes
+$list-group-active-bg: $primary;
+$list-group-active-border-color: $primary;
+
+// Personnalisation des bordures
+$border-radius: 0.25rem;
+$border-radius-lg: 0.3rem;
+$border-radius-sm: 0.2rem;
+
+// Personnalisation des ombres
+$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+$box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+// Import des styles d'AdminLTE
+@import "~admin-lte/build/scss/AdminLTE";
+
+// Styles personnalisés supplémentaires
+.sidebar {
+  .nav-sidebar {
+    .nav-item {
+      .nav-link {
+        &.active {
+          background-color: $sidebar-dark-hover-bg;
+          color: $sidebar-dark-active-color;
+          font-weight: 600;
+        }
+        
+        &:hover:not(.active) {
+          background-color: $sidebar-dark-hover-bg;
+          color: $sidebar-dark-hover-color;
+        }
+      }
+    }
+  }
+}
+
+.main-header {
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        color: $navbar-dark-color;
+        
+        &:hover, &:focus {
+          color: $navbar-dark-hover-color;
+        }
+      }
+    }
+  }
+}
+
+.card {
+  &-primary:not(.card-outline) > .card-header {
+    background-color: $primary;
+  }
+  
+  &-success:not(.card-outline) > .card-header {
+    background-color: $success;
+  }
+  
+  &-warning:not(.card-outline) > .card-header {
+    background-color: $warning;
+    color: #1f2d3d;
+  }
+}
+
+.btn {
+  &-primary {
+    color: #fff;
+    
+    &:hover, &:focus, &:active {
+      color: #fff;
+    }
+  }
+  
+  &-outline-primary {
+    color: $primary;
+    border-color: $primary;
+    
+    &:hover, &:focus, &:active {
+      background-color: $primary;
+      border-color: $primary;
+      color: #fff;
+    }
+  }
+}
+
+.bg-primary {
+  background-color: $primary !important;
+}
+
+.bg-success {
+  background-color: $success !important;
+}
+
+.bg-warning {
+  background-color: $warning !important;
+  color: #1f2d3d;
+}
+
+.text-primary {
+  color: $primary !important;
+}
+
+.text-success {
+  color: $success !important;
+}
+
+.text-warning {
+  color: $warning !important;
+}
+
+/* Animation de chargement personnalisée */
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 0.25rem solid rgba($primary, 0.3);
+  border-radius: 50%;
+  border-top-color: $primary;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

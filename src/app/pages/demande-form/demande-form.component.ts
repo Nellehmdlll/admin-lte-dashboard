@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { StatusColorPipe } from '../../shared/pipes/status-color.pipe';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 // Import des énumérations depuis le modèle partagé
-import { 
-  TypeDemande, 
-  StatutDemande, 
-  MotifDemande, 
-  FichierJoint, 
-  Demande 
+import {
+  TypeDemande,
+  StatutDemande,
+  MotifDemande,
+  FichierJoint,
+  Demande,
+  Destinataire,
+  MarqueMoto,
+  TypeMoto,
+  Moto,
 } from '../../shared/models/demande.model';
 
 // Service temporaire pour simuler un appel API
@@ -24,19 +30,17 @@ class DemandeService {
       statut: StatutDemande.EN_ATTENTE,
       motif: MotifDemande.COMMERCE,
       emetteur: 'Fournisseur ABC',
-      destinataire: 'Notre entreprise',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-01'),
       fichierJoint: FichierJoint.FACTURE,
       quantiteMoto: 5,
       valeur: 2500000,
       // Nouvelles propriétés
-      numeroInscription: 'ABC123',
-      marque: 'Yamaha',
-      modele: 'MT-07',
-      anneeFabrication: 2022,
-      numeroChassis: 'CH123456789',
-      paysOrigine: 'Japon',
-      paysProvenance: 'France',
+      marquemoto: MarqueMoto.BMW,
+      typemoto:TypeMoto.ALOBA,
+      moto:Moto.SIRIUS,
+      quantite:1,
+      prix:190000,
       nomImportateur: 'Import Motors',
       adresseImportateur: '123 Rue des Importateurs, Paris',
       telephoneImportateur: '+33123456789',
@@ -61,19 +65,17 @@ class DemandeService {
       statut: StatutDemande.VALIDE,
       motif: MotifDemande.COMMERCE,
       emetteur: 'Notre entreprise',
-      destinataire: 'Client XYZ',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-02'),
       fichierJoint: FichierJoint.BON_DE_LIVRAISON,
       quantiteMoto: 3,
       valeur: 1800000,
       // Nouvelles propriétés
-      numeroInscription: 'XYZ789',
-      marque: 'Honda',
-      modele: 'CBR500R',
-      anneeFabrication: 2021,
-      numeroChassis: 'CH987654321',
-      paysOrigine: 'Japon',
-      paysProvenance: 'Allemagne',
+      marquemoto: MarqueMoto.HONDA,
+      typemoto:TypeMoto.ALOBA,
+      moto:Moto.MT_12,
+      quantite:8,
+      prix:300000,
       nomImportateur: 'Moto Import',
       adresseImportateur: '456 Rue des Motos, Berlin',
       telephoneImportateur: '+493012345678',
@@ -98,19 +100,17 @@ class DemandeService {
       statut: StatutDemande.REJETE,
       motif: MotifDemande.USAGE_PERSONNEL,
       emetteur: 'Fournisseur International',
-      destinataire: 'Notre entreprise',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-03'),
       fichierJoint: FichierJoint.BON_DE_COMMANDE,
       quantiteMoto: 10,
       valeur: 7500000,
       // Nouvelles propriétés
-      numeroInscription: 'IMP456',
-      marque: 'Kawasaki',
-      modele: 'Ninja ZX-10R',
-      anneeFabrication: 2023,
-      numeroChassis: 'CH456789123',
-      paysOrigine: 'Japon',
-      paysProvenance: 'États-Unis',
+      marquemoto: MarqueMoto.BMW,
+      typemoto:TypeMoto.ALOBA,
+      moto:Moto.SIRIUS,
+      quantite:4,
+      prix:30000,
       nomImportateur: 'Global Imports',
       adresseImportateur: '789 Import Street, New York',
       telephoneImportateur: '+12125551234',
@@ -135,7 +135,7 @@ class DemandeService {
 
   saveDemande(demande: Demande): Demande {
     const now = new Date();
-    
+
     if (demande.id) {
       // Mise à jour d'une demande existante
       const index = this.demandes.findIndex(d => d.id === demande.id);
@@ -153,7 +153,7 @@ class DemandeService {
           // Mettre à jour la date de modification
           dateMiseAJour: now
         };
-        
+
         this.demandes[index] = updatedDemande;
         return updatedDemande;
       }
@@ -161,7 +161,7 @@ class DemandeService {
       // Création d'une nouvelle demande
       const newId = Math.max(0, ...this.demandes.map(d => d.id)) + 1;
       const newNumero = `DEM-${String(newId).padStart(3, '0')}`;
-      
+
       // Créer un nouvel objet avec toutes les propriétés requises
       const newDemande: Demande = {
         // Informations de base
@@ -172,39 +172,37 @@ class DemandeService {
         statut: demande.statut || StatutDemande.EN_ATTENTE,
         motif: demande.motif || MotifDemande.AUTRE,
         emetteur: demande.emetteur || '',
-        destinataire: demande.destinataire || '',
+        destinataire: demande.destinataire || Destinataire.MICA,
         fichierJoint: demande.fichierJoint || FichierJoint.AUTRE,
         quantiteMoto: demande.quantiteMoto || 1,
         valeur: demande.valeur || 0,
         dateSoumission: demande.dateSoumission || now,
-        
+
         // Informations sur le véhicule
-        numeroInscription: demande.numeroInscription || '',
-        marque: demande.marque || '',
-        modele: demande.modele || '',
-        anneeFabrication: demande.anneeFabrication || now.getFullYear(),
-        numeroChassis: demande.numeroChassis || '',
-        paysOrigine: demande.paysOrigine || '',
-        paysProvenance: demande.paysProvenance || '',
-        
+        marquemoto:demande.marquemoto,
+        typemoto:demande.typemoto,
+        moto:demande.moto,
+        quantite:demande.quantite,
+        prix:demande.prix,
+
         // Informations sur l'importateur
         nomImportateur: demande.nomImportateur || '',
         adresseImportateur: demande.adresseImportateur || '',
         telephoneImportateur: demande.telephoneImportateur || '',
         emailImportateur: demande.emailImportateur || '',
-        
+
         // Informations sur l'acheteur
         nomAcheteur: demande.nomAcheteur || '',
         adresseAcheteur: demande.adresseAcheteur || '',
         telephoneAcheteur: demande.telephoneAcheteur || '',
         emailAcheteur: demande.emailAcheteur || '',
-        
+
         // Informations complémentaires
         detailsComplementaires: demande.detailsComplementaires || '',
-        documentsFournis: Array.isArray(demande.documentsFournis) 
-          ? [...demande.documentsFournis] 
+        documentsFournis: Array.isArray(demande.documentsFournis)
+          ? [...demande.documentsFournis]
           : [],
-        
+
         // Validation et suivi
         dateValidation: demande.dateValidation || null,
         motifRejet: demande.motifRejet || null,
@@ -212,11 +210,11 @@ class DemandeService {
         dateCreation: now,
         dateMiseAJour: now
       };
-      
+
       this.demandes.push(newDemande);
       return newDemande;
     }
-    
+
     // Retourner la demande inchangée si aucun cas ne correspond
     return demande;
   }
@@ -226,9 +224,9 @@ class DemandeService {
   selector: 'app-demande-form',
   standalone: true,
   imports: [
-    CommonModule, 
-    FormsModule, 
-    ReactiveFormsModule, 
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     StatusColorPipe,
     RouterModule
   ],
@@ -236,6 +234,10 @@ class DemandeService {
   styleUrls: ['./demande-form.component.scss']
 })
 export class DemandeFormComponent implements OnInit {
+  // Référence au contenu PDF
+  @ViewChild('pdfContent') pdfContent!: ElementRef;
+  today: Date = new Date();
+
   // Données de la demande
   demande: Partial<Demande> = {
     // Informations de base
@@ -243,55 +245,57 @@ export class DemandeFormComponent implements OnInit {
     statut: StatutDemande.EN_ATTENTE,
     motif: MotifDemande.COMMERCE,
     emetteur: '',
-    destinataire: '',
+    destinataire: Destinataire.MICA,
     fichierJoint: FichierJoint.FACTURE,
     quantiteMoto: 1,
     valeur: 0,
     date: new Date(),
     dateSoumission: new Date(),
-    
-    // Informations sur le véhicule
-    numeroInscription: '',
-    marque: '',
-    modele: '',
-    anneeFabrication: new Date().getFullYear(),
-    numeroChassis: '',
-    paysOrigine: '',
-    paysProvenance: '',
-    
+
+    // Informations sur les motos
+    marquemoto: MarqueMoto.DUCATI,
+    typemoto: TypeMoto.MotoElectrique,
+    moto: Moto.MT_12,
+    quantite: 1,
+    prix: 10,
+
     // Informations sur l'importateur
     nomImportateur: '',
     adresseImportateur: '',
     telephoneImportateur: '',
     emailImportateur: '',
-    
+
     // Informations sur l'acheteur
     nomAcheteur: '',
     adresseAcheteur: '',
     telephoneAcheteur: '',
     emailAcheteur: '',
-    
+
     // Informations complémentaires
     detailsComplementaires: '',
     documentsFournis: [],
-    
+
     // Validation et suivi
     utilisateurId: 1, // À remplacer par l'ID de l'utilisateur connecté
     dateCreation: new Date(),
     dateMiseAJour: new Date()
   };
-  
+
   // Exposer les énumérations pour le template
   TypeDemande = TypeDemande;
   StatutDemande = StatutDemande;
   MotifDemande = MotifDemande;
   FichierJoint = FichierJoint;
-  
+  Destinataire = Destinataire;
+  MarqueMoto = MarqueMoto;
+  TypeMoto =TypeMoto;
+  Moto=Moto;
+
   // État du composant
   isEditMode = false;
   isViewMode = false;
   isLoading = true;
-  
+
   // Service temporaire (à remplacer par un vrai service)
   private demandeService = new DemandeService();
 
@@ -304,7 +308,7 @@ export class DemandeFormComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       const isEdit = this.route.snapshot.url.some(segment => segment.path === 'edit');
-      
+
       if (id) {
         if (isEdit) {
           // Mode édition
@@ -321,7 +325,7 @@ export class DemandeFormComponent implements OnInit {
       }
     });
   }
-  
+
   private loadDemande(id: number): void {
     const demande = this.demandeService.getDemande(id);
     if (demande) {
@@ -360,16 +364,16 @@ export class DemandeFormComponent implements OnInit {
 
     // Sauvegarder ou mettre à jour la demande
     const savedDemande = this.demandeService.saveDemande(demandeToSave as Demande);
-    
+
     // Mettre à jour l'ID de la demande si c'est une nouvelle demande
     if (!this.demande.id && savedDemande) {
       this.demande.id = savedDemande.id;
       this.demande.numero = savedDemande.numero;
     }
-    
+
     // Afficher un message de succès
     alert(`Demande ${this.isEditMode ? 'mise à jour' : 'créée'} avec succès !`);
-    
+
     // Rediriger vers la liste des demandes ou les détails de la demande
     const redirectRoute = this.isEditMode ? ['/demande', this.demande.id] : ['/demandes'];
     this.router.navigate(redirectRoute);
@@ -406,9 +410,9 @@ export class DemandeFormComponent implements OnInit {
   // Méthode utilitaire pour obtenir la classe d'icône en fonction du statut
   getStatusIcon(statut: StatutDemande | string | undefined): string {
     if (!statut) return 'fa-clock';
-    
+
     const statutStr = statut.toString().toLowerCase();
-    
+
     if (statutStr === StatutDemande.VALIDE.toLowerCase() || statutStr === 'validé') {
       return 'fa-check';
     } else if (statutStr === StatutDemande.EN_ATTENTE.toLowerCase() || statutStr === 'en attente' || statutStr === '') {
@@ -420,7 +424,7 @@ export class DemandeFormComponent implements OnInit {
 
   // Méthode utilitaire pour formater le texte du statut
   getStatusText(statut: StatutDemande | string | undefined): string {
-    if (!statut) return 'En attente';
+    if (!statut) return 'Inconnu';
     
     const statutStr = statut.toString().toLowerCase();
     
@@ -434,6 +438,99 @@ export class DemandeFormComponent implements OnInit {
       return 'Traité';
     } else {
       return statut.toString();
+    }
+  }
+
+  // Méthode pour générer et afficher l'autorisation PDF
+  async voirAutorisation(): Promise<void> {
+    if (!this.demande.id) {
+      console.error('ID de demande manquant');
+      alert('Impossible de générer le PDF : ID de demande manquant');
+      return;
+    }
+
+    try {
+      console.log('Début de la génération du PDF...');
+      this.isLoading = true;
+      
+      // Attendre que la vue soit mise à jour
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Vérifier que l'élément existe
+      if (!this.pdfContent || !this.pdfContent.nativeElement) {
+        throw new Error('Élément PDF non trouvé dans le DOM');
+      }
+      
+      const content = this.pdfContent.nativeElement;
+      console.log('Élément PDF trouvé', content);
+      
+      // Créer un clone de l'élément pour éviter les problèmes de style
+      const clonedContent = content.cloneNode(true);
+      clonedContent.style.display = 'block'; // S'assurer que le contenu est visible
+      document.body.appendChild(clonedContent);
+      
+      try {
+        console.log('Génération du canvas...');
+        const canvas = await html2canvas(clonedContent as HTMLElement, {
+          scale: 1, // Réduire la qualité pour le débogage
+          useCORS: true,
+          allowTaint: true,
+          logging: true, // Activer les logs pour le débogage
+          backgroundColor: '#FFFFFF',
+          onclone: (clonedDoc, element) => {
+            // S'assurer que le contenu est visible lors du clonage
+            (element as HTMLElement).style.display = 'block';
+            (element as HTMLElement).style.visibility = 'visible';
+          }
+        });
+        
+        console.log('Création du PDF...');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        try {
+          const imgData = canvas.toDataURL('image/png');
+          console.log('Données de l\'image générées', imgData.substring(0, 50) + '...');
+          
+          // Calculer les dimensions pour que l'image tienne sur la page A4
+          const imgWidth = 210; // Largeur A4 en mm
+          const pageHeight = 295; // Hauteur A4 en mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          
+          console.log(`Dimensions du canvas: ${canvas.width}x${canvas.height}`);
+          console.log(`Dimensions du PDF: ${imgWidth}x${imgHeight}mm`);
+          
+          // Ajouter la première page
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+          
+          console.log('Enregistrement du PDF...');
+          // Télécharger le PDF
+          const fileName = `autorisation-${this.demande.numero || this.demande.id}.pdf`;
+          pdf.save(fileName);
+          console.log(`PDF enregistré sous le nom: ${fileName}`);
+          
+        } catch (error: any) {
+          const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+          console.error('Erreur lors de la création de l\'image:', error);
+          throw new Error(`Échec de la création de l'image: ${errorMessage}`);
+        }
+        
+      } catch (error: any) {
+        const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+        console.error('Erreur lors de la création du canvas:', error);
+        throw new Error(`Échec de la création du canvas: ${errorMessage}`);
+      } finally {
+        // Nettoyer le clone
+        if (document.body.contains(clonedContent)) {
+          document.body.removeChild(clonedContent);
+        }
+      }
+      
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+      console.error('Erreur lors de la génération du PDF:', error);
+      alert(`Erreur lors de la génération du PDF: ${errorMessage}`);
+    } finally {
+      this.isLoading = false;
     }
   }
 }

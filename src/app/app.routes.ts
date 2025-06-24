@@ -5,6 +5,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { DemandeFormComponent } from './pages/demande-form/demande-form.component';
 import { DemandesListComponent } from './pages/demandes-list/demandes-list.component';
+import { BordereauReceptionComponent } from './pages/bordereau-reception/bordereau-reception.component';
 
 export const routes: Routes = [
   {
@@ -22,7 +23,8 @@ export const routes: Routes = [
           { path: ':id', component: DemandeFormComponent }
         ]
       },
-      { path: 'demandes', component: DemandesListComponent }
+      { path: 'demandes', component: DemandesListComponent },
+      { path: 'bordereau-reception', component: BordereauReceptionComponent }
     ]
   }
 ];

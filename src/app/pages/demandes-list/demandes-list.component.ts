@@ -5,9 +5,13 @@ import { StatusColorPipe } from '../../shared/pipes/status-color.pipe';
 import {
   TypeDemande,
   StatutDemande,
+  Destinataire,
   MotifDemande,
   FichierJoint,
-  Demande
+  Demande,
+  MarqueMoto,
+  TypeMoto,
+  Moto,
 } from '../../shared/models/demande.model';
 
 @Component({
@@ -124,6 +128,7 @@ export class DemandesListComponent {
   StatutDemande = StatutDemande;
   MotifDemande = MotifDemande;
   FichierJoint = FichierJoint;
+  Destinataire = Destinataire;
 
   demandes: Demande[] = [
     {
@@ -134,19 +139,17 @@ export class DemandesListComponent {
       statut: StatutDemande.EN_ATTENTE,
       motif: MotifDemande.COMMERCE,
       emetteur: 'Fournisseur ABC',
-      destinataire: 'Notre entreprise',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-01'),
       fichierJoint: FichierJoint.FACTURE,
       quantiteMoto: 5,
       valeur: 2500000,
       // Ajout des propriétés manquantes avec des valeurs par défaut
-      numeroInscription: 'ABC123',
-      marque: 'Yamaha',
-      modele: 'MT-07',
-      anneeFabrication: 2022,
-      numeroChassis: 'CH123456789',
-      paysOrigine: 'Japon',
-      paysProvenance: 'France',
+      marquemoto: MarqueMoto.YAMAHA,
+      typemoto: TypeMoto.Moto,
+      moto: Moto.MT_07,
+      quantite:6,
+      prix:20000,
       nomImportateur: 'Import Motors',
       adresseImportateur: '123 Rue des Importateurs, Paris',
       telephoneImportateur: '+33123456789',
@@ -171,19 +174,17 @@ export class DemandesListComponent {
       statut: StatutDemande.VALIDE,
       motif: MotifDemande.COMMERCE,
       emetteur: 'Notre entreprise',
-      destinataire: 'Client XYZ',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-02'),
       fichierJoint: FichierJoint.BON_DE_LIVRAISON,
       quantiteMoto: 3,
       valeur: 1800000,
       // Ajout des propriétés manquantes avec des valeurs par défaut
-      numeroInscription: 'XYZ789',
-      marque: 'Honda',
-      modele: 'CBR500R',
-      anneeFabrication: 2021,
-      numeroChassis: 'CH987654321',
-      paysOrigine: 'Japon',
-      paysProvenance: 'Allemagne',
+      marquemoto: MarqueMoto.HONDA,
+      typemoto: TypeMoto.Moto,
+      moto: Moto.MT_07,
+      quantite:3,
+      prix:40000,
       nomImportateur: 'Moto Import',
       adresseImportateur: '456 Rue des Motos, Berlin',
       telephoneImportateur: '+493012345678',
@@ -208,19 +209,17 @@ export class DemandesListComponent {
       statut: StatutDemande.REJETE,
       motif: MotifDemande.USAGE_PERSONNEL,
       emetteur: 'Fournisseur International',
-      destinataire: 'Notre entreprise',
+      destinataire: Destinataire.MICA,
       dateSoumission: new Date('2023-01-03'),
       fichierJoint: FichierJoint.BON_DE_COMMANDE,
       quantiteMoto: 10,
       valeur: 7500000,
       // Ajout des propriétés manquantes avec des valeurs par défaut
-      numeroInscription: 'IMP456',
-      marque: 'Kawasaki',
-      modele: 'Ninja ZX-10R',
-      anneeFabrication: 2023,
-      numeroChassis: 'CH456789123',
-      paysOrigine: 'Japon',
-      paysProvenance: 'États-Unis',
+      marquemoto: MarqueMoto.KAWASAKI,
+      typemoto: TypeMoto.Moto,
+      moto: Moto.MT_07,
+      quantite:5,
+      prix:50000,
       nomImportateur: 'Global Imports',
       adresseImportateur: '789 Import Street, New York',
       telephoneImportateur: '+12125551234',

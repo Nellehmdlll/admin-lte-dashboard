@@ -1,0 +1,120 @@
+<div class="content-wrapper">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-12">
+          <h1>Gestion des bordereaux de réception </h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header bg-primary">
+              <h3 class="card-title">Rechercher une autorisation</h3>
+            </div>
+            <div class="card-body">
+              <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control form-control-lg"
+                    placeholder="Saisir le numéro d'arrêté"
+                    formControlName="numeroArrete"
+                    [disabled]="isSearching || autorisation"
+                  >
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-primary"
+                      type="submit"
+                      [disabled]="!searchForm.valid || isSearching || autorisation"
+                    >
+                      <span *ngIf="!isSearching">
+                        <i class="fas fa-search mr-1"></i> Rechercher
+                      </span>
+                      <span *ngIf="isSearching" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                      <span *ngIf="isSearching" class="sr-only">Recherche en cours...</span>
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <!-- Affichage des résultats de la recherche -->
+              <div *ngIf="autorisation" class="mt-4">
+                <div class="card">
+                  <div class="card-header bg-info">
+                    <h3 class="card-title">Détails de l'autorisation</h3>
+                  </div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p><strong>Numéro d'arrêté :</strong> {{ autorisation.numero }}</p>
+                        <p><strong>Date :</strong> {{ autorisation.date | date:'dd/MM/yyyy' }}</p>
+                        <p><strong>Type :</strong> {{ autorisation.type }}</p>
+                      </div>
+                      <div class="col-md-6">
+                        <p><strong>Demandeur :</strong> {{ autorisation.demandeur }}</p>
+                        <p><strong>Modèle :</strong> {{ autorisation.modele }}</p>
+                        <p><strong>Quantité :</strong> {{ autorisation.quantite }}</p>
+                      </div>
+                    </div>
+                    <div class="alert"
+                         [ngClass]="{
+                           'alert-warning': autorisation.statut === 'En attente de réception',
+                           'alert-success': autorisation.statut === 'Bordereau téléchargé'
+                         }">
+                      <strong>Statut :</strong> {{ autorisation.statut }}
+                    </div>
+
+                    <!-- Formulaire d'upload du bordereau -->
+                    <div *ngIf="!uploadSuccess" class="mt-4">
+                      <h5>Téléverser le bordereau de réception</h5>
+                      <div class="custom-file mb-3">
+                        <input
+                          type="file"
+                          class="custom-file-input"
+                          id="bordereauFile"
+                          (change)="onFileSelected($event)"
+                          accept=".pdf,.doc,.docx,.xls,.xlsx"
+                        >
+                        <label class="custom-file-label" for="bordereauFile">
+                          {{ fileToUpload ? fileToUpload.name : 'Choisir un fichier' }}
+                        </label>
+                      </div>
+                      <button
+                        class="btn btn-success"
+                        (click)="onSubmitBordereau()"
+                        [disabled]="!fileToUpload || isUploading"
+                      >
+                        <span *ngIf="!isUploading">
+                          <i class="fas fa-upload mr-1"></i> Valider le bordereau
+                        </span>
+                        <span *ngIf="isUploading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span *ngIf="isUploading" class="sr-only">Traitement en cours...</span>
+                      </button>
+                    </div>
+
+                    <!-- Message de succès après upload -->
+                    <div *ngIf="uploadSuccess" class="alert alert-success mt-3">
+                      <h5><i class="icon fas fa-check"></i> Succès !</h5>
+                      Le bordereau a été téléversé avec succès.
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button class="btn btn-default" (click)="onBackToDashboard()">
+                <i class="fas fa-arrow-left mr-1"></i> Retour au tableau de bord
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

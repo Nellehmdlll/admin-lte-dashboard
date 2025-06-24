@@ -1,0 +1,158 @@
+/* Couleurs personnalisées - Palette neutre */
+:root {
+  --primary: #4a6fa5;
+  --success: #4caf50;
+  --warning: #ff9800;
+}
+
+/* Application des couleurs aux éléments principaux */
+.bg-primary, .btn-primary, .btn-outline-primary:hover, .btn-outline-primary:active {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+
+.text-primary, .btn-outline-primary {
+  color: var(--primary) !important;
+}
+
+.bg-success, .btn-success {
+  background-color: var(--success) !important;
+  border-color: var(--success) !important;
+}
+
+.text-success {
+  color: var(--success) !important;
+}
+
+.bg-warning, .btn-warning {
+  background-color: var(--warning) !important;
+  border-color: var(--warning) !important;
+  color: #000 !important;
+}
+
+.text-warning {
+  color: var(--warning) !important;
+}
+
+/* Barre latérale */
+[class*="sidebar-dark"] .nav-sidebar > .nav-item > .nav-link.active {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+[class*="sidebar-dark"] .nav-sidebar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+/* En-têtes de cartes */
+.card-primary:not(.card-outline) > .card-header {
+  background-color: var(--primary);
+}
+
+.card-success:not(.card-outline) > .card-header {
+  background-color: var(--success);
+}
+
+.card-warning:not(.card-outline) > .card-header {
+  background-color: var(--warning);
+  color: #000;
+}
+
+/* Boutons */
+.btn-outline-primary {
+  border-color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+  color: #fff !important;
+}
+
+/* Onglets */
+.nav-tabs .nav-link.active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+/* Pagination */
+.page-item.active .page-link {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.page-link {
+  color: var(--primary);
+}
+
+/* Barre de progression */
+.progress-bar {
+  background-color: var(--primary);
+}
+
+/* Cases à cocher */
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+/* Champs de formulaire */
+.form-control:focus, .custom-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(236, 44, 44, 0.25);
+}
+
+/* Alertes */
+.alert-primary {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  border-left: 4px solid var(--primary);
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+  border-left: 4px solid var(--success);
+}
+
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  border-left: 4px solid var(--warning);
+}
+
+/* Badges */
+.badge-primary {
+  background-color: var(--primary);
+}
+
+.badge-success {
+  background-color: var(--success);
+}
+
+.badge-warning {
+  background-color: var(--warning);
+  color: #000;
+}
+
+/* Barre de navigation */
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover, 
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #fff;
+}
+
+/* Tableaux */
+.table thead th {
+  background-color: rgba(236, 44, 44, 0.05);
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(236, 44, 44, 0.04);
+}

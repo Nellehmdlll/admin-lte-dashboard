@@ -11,6 +11,7 @@
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
   overflow: hidden;
+  color: #333; /* Couleur de texte par défaut plus neutre */
   
   .card-header {
     background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
@@ -49,8 +50,9 @@
     padding: 0;
     
     .table {
-      margin-bottom: 0;
-      
+      width: 100%;
+      margin-bottom: 1rem;
+      color: #333; /* Couleur de texte plus neutre pour les tableaux */   
       thead {
         th {
           background-color: #f8f9fa;
@@ -97,8 +99,8 @@
               }
               
               &.bg-danger {
-                background-color: rgba(220, 53, 69, 0.1) !important;
-                color: #dc3545;
+                background-color: rgba(108, 117, 125, 0.1) !important;
+                color: #6c757d; // Couleur neutre pour les éléments dangereux
               }
               
               &.bg-info {

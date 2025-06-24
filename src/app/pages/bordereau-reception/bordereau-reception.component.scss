@@ -1,0 +1,89 @@
+/* Style pour le champ de recherche */
+.search-input {
+  height: 50px;
+  font-size: 1.1rem;
+}
+
+/* Style pour la carte de résultat */
+.autorisation-card {
+  border-left: 4px solid #007bff;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Style pour l'upload de fichier */
+.file-upload-container {
+  border: 2px dashed #ddd;
+  border-radius: 5px;
+  padding: 2rem;
+  text-align: center;
+  margin: 1rem 0;
+  background-color: #f8f9fa;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #007bff;
+    background-color: #f1f8ff;
+  }
+
+  i {
+    font-size: 2.5rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Style pour le fichier sélectionné */
+.file-selected {
+  background-color: #e8f5e9;
+  border-color: #4caf50;
+  color: #2e7d32;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  i {
+    color: #4caf50;
+    margin-right: 0.5rem;
+  }
+}
+
+/* Style pour le bouton de retour */
+.btn-back {
+  min-width: 200px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .search-input {
+    font-size: 1rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Animation de chargement */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  border: 0.25rem solid rgba(0, 123, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #007bff;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 0.5rem;
+}
