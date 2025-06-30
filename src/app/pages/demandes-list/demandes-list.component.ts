@@ -21,10 +21,10 @@ import {
   template: `
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h3 class="card-title">
+        <h3 class="card-title" style="color: #049c4b;">
           <i class="fas fa-list-ul mr-2"></i>Liste des demandes
         </h3>
-        <button class="btn btn-primary" [routerLink]="['/demande/new']">
+        <button class="btn btn-success" [routerLink]="['/demande/new']">
           <i class="fas fa-plus-circle mr-1"></i> Nouvelle demande
         </button>
       </div>

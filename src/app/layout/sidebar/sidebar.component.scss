@@ -1,0 +1,62 @@
+/* Styles personnalisés pour la barre latérale */
+.main-sidebar {
+  background-color: #049c4b !important;
+
+  .brand-link {
+    background-color: #049c4b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+
+    .brand-text {
+      color: #fff !important;
+      font-weight: 500 !important;
+    }
+  }
+
+  .sidebar {
+    background-color: #049c4b !important;
+
+    .nav-sidebar {
+      .nav-item {
+        .nav-link {
+          color: rgba(255, 255, 255, 0.8) !important;
+
+          &:hover, &.active {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #fff !important;
+          }
+
+          p {
+            margin-left: 0.5rem;
+          }
+
+          i {
+            color: rgba(255, 255, 255, 0.8) !important;
+          }
+
+          &.active {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border-left: 3px solid #fff !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Ajustement pour les sous-menus */
+.nav-treeview {
+  background-color: #049c4b !important; 
+  padding-left: 1rem !important;
+
+  .nav-item {
+    .nav-link {
+      padding-left: 2rem !important;
+
+      &::before {
+        content: '•';
+        margin-right: 0.5rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+}

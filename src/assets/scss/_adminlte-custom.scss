@@ -4,23 +4,23 @@ $success: #4caf50; // Vert plus doux
 $warning: #ff9800; // Orange doux
 
 // Personnalisation de la barre latérale
-$sidebar-dark-bg: #2c3b41;
-$sidebar-dark-hover-bg: rgba($primary, 0.1);
-$sidebar-dark-color: #b8c7ce;
+$sidebar-dark-bg: #8b0000; // Rouge foncé pour la barre latérale
+$sidebar-dark-hover-bg: rgba(255, 255, 255, 0.1);
+$sidebar-dark-color: rgba(255, 255, 255, 0.8);
 $sidebar-dark-hover-color: #fff;
-$sidebar-dark-active-color: $primary;
-$sidebar-dark-submenu-bg: #2c3b41;
-$sidebar-dark-submenu-color: #b8c7ce;
+$sidebar-dark-active-color: #fff;
+$sidebar-dark-submenu-bg: #7a0000; // Rouge légèrement plus foncé pour les sous-menus
+$sidebar-dark-submenu-color: rgba(255, 255, 255, 0.8);
 $sidebar-dark-submenu-hover-color: #fff;
-$sidebar-dark-submenu-hover-bg: lighten($sidebar-dark-bg, 5%);
-$sidebar-dark-submenu-active-color: $primary;
+$sidebar-dark-submenu-hover-bg: rgba(255, 255, 255, 0.15);
+$sidebar-dark-submenu-active-color: #fff;
 
 // Personnalisation de la barre de navigation
-$navbar-dark-bg: $primary;
-$navbar-dark-color: rgba(255, 255, 255, 0.8);
+$navbar-dark-bg: #8b0000; // Même rouge que la barre latérale
+$navbar-dark-color: rgba(255, 255, 255, 0.9);
 $navbar-dark-hover-color: #fff;
 $navbar-dark-active-color: #fff;
-$navbar-dark-disabled-color: rgba(255, 255, 255, 0.5);
+$navbar-dark-disabled-color: rgba(255, 255, 255, 0.6);
 
 // Personnalisation des cartes
 $card-cap-bg: rgba($primary, 0.05);
@@ -100,7 +100,7 @@ $box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
           color: $sidebar-dark-active-color;
           font-weight: 600;
         }
-        
+
         &:hover:not(.active) {
           background-color: $sidebar-dark-hover-bg;
           color: $sidebar-dark-hover-color;
@@ -115,7 +115,7 @@ $box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
     .nav-item {
       .nav-link {
         color: $navbar-dark-color;
-        
+
         &:hover, &:focus {
           color: $navbar-dark-hover-color;
         }
@@ -126,32 +126,32 @@ $box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
 
 .card {
   &-primary:not(.card-outline) > .card-header {
-    background-color: $primary;
+    background-color: $success;
   }
-  
+
   &-success:not(.card-outline) > .card-header {
     background-color: $success;
   }
-  
+
   &-warning:not(.card-outline) > .card-header {
     background-color: $warning;
-    color: #1f2d3d;
+    color: #049c4b;
   }
 }
 
 .btn {
   &-primary {
     color: #fff;
-    
+
     &:hover, &:focus, &:active {
       color: #fff;
     }
   }
-  
+
   &-outline-primary {
     color: $primary;
     border-color: $primary;
-    
+
     &:hover, &:focus, &:active {
       background-color: $primary;
       border-color: $primary;

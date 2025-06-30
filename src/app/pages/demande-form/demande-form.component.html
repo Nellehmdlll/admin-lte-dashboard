@@ -77,7 +77,7 @@
               <!-- Section Informations sur les motos -->
               <div class="row mt-4">
                 <div class="col-12">
-                  <h5 class="font-weight-bold text-primary">
+                  <h5 class="font-weight-bold text-success">
                     <i class="fas fa-motorcycle mr-2"></i>Informations sur les motos
                   </h5>
                   <hr class="mt-1">
@@ -215,7 +215,7 @@
               <!-- Section Informations complémentaires -->
               <div class="row mt-4">
                 <div class="col-12">
-                  <h5 class="font-weight-bold text-primary">
+                  <h5 class="font-weight-bold text-success">
                     <i class="fas fa-info-circle mr-2"></i>Informations complémentaires
                   </h5>
                   <hr class="mt-1">
@@ -287,7 +287,7 @@
                   <button type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">
                     <i class="fas fa-times mr-1"></i> {{ isEditMode ? 'Annuler' : 'Retour' }}
                   </button>
-                  <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                  <button type="submit" class="btn btn-success" [disabled]="isLoading">
                     <i class="fas {{ isEditMode ? 'fa-save' : 'fa-plus' }} mr-1"></i>
                     {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
                   </button>
@@ -589,62 +589,109 @@
 
 <!-- Template caché pour le PDF -->
 <div #pdfContent style="display: none;">
-  <div style="padding: 20px; max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif;">
-    <div style="text-align: center; margin-bottom: 20px;">
-      <h1 style="color: #0d6efd; margin-bottom: 5px;">AUTORISATION D'IMPORTATION</h1>
-      <h3 style="color: #6c757d; margin-top: 0;">N° {{demande.numero ?? 'N/A'}}</h3>
+  <div style="padding: 30px; max-width: 210mm; margin: 0 auto; font-family: Arial, sans-serif; border: 1px solid #ddd; min-height: 297mm; position: relative;">
+    <!-- En-tête avec logo et informations -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #049c4b; padding-bottom: 20px;">
+      <div style="text-align: left;">
+        <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Burkina Faso</div>
+        <div style="font-size: 12px; color: #666;">La Patrie ou La Mort,Nous Vaincrons</div>
+      </div>
+      <div style="text-align: center;">
+        <div style="font-size: 14px; font-weight: bold; color: #049c4b; text-transform: uppercase;">Ministère de l'Industrie , du Commerce et de l'Artisanat</div>
+        <div style="font-size: 12px; color: #333; margin-top: 5px;">Brigade Mobile de Controle Economique et de la Répressions des Fraudes</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 12px; color: #666;">Service de la Circulation et de la Sécurité Routière</div>
+        <div style="font-size: 12px; color: #666;">B.P. 1000 Ouagadougou - Tél: 222 22 20 12</div>
+      </div>
     </div>
 
-    <div style="margin-bottom: 30px; border: 1px solid #dee2e6; padding: 15px; border-radius: 5px;">
-      <h3 style="color: #0d6efd; border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-top: 0;">
-        Informations sur la demande
-      </h3>
+    <!-- Titre principal -->
+    <div style="text-align: center; margin: 30px 0;">
+      <div style="font-size: 18px; font-weight: bold; color: #049c4b; text-transform: uppercase; margin-bottom: 5px;">AUTORISATION D'IMPORTATION</div>
+      <div style="font-size: 14px; color: #666; margin-bottom: 15px;">N° {{demande.numero || 'N/A'}}</div>
+      <div style="height: 2px; background-color: #049c4b; margin: 0 50px;"></div>
+    </div>
+
+    <!-- Section informations générales -->
+    <div style="margin-bottom: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+      <div style="background-color: #f8f9fa; padding: 10px; margin: -20px -20px 20px -20px; border-bottom: 1px solid #ddd;">
+        <h3 style="color: #049c4b; margin: 0; font-size: 16px;">INFORMATIONS SUR LA DEMANDE</h3>
+      </div>
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
-          <td style="padding: 8px 0; width: 40%; font-weight: bold;">Type de demande:</td>
-          <td style="padding: 8px 0;">{{demande.type ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; width: 40%; font-weight: bold; border-bottom: 1px solid #eee;">Type de demande :</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid #eee;">{{demande.type || 'N/A'}}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; font-weight: bold;">Date de soumission:</td>
-          <td style="padding: 8px 0;">{{(demande.dateSoumission | date:'dd/MM/yyyy') ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; font-weight: bold; border-bottom: 1px solid #eee;">Date de soumission :</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid #eee;">{{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; font-weight: bold;">Statut:</td>
-          <td style="padding: 8px 0;">{{getStatusText(demande.statut) ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; font-weight: bold;">Statut :</td>
+          <td style="padding: 10px 0;">
+            <span >
+              {{getStatusText(demande.statut) || 'N/A'}}
+            </span>
+          </td>
         </tr>
       </table>
     </div>
 
-    <div style="margin-bottom: 30px; border: 1px solid #dee2e6; padding: 15px; border-radius: 5px;">
-      <h3 style="color: #0d6efd; border-bottom: 1px solid #dee2e6; padding-bottom: 10px; margin-top: 0;">
-        Détails du véhicule
-      </h3>
+    <!-- Section détails du véhicule -->
+    <div style="margin-bottom: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+      <div style="background-color: #f8f9fa; padding: 10px; margin: -20px -20px 20px -20px; border-bottom: 1px solid #ddd;">
+        <h3 style="color: #049c4b; margin: 0; font-size: 16px;">DÉTAILS DU VÉHICULE</h3>
+      </div>
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
-          <td style="padding: 8px 0; width: 40%; font-weight: bold;">Marque:</td>
-          <td style="padding: 8px 0;">{{demande.marquemoto ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; width: 40%; font-weight: bold; border-bottom: 1px solid #eee;">Marque :</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid #eee;">{{demande.marquemoto || 'N/A'}}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; font-weight: bold;">Type:</td>
-          <td style="padding: 8px 0;">{{demande.typemoto ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; font-weight: bold; border-bottom: 1px solid #eee;">Type :</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid #eee;">{{demande.typemoto || 'N/A'}}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; font-weight: bold;">Modèle:</td>
-          <td style="padding: 8px 0;">{{demande.moto ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; font-weight: bold; border-bottom: 1px solid #eee;">Modèle :</td>
+          <td style="padding: 10px 0; border-bottom: 1px solid #eee;">{{demande.moto || 'N/A'}}</td>
         </tr>
         <tr>
-          <td style="padding: 8px 0; font-weight: bold;">Quantité:</td>
-          <td style="padding: 8px 0;">{{demande.quantite ?? 'N/A'}}</td>
+          <td style="padding: 10px 0; font-weight: bold;">Quantité :</td>
+          <td style="padding: 10px 0;">{{demande.quantite || 'N/A'}}</td>
         </tr>
       </table>
     </div>
 
-    <div style="text-align: center; margin-top: 40px; color: #6c757d; font-size: 0.9em;">
-      <p>Document généré le {{today | date:'dd/MM/yyyy'}} à {{today | date:'HH:mm'}}</p>
-      <p style="margin-top: 30px;">
-        <strong>Signature et cachet</strong><br>
-        ...........................................
-      </p>
+    <!-- Section conditions -->
+    <div style="margin-bottom: 30px; border: 1px solid #ddd; padding: 20px; border-radius: 5px;">
+      <div style="background-color: #f8f9fa; padding: 10px; margin: -20px -20px 20px -20px; border-bottom: 1px solid #ddd;">
+        <h3 style="color: #049c4b; margin: 0; font-size: 16px;">CONDITIONS</h3>
+      </div>
+      <ul style="padding-left: 20px; margin: 0;">
+        <li style="margin-bottom: 8px;">Cette autorisation est valable pour une durée de 30 jours à compter de la date d'émission</li>
+        <li style="margin-bottom: 8px;">Le bénéficiaire est tenu de se conformer à la réglementation en vigueur</li>
+        <li style="margin-bottom: 8px;">Toute modification des informations soumises doit être signalée immédiatement</li>
+      </ul>
+    </div>
+
+    <!-- Pied de page -->
+    <div style="position: absolute; bottom: 40px; left: 0; right: 0; text-align: center; color: #666; font-size: 12px; padding: 20px 30px 0 30px; border-top: 1px solid #ddd;">
+      <div style="margin-bottom: 30px; display: flex; justify-content: space-between;">
+        <div style="text-align: center; width: 45%;">
+          <div style="border-top: 1px solid #666; width: 80%; margin: 0 auto; padding-top: 5px;">
+            Le Directeur Général
+          </div>
+        </div>
+        <div style="text-align: center; width: 45%;">
+          <div style="border-top: 1px solid #666; width: 80%; margin: 0 auto; padding-top: 5px;">
+            Le Chef de Service
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 20px; font-size: 11px;">
+        Document généré électroniquement le {{today | date:'dd/MM/yyyy'}} à {{today | date:'HH:mm'}} - Valable sans signature ni cachet
+      </div>
     </div>
   </div>
 </div>

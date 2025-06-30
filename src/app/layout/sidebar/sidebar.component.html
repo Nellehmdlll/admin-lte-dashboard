@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-sucess elevation-4">
   <a href="#" class="brand-link">
     <span class="brand-text font-weight-light">SSAM_ALOBA</span>
   </a>
@@ -15,13 +15,13 @@
         <li class="nav-item">
           <a [routerLink]="['/demandes']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>Demande</p>
+            <p>Demandes</p>
           </a>
         </li>
         <li class="nav-item">
           <a [routerLink]="['/bordereau-reception']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>Bordereau de réception</p>
+            <p>Bordereaux</p>
           </a>
         </li>
         <li class="nav-item">
@@ -30,11 +30,31 @@
             <p>Utilisateurs</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a [routerLink]="['/settings']" class="nav-link" routerLinkActive="active">
+        <li class="nav-item has-treeview" >
+          <a class="nav-link" href="#" >
             <i class="nav-icon fas fa-cogs"></i>
-            <p>Paramètres</p>
+            <p>Paramètres<i class="right fas fa-angle-left"></i></p>
           </a>
+          <ul class="nav nav-treeview" >
+            <li class="nav-item">
+              <a [routerLink]="['/settings/marque-moto']" class="nav-link" routerLinkActive="active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Marques de moto</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/settings/type-moto']" class="nav-link" routerLinkActive="active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Types de moto</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a [routerLink]="['/settings/ministere']" class="nav-link" routerLinkActive="active">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>Ministères</p>
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
     </nav>

@@ -28,7 +28,7 @@ body {
 // Cartes
 .card {
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  
+
   .card-header {
     font-weight: 600;
   }
@@ -39,11 +39,11 @@ body {
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  
+
   &-primary {
     color: #fff;
   }
-  
+
   &-warning {
     color: #212529;
   }
@@ -55,7 +55,7 @@ body {
     background-color: $primary;
     color: #fff;
   }
-  
+
   .nav-sidebar .nav-link:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
@@ -94,7 +94,7 @@ body {
     background-color: $primary;
     border-color: $primary;
   }
-  
+
   .page-link {
     color: $primary;
   }
@@ -103,15 +103,15 @@ body {
 // Alertes
 .alert {
   border-left: 4px solid transparent;
-  
+
   &-primary {
     border-left-color: $primary;
   }
-  
+
   &-success {
     border-left-color: $success;
   }
-  
+
   &-warning {
     border-left-color: $warning;
   }
@@ -120,7 +120,7 @@ body {
 // Badges
 .badge {
   font-weight: 500;
-  
+
   &-warning {
     color: #212529;
   }
@@ -141,7 +141,7 @@ body {
     text-transform: uppercase;
     font-size: 0.8rem;
   }
-  
+
   tbody tr:hover {
     background-color: rgba($primary, 0.04);
   }

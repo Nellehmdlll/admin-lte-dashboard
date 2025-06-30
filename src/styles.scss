@@ -15,7 +15,7 @@ body {
 
 /* En-têtes */
 h1, h2, h3, h4, h5, h6 {
-  color: $primary;
+  color: $success;
   font-weight: 600;
 }
 
@@ -25,19 +25,19 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0.25rem;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   margin-bottom: 1.5rem;
-  
+
   .card-header {
-    background-color: rgba($primary, 0.05);
+    background-color: rgba($success, 0.05);
     border-bottom: 1px solid rgba(0, 0, 0, 0.125);
     font-weight: 600;
     padding: 0.75rem 1.25rem;
-    
+
     h3 {
       margin: 0;
       font-size: 1.25rem;
     }
   }
-  
+
   .card-body {
     padding: 1.25rem;
   }
@@ -53,70 +53,70 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 0.875rem;
   line-height: 1.5;
   transition: all 0.2s ease-in-out;
-  
+
   &-primary {
-    background-color: $primary;
-    border-color: darken($primary, 5%);
-    color: #fff;
-    
-    &:hover, &:focus, &:active {
-      background-color: darken($primary, 10%);
-      border-color: darken($primary, 15%);
-      color: #fff;
-    }
-    
-    &:focus {
-      box-shadow: 0 0 0 0.2rem rgba($primary, 0.5);
-    }
-  }
-  
-  &-outline-primary {
-    color: $primary;
-    border-color: $primary;
-    
-    &:hover, &:focus, &:active {
-      background-color: $primary;
-      border-color: $primary;
-      color: #fff;
-    }
-    
-    &:focus {
-      box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
-    }
-  }
-  
-  &-success {
     background-color: $success;
     border-color: darken($success, 5%);
     color: #fff;
-    
+
     &:hover, &:focus, &:active {
       background-color: darken($success, 10%);
       border-color: darken($success, 15%);
       color: #fff;
     }
-    
+
     &:focus {
       box-shadow: 0 0 0 0.2rem rgba($success, 0.5);
     }
   }
-  
+
+  &-outline-primary {
+    color: $success;
+    border-color: $success;
+
+    &:hover, &:focus, &:active {
+      background-color: $success;
+      border-color: $success;
+      color: #fff;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
+    }
+  }
+
+  &-success {
+    background-color: $success;
+    border-color: darken($success, 5%);
+    color: #fff;
+
+    &:hover, &:focus, &:active {
+      background-color: darken($success, 10%);
+      border-color: darken($success, 15%);
+      color: #fff;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem rgba($success, 0.5);
+    }
+  }
+
   &-warning {
     background-color: $warning;
     border-color: darken($warning, 5%);
     color: #212529;
-    
+
     &:hover, &:focus, &:active {
       background-color: darken($warning, 10%);
       border-color: darken($warning, 15%);
       color: #212529;
     }
-    
+
     &:focus {
       box-shadow: 0 0 0 0.2rem rgba($warning, 0.5);
     }
   }
-  
+
   &-lg {
     padding: 0.5rem 1rem;
     font-size: 1.125rem;
@@ -127,28 +127,28 @@ h1, h2, h3, h4, h5, h6 {
 /* Barre latérale */
 .sidebar {
   background-color: #2c3b41;
-  
+
   .nav-link {
     color: #b8c7ce;
     padding: 0.75rem 1rem;
-    
+
     &:hover, &.active {
       color: #fff;
       background-color: rgba(255, 255, 255, 0.1);
     }
-    
+
     &.active {
-      color: $primary;
+      color: $success;
       font-weight: 600;
     }
-    
+
     i {
       margin-right: 0.5rem;
       width: 20px;
       text-align: center;
     }
   }
-  
+
   .nav-treeview {
     .nav-link {
       padding-left: 2.5rem;
@@ -159,23 +159,23 @@ h1, h2, h3, h4, h5, h6 {
 /* Barre de navigation */
 .main-header {
   .navbar {
-    background-color: $primary !important;
+    background-color: $success !important;
     padding: 0.5rem 1rem;
-    
+
     .navbar-nav {
       .nav-link {
         color: rgba(255, 255, 255, 0.8);
-        
+
         &:hover, &:focus {
           color: #fff;
         }
       }
     }
   }
-  
+
   .user-panel {
     padding: 10px;
-    
+
     .info {
       color: #fff;
     }
@@ -187,9 +187,9 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
   margin-bottom: 1rem;
   color: #212529;
-  
+
   thead th {
-    background-color: rgba($primary, 0.05);
+    background-color: rgba($success, 0.05);
     border-bottom: 2px solid #dee2e6;
     font-weight: 600;
     text-transform: uppercase;
@@ -198,17 +198,17 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.75rem;
     vertical-align: bottom;
   }
-  
+
   tbody td {
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
   }
-  
+
   tbody tr:hover {
-    background-color: rgba($primary, 0.04);
+    background-color: rgba($success, 0.04);
   }
-  
+
   .btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
@@ -224,28 +224,28 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.75rem 1.25rem;
   position: relative;
   border-left: 4px solid transparent;
-  
+
   &-primary {
     color: #004085;
     background-color: #cce5ff;
     border-color: #b8daff;
-    border-left-color: $primary;
+    border-left-color: $success;
   }
-  
+
   &-success {
     color: #155724;
     background-color: #d4edda;
     border-color: #c3e6cb;
     border-left-color: $success;
   }
-  
+
   &-warning {
     color: #856404;
     background-color: #fff3cd;
     border-color: #ffeeba;
     border-left-color: $warning;
   }
-  
+
   &-danger {
     color: #721c24;
     background-color: #f8d7da;
@@ -261,16 +261,16 @@ h1, h2, h3, h4, h5, h6 {
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   line-height: 1.5;
-  
+
   &:focus {
-    border-color: $primary;
-    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    border-color: $success;
+    box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
   }
 }
 
 .form-group {
   margin-bottom: 1rem;
-  
+
   label {
     font-weight: 500;
     margin-bottom: 0.5rem;
@@ -288,22 +288,22 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: 0.25rem;
-  
+
   &-primary {
-    background-color: $primary;
+    background-color: $success;
     color: #fff;
   }
-  
+
   &-success {
     background-color: $success;
     color: #fff;
   }
-  
+
   &-warning {
     background-color: $warning;
     color: #212529;
   }
-  
+
   &-danger {
     background-color: $danger;
     color: #fff;
@@ -317,40 +317,40 @@ h1, h2, h3, h4, h5, h6 {
   list-style: none;
   border-radius: 0.25rem;
   margin: 1rem 0;
-  
+
   .page-item {
     margin: 0 0.2rem;
-    
+
     &.active .page-link {
-      background-color: $primary;
-      border-color: $primary;
+      background-color: $success;
+      border-color: $success;
       color: #fff;
     }
-    
+
     .page-link {
       position: relative;
       display: block;
       padding: 0.5rem 0.75rem;
       margin-left: -1px;
       line-height: 1.25;
-      color: $primary;
+      color: $success;
       background-color: #fff;
       border: 1px solid #dee2e6;
-      
+
       &:hover {
         background-color: #e9ecef;
         border-color: #dee2e6;
-        color: darken($primary, 15%);
+        color: darken($success, 15%);
         text-decoration: none;
       }
-      
+
       &:focus {
         z-index: 2;
         outline: 0;
-        box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+        box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
       }
     }
-    
+
     &.disabled .page-link {
       color: #6c757d;
       pointer-events: none;
@@ -364,7 +364,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-tabs {
   border-bottom: 2px solid #dee2e6;
   margin-bottom: 1rem;
-  
+
   .nav-link {
     border: none;
     color: #6c757d;
@@ -372,20 +372,20 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0.75rem 1.25rem;
     margin-right: 0.5rem;
     border-radius: 0;
-    
+
     &:hover {
       border-bottom: 2px solid #dee2e6;
       margin-bottom: -2px;
-      color: $primary;
+      color: $success;
     }
-    
+
     &.active {
-      color: $primary;
-      border-bottom: 2px solid $primary;
+      color: $success;
+      border-bottom: 2px solid $success;
       margin-bottom: -2px;
       background-color: transparent;
     }
-    
+
     &:focus {
       outline: 0;
       box-shadow: none;
@@ -401,9 +401,9 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0.25rem;
   margin-bottom: 1rem;
   overflow: hidden;
-  
+
   .progress-bar {
-    background-color: $primary;
+    background-color: $success;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -412,12 +412,12 @@ h1, h2, h3, h4, h5, h6 {
     white-space: nowrap;
     transition: width 0.6s ease;
   }
-  
+
   .progress-bar-striped {
     background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
     background-size: 1rem 1rem;
   }
-  
+
   .progress-bar-animated {
     animation: progress-bar-stripes 1s linear infinite;
   }
@@ -444,16 +444,16 @@ h1, h2, h3, h4, h5, h6 {
   height: calc(1.5em + 0.75rem + 2px);
   margin: 0;
   opacity: 0;
-  
+
   &:focus ~ .custom-file-label {
-    border-color: $primary;
-    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    border-color: $success;
+    box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
   }
-  
+
   &:disabled ~ .custom-file-label {
     background-color: #e9ecef;
   }
-  
+
   &[type="file"]:not(:disabled):not([readonly]) {
     cursor: pointer;
   }
@@ -473,7 +473,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fff;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
-  
+
   &::after {
     position: absolute;
     top: 0;
@@ -494,12 +494,12 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Personnalisation des cases à cocher et boutons radio */
 .custom-control-input:checked ~ .custom-control-label::before {
-  background-color: $primary;
-  border-color: $primary;
+  background-color: $success;
+  border-color: $success;
 }
 
 .custom-control-input:focus ~ .custom-control-label::before {
-  box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
 }
 
 .custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
@@ -523,13 +523,13 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  
+
   &:focus {
-    border-color: $primary;
+    border-color: $success;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba($success, 0.25);
   }
-  
+
   &:disabled {
     background-color: #e9ecef;
   }
@@ -537,15 +537,15 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Personnalisation des cartes colorées */
 .card-primary:not(.card-outline) > .card-header {
-  background-color: $primary;
+  background-color: $success;
   color: #fff;
-  
+
   .card-tools {
     color: rgba(255, 255, 255, 0.8);
-    
+
     .btn-tool {
       color: rgba(255, 255, 255, 0.8);
-      
+
       &:hover {
         color: #fff;
       }
@@ -556,13 +556,13 @@ h1, h2, h3, h4, h5, h6 {
 .card-success:not(.card-outline) > .card-header {
   background-color: $success;
   color: #fff;
-  
+
   .card-tools {
     color: rgba(255, 255, 255, 0.8);
-    
+
     .btn-tool {
       color: rgba(255, 255, 255, 0.8);
-      
+
       &:hover {
         color: #fff;
       }
@@ -572,14 +572,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-warning:not(.card-outline) > .card-header {
   background-color: $warning;
-  color: #212529;
-  
+  color: #232921;
+
   .card-tools {
     color: rgba(0, 0, 0, 0.6);
-    
+
     .btn-tool {
       color: rgba(0, 0, 0, 0.6);
-      
+
       &:hover {
         color: #000;
       }
@@ -597,9 +597,9 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   width: 2rem;
   height: 2rem;
-  border: 0.25rem solid rgba($primary, 0.3);
+  border: 0.25rem solid rgba($success, 0.3);
   border-radius: 50%;
-  border-top-color: $primary;
+  border-top-color: $success;
   animation: spin 1s ease-in-out infinite;
   margin-right: 0.5rem;
 }
