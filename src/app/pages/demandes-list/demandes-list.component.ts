@@ -11,7 +11,6 @@ import {
   Demande,
   MarqueMoto,
   TypeMoto,
-  Moto,
 } from '../../shared/models/demande.model';
 
 @Component({

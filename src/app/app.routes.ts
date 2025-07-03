@@ -20,7 +20,9 @@ export const routes: Routes = [
         children: [
           { path: 'new', component: DemandeFormComponent },
           { path: 'edit/:id', component: DemandeFormComponent },
-          { path: ':id', component: DemandeFormComponent }
+          { path: ':id', component: DemandeFormComponent },
+          { path: 'view/:id', component: DemandeFormComponent },
+
         ]
       },
       { path: 'demandes', component: DemandesListComponent },

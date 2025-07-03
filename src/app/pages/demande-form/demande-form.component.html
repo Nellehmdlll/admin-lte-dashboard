@@ -672,13 +672,15 @@
   </div>
 </section>
 
+
 <!-- Template caché pour le PDF -->
-<div #pdfContent style="display: none;">
+
+<!-- <div #pdfContent style="display: none;">
   <div style="padding: 30px; max-width: 210mm; margin: 0 auto; font-family: Arial, sans-serif; min-height: 297mm; position: relative;">
-    <!-- En-tête avec logo et informations -->
+
     <div style="margin-bottom: 20px; text-align: center;">
-      <div style="font-size: 14px; margin-bottom: 5px; text-transform: uppercase;">République du Cameroun</div>
-      <div style="font-size: 12px; margin-bottom: 10px;">Paix - Travail - Patrie</div>
+      <div style="font-size: 14px; margin-bottom: 5px; text-transform: uppercase;">BURKINA FASO</div>
+      <div style="font-size: 12px; margin-bottom: 10px;">La Patrie ou la Mort ,Nous Vaincrons</div>
       <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;">Ministère des Transports</div>
       <div style="font-size: 12px; margin-bottom: 15px;">Délégation Générale à la Sûreté Nationale</div>
       <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 5px 0; margin-bottom: 15px;">
@@ -687,7 +689,7 @@
       </div>
     </div>
 
-    <!-- Section informations principales -->
+
     <div style="margin-bottom: 30px;">
       <div style="margin-bottom: 15px; text-align: center; font-style: italic;">
         Le Directeur Général de la Sûreté Nationale, Officier Supérieur de Police,<br>
@@ -709,7 +711,6 @@
         à importer au Cameroun les véhicules dont les caractéristiques sont les suivantes :
       </div>
 
-      <!-- Détails du véhicule -->
       <div style="margin: 20px 0; padding: 10px; border: 1px solid #000;">
         <table style="width: 100%; border-collapse: collapse;">
           <tr>
@@ -737,7 +738,6 @@
       </div>
     </div>
 
-    <!-- Pied de page -->
     <div style="position: absolute; bottom: 40px; width: 100%;">
       <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
         <div style="width: 45%; text-align: center;">
@@ -755,6 +755,93 @@
       <div style="text-align: center; font-size: 10px; margin-top: 20px;">
         <div>MINISTERE DES TRANSPORTS - Délégation Générale à la Sûreté Nationale</div>
         <div>BP 1000 Yaoundé - Tél: 222 22 20 12 - Email: dgsministere-transports.cm</div>
+        <div>Document généré électroniquement le {{today | date:'dd/MM/yyyy'}} à {{today | date:'HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
+</div>  -->
+
+<div #pdfContent style="display: none;">
+  <div style="padding: 30px; max-width: 210mm; margin: 0 auto; font-family: Arial, sans-serif; min-height: 297mm; position: relative; background-color: white;">
+
+    <div style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div style="width: 60%; text-align: left;">
+            <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">MINISTERE DE L'INDUSTRIE, DU COMMERCE ET DE L'ARTISANAT</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">---------------------------------</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">SECRETARIAT GÉNÉRAL</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">N° {{demande.numero || 'N/A'}}</div>
+          </div>
+
+          <div style="width: 30%; text-align: right;">
+            <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">BURKINA FASO</div>
+            <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px;">------------------------------------</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">La Patrie ou la Mort, Nous Vaincrons</div>
+            <div style="font-size: 14px; margin-bottom: 5px;">Ouagadougou,le {{today | date:'dd/MM/yyyy'}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div style=" padding-top: 10px; margin-top: 10px;">
+        <div style="font-size: 18px;text-align: center; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">AUTORISATION SPECIALE D'IMPORTATION DE MOTOCYCLETTES DE TYPE ALOBA ET CELLES DE MEME TYPE</div>
+      </div>
+    </div>
+
+    <!-- Corps du document -->
+    <div style="margin: 20px 0; text-align: justify; line-height: 1.5; font-size: 16px;">
+
+      <p style="margin-left: 20px; margin-bottom: 15px;">
+        Vu la loi n° 90/061 du 19/12/90 portant liberté d'association au Burkina Faso,<br>
+        Vu la loi n° 90/053 du 19/12/90 relative à la liberté de réunion et de manifestation,<br>
+        Vu la loi n° 90/054 du 19/12/90 relative aux partis politiques,<br>
+        Vu la loi n° 90/055 du 19/12/90 portant sur la presse,<br>
+        Vu le décret n° 92/455 du 23/11/92 portant organisation du Ministère des Transports,<br>
+        Vu la demande d'autorisation d'importation de véhicules enregistrée sous le numéro {{demande.numero || 'N/A'}} du {{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}},
+      </p>
+
+      <p style="margin-bottom: 15px;">
+        A titre dérogatoire, il est accordé au {{demande.nomImportateur || 'NOM DE L\'IMPORTATEUR'}} une autorisation spéciale d'importation de {{demande.quantite || 'N/A'}} motocyclettes de marque {{demande.marquemoto || 'N/A'}} et type {{demande.typemoto || 'N/A'}},
+        dont le siège social est situé à {{demande.adresseImportateur || 'ADRESSE'}},auprès de {{demande.telephoneImportateur || 'TELEPHONE'}}
+        à importer au Burkina Faso les véhicules dont les caractéristiques sont les suivantes :
+      </p>
+
+
+
+      <p style="margin: 20px 0;">
+        <b style="font-weight: bold;">NB :</b>
+        <br>
+        - Cette autorisation est incessible et n\'est valable que pour les motocyclettes
+          concernées ;
+        <br>
+          - La durée de validité de l\'autorisation est de quatre (04) mois pour compter
+          de sa date de signature.
+      </p>
+
+      <p style="margin: 30px 0 50px 0;">
+        Fait à Ouagadougou, le {{today | date:'dd/MM/yyyy'}}
+      </p>
+    </div>
+
+    <!-- Signatures -->
+    <div style="position: absolute; bottom: 80px; width: 100%;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div style="width: 45%; text-align: center;">
+          <div style="margin-bottom: 5px; font-weight: bold;">AMPLIATIONS</div>
+          <div style="margin-bottom: 5px; font-weight: bold;">MICA/MDAC/MTS</div>
+
+        </div>
+        <div style="width: 45%; text-align: center;">
+          <div style="margin-bottom: 5px; font-weight: bold;">Le Ministre</div>
+          <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto; height: 50px; position: relative;">
+            <div style="position: absolute; bottom: -25px; left: 0; right: 0; font-size: 12px;">(Signature et cachet)</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; font-size: 12px; margin-top: 30px; border-top: 1px solid #000; padding-top: 10px;">
+        <div>MINISTERE DES TRANSPORTS - Délégation Générale à la Sûreté Nationale</div>
+        <div>BP 1000 Yaoundé - Tél: 222 22 20 12 - Email: dgsnnistere-transports.cm</div>
         <div>Document généré électroniquement le {{today | date:'dd/MM/yyyy'}} à {{today | date:'HH:mm'}}</div>
       </div>
     </div>

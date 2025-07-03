@@ -31,12 +31,6 @@ export enum Destinataire {
   BCMRF = 'BCMRF',
 }
 
-export enum Moto {
-  SIRIUS = 'Sirius',
-  MT_07 = 'MT-07',
-  MT_12 = 'MT-12',
-  MT_15 = 'MT-15',
-}
 
 export enum MarqueMoto {
   YAMAHA = 'Yamaha',

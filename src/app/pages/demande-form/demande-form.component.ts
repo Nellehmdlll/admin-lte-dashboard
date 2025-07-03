@@ -20,6 +20,8 @@ import {
 } from '../../shared/models/demande.model';
 import { DemandeService } from '../../shared/services/demande.service';
 import { PdfService } from '../../shared/services/pdf.service';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 @Component({
   selector: 'app-demande-form',
@@ -220,38 +222,112 @@ export class DemandeFormComponent implements OnInit {
     }
   }
 
+  // loadDemande(id: number): void {
+  //   this.isLoading = true;
+  //   this.demandeService.getDemande(id).pipe(
+  //     catchError((error: any) => {
+  //       console.error('Error loading demande:', error);
+  //       this.toastr.error('Erreur lors du chargement de la demande', 'Erreur');
+  //       this.isLoading = false;
+  //       return of(null);
+  //     })
+  //   ).subscribe((data: Demande | null) => {
+  //     this.isLoading = false;
+  //     if (data) {
+  //       // Ensure dates are properly converted from strings to Date objects
+  //       const processedData: Demande = {
+  //         ...data,
+  //         date: new Date(data.date),
+  //         dateSoumission: new Date(data.dateSoumission),
+  //         dateCreation: new Date(data.dateCreation),
+  //         dateMiseAJour: new Date(data.dateMiseAJour),
+  //         dateTraitement: data.dateTraitement ? new Date(data.dateTraitement) : undefined,
+  //         dateValidation: data.dateValidation ? new Date(data.dateValidation) : undefined,
+  //         dateRejet: data.dateRejet ? new Date(data.dateRejet) : undefined
+  //       };
+
+  //       this.demande = processedData;
+  //       this.demandeForm.patchValue(processedData);
+
+  //       if (this.isViewMode) {
+  //         this.demandeForm.disable();
+  //       }
+  //     }
+  //   });
+  // }
+
   loadDemande(id: number): void {
     this.isLoading = true;
-    this.demandeService.getDemande(id).pipe(
-      catchError((error: any) => {
-        console.error('Error loading demande:', error);
-        this.toastr.error('Erreur lors du chargement de la demande', 'Erreur');
-        this.isLoading = false;
-        return of(null);
-      })
-    ).subscribe((data: Demande | null) => {
-      this.isLoading = false;
-      if (data) {
-        // Ensure dates are properly converted from strings to Date objects
-        const processedData: Demande = {
-          ...data,
-          date: new Date(data.date),
-          dateSoumission: new Date(data.dateSoumission),
-          dateCreation: new Date(data.dateCreation),
-          dateMiseAJour: new Date(data.dateMiseAJour),
-          dateTraitement: data.dateTraitement ? new Date(data.dateTraitement) : undefined,
-          dateValidation: data.dateValidation ? new Date(data.dateValidation) : undefined,
-          dateRejet: data.dateRejet ? new Date(data.dateRejet) : undefined
-        };
 
-        this.demande = processedData;
-        this.demandeForm.patchValue(processedData);
+    // Simuler à partir de tes fausses données
+    const mockData = [
+      {
+        id: 1,
+        numero: 'DEM-001',
+        type: TypeDemande.ACHAT,
+        statut: StatutDemande.EN_ATTENTE,
+        motif: MotifDemande.COMMERCE,
+        emetteur: 'Fournisseur ABC',
+        date: new Date(),
+        dateSoumission: new Date(),
+        quantiteMoto: 5,
+        valeur: 2500000,
+        marquemoto: MarqueMoto.YAMAHA,
+        typemoto: TypeMoto.Moto,
+        documentsFournis: [],
+        utilisateurId: 1,
+        dateCreation: new Date(),
+        dateMiseAJour: new Date(),
+        // autres champs à compléter
 
-        if (this.isViewMode) {
-          this.demandeForm.disable();
-        }
-      }
-    });
+      },
+      {
+        id: 2,
+        numero: 'DEM-002',
+        type: TypeDemande.ACHAT,
+        statut: StatutDemande.VALIDE,
+        motif: MotifDemande.COMMERCE,
+        emetteur: 'Fournisseur ABC',
+        date: new Date(),
+        dateSoumission: new Date(),
+        quantiteMoto: 5,
+        valeur: 2500000,
+        marquemoto: MarqueMoto.YAMAHA,
+        typemoto: TypeMoto.Moto,
+        documentsFournis: [],
+        utilisateurId: 1,
+        dateCreation: new Date(),
+        dateMiseAJour: new Date(),
+        // autres champs à compléter
+      },
+      {
+        id: 3,
+        numero: 'DEM-003',
+        type: TypeDemande.ACHAT,
+        statut: StatutDemande.REJETE,
+        motif: MotifDemande.COMMERCE,
+        emetteur: 'Fournisseur ABC',
+        date: new Date(),
+        dateSoumission: new Date(),
+        quantiteMoto: 5,
+        valeur: 2500000,
+        marquemoto: MarqueMoto.YAMAHA,
+        typemoto: TypeMoto.Moto,
+        documentsFournis: [],
+        utilisateurId: 1,
+        dateCreation: new Date(),
+        dateMiseAJour: new Date(),
+        // autres champs à compléter
+      },
+      // etc.
+    ];
+
+    const found = mockData.find(d => d.id === id);
+    if (found) {
+      this.demande = found;
+      this.demandeForm.patchValue(found);
+    }
+    this.isLoading = false;
   }
 
   onSubmit(): void {
@@ -310,14 +386,99 @@ export class DemandeFormComponent implements OnInit {
     }
   }
 
-  // Method to view authorization
-  voirAutorisation(): void {
-    if (!this.demande) {
-      this.toastr.error('Aucune demande sélectionnée', 'Erreur');
+
+
+  // Méthode pour générer et afficher l'autorisation PDF
+  async voirAutorisation(): Promise<void> {
+    if (!this.demande.id) {
+      console.error('ID de demande manquant');
+      alert('Impossible de générer le PDF : ID de demande manquant');
       return;
     }
-    console.log('Viewing authorization for demande:', this.demande.id);
-    // Add your authorization viewing logic here
+
+    try {
+      console.log('Début de la génération du PDF...');
+      this.isLoading = true;
+
+      // Attendre que la vue soit mise à jour
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      // Vérifier que l'élément existe
+      if (!this.pdfContent || !this.pdfContent.nativeElement) {
+        throw new Error('Élément PDF non trouvé dans le DOM');
+      }
+
+      const content = this.pdfContent.nativeElement;
+      console.log('Élément PDF trouvé', content);
+
+      // Créer un clone de l'élément pour éviter les problèmes de style
+      const clonedContent = content.cloneNode(true);
+      clonedContent.style.display = 'block'; // S'assurer que le contenu est visible
+      document.body.appendChild(clonedContent);
+
+      try {
+        console.log('Génération du canvas...');
+        const canvas = await html2canvas(clonedContent as HTMLElement, {
+          scale: 1, // Réduire la qualité pour le débogage
+          useCORS: true,
+          allowTaint: true,
+          logging: true, // Activer les logs pour le débogage
+          backgroundColor: '#FFFFFF',
+          onclone: (clonedDoc, element) => {
+            // S'assurer que le contenu est visible lors du clonage
+            (element as HTMLElement).style.display = 'block';
+            (element as HTMLElement).style.visibility = 'visible';
+          }
+        });
+
+        console.log('Création du PDF...');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+
+        try {
+          const imgData = canvas.toDataURL('image/png');
+          console.log('Données de l\'image générées', imgData.substring(0, 50) + '...');
+
+          // Calculer les dimensions pour que l'image tienne sur la page A4
+          const imgWidth = 210; // Largeur A4 en mm
+          const pageHeight = 295; // Hauteur A4 en mm
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+          console.log(`Dimensions du canvas: ${canvas.width}x${canvas.height}`);
+          console.log(`Dimensions du PDF: ${imgWidth}x${imgHeight}mm`);
+
+          // Ajouter la première page
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
+
+          console.log('Enregistrement du PDF...');
+          // Télécharger le PDF
+          const fileName = `autorisation-${this.demande.numero || this.demande.id}.pdf`;
+          pdf.save(fileName);
+          console.log(`PDF enregistré sous le nom: ${fileName}`);
+
+        } catch (error: any) {
+          const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+          console.error('Erreur lors de la création de l\'image:', error);
+          throw new Error(`Échec de la création de l'image: ${errorMessage}`);
+        }
+
+      } catch (error: any) {
+        const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+        console.error('Erreur lors de la création du canvas:', error);
+        throw new Error(`Échec de la création du canvas: ${errorMessage}`);
+      } finally {
+        // Nettoyer le clone
+        if (document.body.contains(clonedContent)) {
+          document.body.removeChild(clonedContent);
+        }
+      }
+
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
+      console.error('Erreur lors de la génération du PDF:', error);
+      alert(`Erreur lors de la génération du PDF: ${errorMessage}`);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   // Method to add a document

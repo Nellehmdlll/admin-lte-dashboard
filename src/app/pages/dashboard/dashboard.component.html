@@ -147,9 +147,10 @@
                     </td>
                     <td class="text-center">
                       <div class="btn-group" role="group" (click)="$event.stopPropagation()">
-                        <button class="btn btn-sm btn-outline-success" [routerLink]="['/demande', demande.id,'view']" title="Voir">
+                        
+                        <button class="btn btn-sm btn-outline-success" [routerLink]="['/demande/view', demande.id]" title="Voir">
                           <i class="fas fa-eye"></i>
-                          <span class="visually-hidden"> Voir</span>
+                          <span class="visually-hidden"> </span>
                         </button>
                       </div>
                     </td>
