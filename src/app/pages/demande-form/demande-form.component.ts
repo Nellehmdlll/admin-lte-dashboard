@@ -1,224 +1,25 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { StatusColorPipe } from '../../shared/pipes/status-color.pipe';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-
-// Import des énumérations depuis le modèle partagé
 import {
+  Demande,
   TypeDemande,
   StatutDemande,
   MotifDemande,
   FichierJoint,
-  Demande,
   Destinataire,
   MarqueMoto,
   TypeMoto,
-  Moto,
 } from '../../shared/models/demande.model';
-
-// Service temporaire pour simuler un appel API
-class DemandeService {
-  private demandes: Demande[] = [
-    {
-      id: 1,
-      numero: 'DEM-001',
-      date: new Date('2023-01-01'),
-      type: TypeDemande.ACHAT,
-      statut: StatutDemande.EN_ATTENTE,
-      motif: MotifDemande.COMMERCE,
-      emetteur: 'Fournisseur ABC',
-      destinataire: Destinataire.MICA,
-      dateSoumission: new Date('2023-01-01'),
-      fichierJoint: FichierJoint.FACTURE,
-      quantiteMoto: 5,
-      valeur: 2500000,
-      // Nouvelles propriétés
-      marquemoto: MarqueMoto.BMW,
-      typemoto:TypeMoto.ALOBA,
-      moto:Moto.SIRIUS,
-      quantite:1,
-      prix:190000,
-      nomImportateur: 'Import Motors',
-      adresseImportateur: '123 Rue des Importateurs, Paris',
-      telephoneImportateur: '+33123456789',
-      emailImportateur: 'contact@import-motors.fr',
-      nomAcheteur: 'John Doe',
-      adresseAcheteur: '456 Avenue des Clients, Lyon',
-      telephoneAcheteur: '+33612345678',
-      emailAcheteur: 'john.doe@example.com',
-      detailsComplementaires: 'Aucun détail supplémentaire',
-      documentsFournis: ['Facture', 'Certificat de conformité'],
-      dateValidation: null,
-      motifRejet: null,
-      utilisateurId: 1,
-      dateCreation: new Date('2023-01-01T10:00:00Z'),
-      dateMiseAJour: new Date('2023-01-01T10:00:00Z')
-    },
-    {
-      id: 2,
-      numero: 'DEM-002',
-      date: new Date('2023-01-02'),
-      type: TypeDemande.VENTE,
-      statut: StatutDemande.VALIDE,
-      motif: MotifDemande.COMMERCE,
-      emetteur: 'Notre entreprise',
-      destinataire: Destinataire.MICA,
-      dateSoumission: new Date('2023-01-02'),
-      fichierJoint: FichierJoint.BON_DE_LIVRAISON,
-      quantiteMoto: 3,
-      valeur: 1800000,
-      // Nouvelles propriétés
-      marquemoto: MarqueMoto.HONDA,
-      typemoto:TypeMoto.ALOBA,
-      moto:Moto.MT_12,
-      quantite:8,
-      prix:300000,
-      nomImportateur: 'Moto Import',
-      adresseImportateur: '456 Rue des Motos, Berlin',
-      telephoneImportateur: '+493012345678',
-      emailImportateur: 'contact@moto-import.de',
-      nomAcheteur: 'Jane Smith',
-      adresseAcheteur: '789 Boulevard des Acheteurs, Marseille',
-      telephoneAcheteur: '+33698765432',
-      emailAcheteur: 'jane.smith@example.com',
-      detailsComplementaires: 'Vente avec facture proforma',
-      documentsFournis: ['Bon de livraison', 'Facture proforma'],
-      dateValidation: new Date('2023-01-03T15:30:00Z'),
-      motifRejet: null,
-      utilisateurId: 2,
-      dateCreation: new Date('2023-01-02T09:15:00Z'),
-      dateMiseAJour: new Date('2023-01-03T15:30:00Z')
-    },
-    {
-      id: 3,
-      numero: 'DEM-003',
-      date: new Date('2023-01-03'),
-      type: TypeDemande.IMPORTATION,
-      statut: StatutDemande.REJETE,
-      motif: MotifDemande.USAGE_PERSONNEL,
-      emetteur: 'Fournisseur International',
-      destinataire: Destinataire.MICA,
-      dateSoumission: new Date('2023-01-03'),
-      fichierJoint: FichierJoint.BON_DE_COMMANDE,
-      quantiteMoto: 10,
-      valeur: 7500000,
-      // Nouvelles propriétés
-      marquemoto: MarqueMoto.BMW,
-      typemoto:TypeMoto.ALOBA,
-      moto:Moto.SIRIUS,
-      quantite:4,
-      prix:30000,
-      nomImportateur: 'Global Imports',
-      adresseImportateur: '789 Import Street, New York',
-      telephoneImportateur: '+12125551234',
-      emailImportateur: 'info@global-imports.com',
-      nomAcheteur: 'Notre entreprise',
-      adresseAcheteur: '123 Rue des Entreprises, Paris',
-      telephoneAcheteur: '+33123456789',
-      emailAcheteur: 'contact@notre-entreprise.fr',
-      detailsComplementaires: 'Commande groupée pour stock',
-      documentsFournis: ['Bon de commande', 'Proforma'],
-      dateValidation: null,
-      motifRejet: 'Documents incomplets',
-      utilisateurId: 3,
-      dateCreation: new Date('2023-01-03T14:20:00Z'),
-      dateMiseAJour: new Date('2023-01-04T11:45:00Z')
-    }
-  ];
-
-  getDemande(id: number): Demande | undefined {
-    return this.demandes.find(d => d.id === id);
-  }
-
-  saveDemande(demande: Demande): Demande {
-    const now = new Date();
-
-    if (demande.id) {
-      // Mise à jour d'une demande existante
-      const index = this.demandes.findIndex(d => d.id === demande.id);
-      if (index !== -1) {
-        // Préserver l'ID, le numéro et les dates de création
-        const existingDemande = this.demandes[index];
-        const updatedDemande: Demande = {
-          ...existingDemande, // Conserver toutes les propriétés existantes
-          // Mettre à jour avec les nouvelles valeurs
-          ...demande,
-          // Ne pas écraser certaines propriétés importantes
-          id: existingDemande.id,
-          numero: existingDemande.numero,
-          dateCreation: existingDemande.dateCreation,
-          // Mettre à jour la date de modification
-          dateMiseAJour: now
-        };
-
-        this.demandes[index] = updatedDemande;
-        return updatedDemande;
-      }
-    } else {
-      // Création d'une nouvelle demande
-      const newId = Math.max(0, ...this.demandes.map(d => d.id)) + 1;
-      const newNumero = `DEM-${String(newId).padStart(3, '0')}`;
-
-      // Créer un nouvel objet avec toutes les propriétés requises
-      const newDemande: Demande = {
-        // Informations de base
-        id: newId,
-        numero: newNumero,
-        date: now,
-        type: demande.type || TypeDemande.ACHAT,
-        statut: demande.statut || StatutDemande.EN_ATTENTE,
-        motif: demande.motif || MotifDemande.AUTRE,
-        emetteur: demande.emetteur || '',
-        destinataire: demande.destinataire || Destinataire.MICA,
-        fichierJoint: demande.fichierJoint || FichierJoint.AUTRE,
-        quantiteMoto: demande.quantiteMoto || 1,
-        valeur: demande.valeur || 0,
-        dateSoumission: demande.dateSoumission || now,
-
-        // Informations sur le véhicule
-        marquemoto:demande.marquemoto,
-        typemoto:demande.typemoto,
-        moto:demande.moto,
-        quantite:demande.quantite,
-        prix:demande.prix,
-
-        // Informations sur l'importateur
-        nomImportateur: demande.nomImportateur || '',
-        adresseImportateur: demande.adresseImportateur || '',
-        telephoneImportateur: demande.telephoneImportateur || '',
-        emailImportateur: demande.emailImportateur || '',
-
-        // Informations sur l'acheteur
-        nomAcheteur: demande.nomAcheteur || '',
-        adresseAcheteur: demande.adresseAcheteur || '',
-        telephoneAcheteur: demande.telephoneAcheteur || '',
-        emailAcheteur: demande.emailAcheteur || '',
-
-        // Informations complémentaires
-        detailsComplementaires: demande.detailsComplementaires || '',
-        documentsFournis: Array.isArray(demande.documentsFournis)
-          ? [...demande.documentsFournis]
-          : [],
-
-        // Validation et suivi
-        dateValidation: demande.dateValidation || null,
-        motifRejet: demande.motifRejet || null,
-        utilisateurId: demande.utilisateurId || 1, // Remplacer par l'ID de l'utilisateur connecté
-        dateCreation: now,
-        dateMiseAJour: now
-      };
-
-      this.demandes.push(newDemande);
-      return newDemande;
-    }
-
-    // Retourner la demande inchangée si aucun cas ne correspond
-    return demande;
-  }
-}
+import { DemandeService } from '../../shared/services/demande.service';
+import { PdfService } from '../../shared/services/pdf.service';
 
 @Component({
   selector: 'app-demande-form',
@@ -227,310 +28,364 @@ class DemandeService {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    StatusColorPipe,
-    RouterModule
+    RouterModule,
+    NgIf,
+    NgFor,
+    NgClass,
+    StatusColorPipe
   ],
   templateUrl: './demande-form.component.html',
-  styleUrls: ['./demande-form.component.scss']
+  styleUrls: ['./demande-form.component.scss'],
+  providers: [
+    DemandeService,
+    PdfService,
+    ToastrService
+  ]
 })
+
 export class DemandeFormComponent implements OnInit {
-  // Référence au contenu PDF
   @ViewChild('pdfContent') pdfContent!: ElementRef;
+
+  // Component state
   today: Date = new Date();
-
-  // Données de la demande
-  demande: Partial<Demande> = {
-    // Informations de base
-    type: TypeDemande.ACHAT,
-    statut: StatutDemande.EN_ATTENTE,
-    motif: MotifDemande.COMMERCE,
-    emetteur: '',
-    destinataire: Destinataire.MICA,
-    fichierJoint: FichierJoint.FACTURE,
-    quantiteMoto: 1,
-    valeur: 0,
-    date: new Date(),
-    dateSoumission: new Date(),
-
-    // Informations sur les motos
-    marquemoto: MarqueMoto.DUCATI,
-    typemoto: TypeMoto.MotoElectrique,
-    moto: Moto.MT_12,
-    quantite: 1,
-    prix: 10,
-
-    // Informations sur l'importateur
-    nomImportateur: '',
-    adresseImportateur: '',
-    telephoneImportateur: '',
-    emailImportateur: '',
-
-    // Informations sur l'acheteur
-    nomAcheteur: '',
-    adresseAcheteur: '',
-    telephoneAcheteur: '',
-    emailAcheteur: '',
-
-    // Informations complémentaires
-    detailsComplementaires: '',
-    documentsFournis: [],
-
-    // Validation et suivi
-    utilisateurId: 1, // À remplacer par l'ID de l'utilisateur connecté
-    dateCreation: new Date(),
-    dateMiseAJour: new Date()
-  };
-
-  // Exposer les énumérations pour le template
-  TypeDemande = TypeDemande;
-  StatutDemande = StatutDemande;
-  MotifDemande = MotifDemande;
-  FichierJoint = FichierJoint;
-  Destinataire = Destinataire;
-  MarqueMoto = MarqueMoto;
-  TypeMoto =TypeMoto;
-  Moto=Moto;
-
-  // État du composant
   isEditMode = false;
   isViewMode = false;
-  isLoading = true;
+  isLoading = false;
 
-  // Service temporaire (à remplacer par un vrai service)
-  private demandeService = new DemandeService();
+  // Form data properties
+  quantite = 0;
+  prix = 0;
+  typeVendeur = '';
+  typeBeneficiaire = '';
+  typeAcheteur = '';
+  marquemoto = MarqueMoto.YAMAHA;
+  typemoto = TypeMoto.Moto;
+  detailsComplementaires = '';
+  numero = '';
+  dateSoumission = new Date();
+  nomImportateur = '';
+  adresseImportateur = '';
+
+
+  // Form group for the demande form
+  demandeForm: FormGroup;
+
+  // Form arrays for dynamic fields
+  get documents(): FormArray {
+    return this.demandeForm.get('documents') as FormArray;
+  }
+
+  // Current demande being edited/viewed
+  demande: Partial<Demande> = {};
+
+  // Enums for template access
+  readonly TypeDemande = TypeDemande;
+  readonly StatutDemande = StatutDemande;
+  readonly MotifDemande = MotifDemande;
+  readonly FichierJoint = FichierJoint;
+  readonly Destinataire = Destinataire;
+  readonly MarqueMoto = MarqueMoto;
+  readonly TypeMoto = TypeMoto;
 
   constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
     private router: Router,
-    private route: ActivatedRoute
-  ) {}
+    private toastr: ToastrService,
+    private demandeService: DemandeService,
+    private pdfService: PdfService
+  ) {
+    this.demandeForm = this.fb.group({
+      // Form controls will be added here
+      documents: this.fb.array([])
+    });
+  }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      const isEdit = this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.initializeForm();
 
-      if (id) {
-        if (isEdit) {
-          // Mode édition
-          this.isEditMode = true;
-          this.loadDemande(+id);
-        } else {
-          // Mode consultation
-          this.isViewMode = true;
-          this.loadDemande(+id);
-        }
-      } else {
-        // Mode création
+    const id = this.route.snapshot.paramMap.get('id');
+    const mode = this.route.snapshot.url[0]?.path;
+
+    if (mode === 'view') {
+      this.isViewMode = true;
+    } else if (mode === 'edit') {
+      this.isEditMode = true;
+    }
+
+    if (id) {
+      this.loadDemande(+id);
+    } else {
+      this.initializeNewDemande();
+    }
+  }
+
+  private initializeForm(): void {
+    this.demandeForm = this.fb.group({
+      // Basic information
+      type: [TypeDemande.ACHAT, Validators.required],
+      motif: [MotifDemande.COMMERCE, Validators.required],
+      emetteur: ['', Validators.required],
+
+      // Document information
+      fichierJoint: [FichierJoint.FACTURE, Validators.required],
+
+      // Importer information (legacy)
+      nomImportateur: ['', Validators.required],
+      adresseImportateur: ['', Validators.required],
+      telephoneImportateur: ['', Validators.required],
+      emailImportateur: ['', [Validators.required, Validators.email]],
+
+      // Buyer information (legacy, optional)
+      nomAcheteur: [''],
+      adresseAcheteur: [''],
+      telephoneAcheteur: [''],
+      emailAcheteur: ['', Validators.email],
+
+      // Additional information
+      detailsComplementaires: [''],
+      documentsFournis: this.fb.array([])
+
+      // Moto information
+      // marquemoto: [MarqueMoto.YAMAHA],
+      // typemoto: [TypeMoto.Moto],
+      // quantitemoto: [0],
+      // prixmoto: [0],
+      // valeurmoto: [0],
+    });
+  }
+
+  private initializeNewDemande(): void {
+    // Create a new Demande object with all required fields
+    this.demande = {
+      // Base information
+      id: 0, // Will be set by the server
+      numero: '', // Will be generated by the server
+      type: TypeDemande.ACHAT,
+      statut: StatutDemande.EN_ATTENTE,
+      motif: MotifDemande.COMMERCE,
+      emetteur: '',
+      date: new Date(),
+      dateSoumission: new Date(),
+      dateTraitement: undefined,
+      dateValidation: undefined,
+      dateRejet: undefined,
+      motifRejet: undefined,
+
+      // Importer information (legacy)
+      nomImportateur: '',
+      adresseImportateur: '',
+      telephoneImportateur: '',
+      emailImportateur: '',
+
+      // Buyer information (legacy, optional)
+      nomAcheteur: '',
+      adresseAcheteur: '',
+      telephoneAcheteur: '',
+      emailAcheteur: '',
+
+      // Additional information
+      detailsComplementaires: '',
+      documentsFournis: [],
+
+      // System fields
+      utilisateurId: 1, // TODO: Get from auth service
+      dateCreation: new Date(),
+      dateMiseAJour: new Date(),
+
+      // Initialize new structure (optional)
+      importateur: undefined,
+      acheteur: undefined,
+      vendeur: undefined
+
+      // Moto information
+      // marquemoto: '',
+      // typemoto: '',
+      // quantitemoto: 0,
+      // prixmoto: 0,
+      // valeurmoto: 0,
+    };
+
+    // Patch form with default values
+    this.demandeForm.patchValue(this.demande);
+
+    if (this.isViewMode) {
+      this.demandeForm.disable();
+    }
+
+    this.demandeForm.patchValue(this.demande);
+
+    if (this.isViewMode) {
+      this.demandeForm.disable();
+    }
+  }
+
+  loadDemande(id: number): void {
+    this.isLoading = true;
+    this.demandeService.getDemande(id).pipe(
+      catchError((error: any) => {
+        console.error('Error loading demande:', error);
+        this.toastr.error('Erreur lors du chargement de la demande', 'Erreur');
         this.isLoading = false;
+        return of(null);
+      })
+    ).subscribe((data: Demande | null) => {
+      this.isLoading = false;
+      if (data) {
+        // Ensure dates are properly converted from strings to Date objects
+        const processedData: Demande = {
+          ...data,
+          date: new Date(data.date),
+          dateSoumission: new Date(data.dateSoumission),
+          dateCreation: new Date(data.dateCreation),
+          dateMiseAJour: new Date(data.dateMiseAJour),
+          dateTraitement: data.dateTraitement ? new Date(data.dateTraitement) : undefined,
+          dateValidation: data.dateValidation ? new Date(data.dateValidation) : undefined,
+          dateRejet: data.dateRejet ? new Date(data.dateRejet) : undefined
+        };
+
+        this.demande = processedData;
+        this.demandeForm.patchValue(processedData);
+
+        if (this.isViewMode) {
+          this.demandeForm.disable();
+        }
       }
     });
   }
 
-  private loadDemande(id: number): void {
-    const demande = this.demandeService.getDemande(id);
-    if (demande) {
-      // Mettre à jour uniquement les propriétés existantes dans la demande
-      this.demande = {
-        ...this.demande, // Conserver les valeurs par défaut pour les champs non fournis
-        ...demande,     // Écraser avec les valeurs de la demande chargée
-        dateValidation: demande.dateValidation || null,
-        motifRejet: demande.motifRejet || null,
-        documentsFournis: demande.documentsFournis || [],
-        detailsComplementaires: demande.detailsComplementaires || ''
-      };
-    } else {
-      // Gérer le cas où la demande n'est pas trouvée
-      console.error(`Demande avec l'ID ${id} non trouvée`);
-      this.router.navigate(['/']);
-    }
-    this.isLoading = false;
-  }
-
   onSubmit(): void {
-    if (this.isViewMode) {
-      this.isViewMode = false;
+    if (this.demandeForm.invalid) {
+      this.toastr.error('Veuillez remplir tous les champs obligatoires', 'Erreur');
       return;
     }
 
-    // Préparer les données à sauvegarder
-    const demandeToSave: Partial<Demande> = {
+    this.isLoading = true;
+
+    // Prepare the data for submission
+    const formValue = this.demandeForm.value;
+    const demandeData: Demande = {
       ...this.demande,
-      // S'assurer que les champs optionnels sont correctement définis
-      dateValidation: this.demande.dateValidation || null,
-      motifRejet: this.demande.motifRejet || null,
-      documentsFournis: this.demande.documentsFournis || [],
-      detailsComplementaires: this.demande.detailsComplementaires || ''
+      ...formValue,
+      // Ensure dates are properly set
+      date: formValue.date || new Date(),
+      dateMiseAJour: new Date(),
+      // Ensure required arrays are initialized
+      documentsFournis: formValue.documentsFournis || []
     };
 
-    // Sauvegarder ou mettre à jour la demande
-    const savedDemande = this.demandeService.saveDemande(demandeToSave as Demande);
+    const demandeObservable = this.isEditMode
+      ? this.demandeService.updateDemande(demandeData as Demande)
+      : this.demandeService.createDemande(demandeData as unknown as Demande);
 
-    // Mettre à jour l'ID de la demande si c'est une nouvelle demande
-    if (!this.demande.id && savedDemande) {
-      this.demande.id = savedDemande.id;
-      this.demande.numero = savedDemande.numero;
-    }
-
-    // Afficher un message de succès
-    alert(`Demande ${this.isEditMode ? 'mise à jour' : 'créée'} avec succès !`);
-
-    // Rediriger vers la liste des demandes ou les détails de la demande
-    const redirectRoute = this.isEditMode ? ['/demande', this.demande.id] : ['/demandes'];
-    this.router.navigate(redirectRoute);
-  }
-
-  addDocument(): void {
-    if (!this.demande.documentsFournis) {
-      this.demande.documentsFournis = [];
-    }
-    this.demande.documentsFournis.push('Nouveau document');
-  }
-
-  removeDocument(index: number): void {
-    if (this.demande.documentsFournis && this.demande.documentsFournis.length > index) {
-      this.demande.documentsFournis.splice(index, 1);
-    }
+    demandeObservable.pipe(
+      catchError((error: any) => {
+        console.error('Error saving demande:', error);
+        this.toastr.error(
+          error.error?.message || 'Erreur lors de l\'enregistrement de la demande',
+          'Erreur'
+        );
+        this.isLoading = false;
+        return of(null);
+      })
+    ).subscribe((result: Demande | null) => {
+      this.isLoading = false;
+      if (result) {
+        const message = this.isEditMode
+          ? 'Demande mise à jour avec succès'
+          : 'Demande créée avec succès';
+        this.toastr.success(message, 'Succès');
+        this.router.navigate(['/demandes']);
+      }
+    });
   }
 
   onCancel(): void {
-    if (this.isEditMode && this.demande.id) {
-      this.isEditMode = false;
-      this.isViewMode = true;
-      this.loadDemande(this.demande.id);
-    } else {
-      this.router.navigate(['/dashboard']);
+    if (confirm('Voulez-vous vraiment annuler les modifications ?')) {
+      if (this.demande.id) {
+        this.loadDemande(this.demande.id);
+      } else {
+        this.router.navigate(['/demandes']);
+      }
     }
   }
 
+  // Method to view authorization
+  voirAutorisation(): void {
+    if (!this.demande) {
+      this.toastr.error('Aucune demande sélectionnée', 'Erreur');
+      return;
+    }
+    console.log('Viewing authorization for demande:', this.demande.id);
+    // Add your authorization viewing logic here
+  }
+
+  // Method to add a document
+  addDocument(type: string = '', fichier: File | null = null): void {
+    this.documents.push(this.fb.group({
+      type: [type, Validators.required],
+      fichier: [fichier, Validators.required]
+    }));
+  }
+
+  // Helper method to remove a document
+  removeDocument(index: number): void {
+    this.documents.removeAt(index);
+  }
   onEdit(): void {
     this.isEditMode = true;
     this.isViewMode = false;
   }
 
-  // Méthode utilitaire pour obtenir la classe d'icône en fonction du statut
+  // Status helpers
   getStatusIcon(statut: StatutDemande | string | undefined): string {
-    if (!statut) return 'fa-clock';
+    if (!statut) return 'help';
 
-    const statutStr = statut.toString().toLowerCase();
-
-    if (statutStr === StatutDemande.VALIDE.toLowerCase() || statutStr === 'validé') {
-      return 'fa-check';
-    } else if (statutStr === StatutDemande.EN_ATTENTE.toLowerCase() || statutStr === 'en attente' || statutStr === '') {
-      return 'fa-clock';
-    } else {
-      return 'fa-times';
+    switch (statut) {
+      case StatutDemande.VALIDE:
+        return 'check_circle';
+      case StatutDemande.REJETE:
+        return 'cancel';
+      case StatutDemande.EN_ATTENTE:
+        return 'schedule';
+      case StatutDemande.TRAITE:
+        return 'done_all';
+      default:
+        return 'help';
     }
   }
 
-  // Méthode utilitaire pour formater le texte du statut
   getStatusText(statut: StatutDemande | string | undefined): string {
     if (!statut) return 'Inconnu';
-    
-    const statutStr = statut.toString().toLowerCase();
-    
-    if (statutStr === StatutDemande.VALIDE.toLowerCase() || statutStr === 'validé') {
-      return 'Validé';
-    } else if (statutStr === StatutDemande.EN_ATTENTE.toLowerCase() || statutStr === 'en attente') {
-      return 'En attente';
-    } else if (statutStr === StatutDemande.REJETE.toLowerCase() || statutStr === 'rejeté') {
-      return 'Rejeté';
-    } else if (statutStr === StatutDemande.TRAITE.toLowerCase() || statutStr === 'traité') {
-      return 'Traité';
-    } else {
-      return statut.toString();
+
+    switch (statut) {
+      case StatutDemande.VALIDE:
+        return 'Validé';
+      case StatutDemande.REJETE:
+        return 'Rejeté';
+      case StatutDemande.EN_ATTENTE:
+        return 'En attente';
+      case StatutDemande.TRAITE:
+        return 'Traité';
+      default:
+        return statut;
     }
   }
 
-  // Méthode pour générer et afficher l'autorisation PDF
-  async voirAutorisation(): Promise<void> {
-    if (!this.demande.id) {
-      console.error('ID de demande manquant');
-      alert('Impossible de générer le PDF : ID de demande manquant');
-      return;
-    }
+  getStatusClass(statut: StatutDemande | string | undefined): string {
+    if (!statut) return 'badge-secondary';
 
-    try {
-      console.log('Début de la génération du PDF...');
-      this.isLoading = true;
-      
-      // Attendre que la vue soit mise à jour
-      await new Promise(resolve => setTimeout(resolve, 300));
-      
-      // Vérifier que l'élément existe
-      if (!this.pdfContent || !this.pdfContent.nativeElement) {
-        throw new Error('Élément PDF non trouvé dans le DOM');
-      }
-      
-      const content = this.pdfContent.nativeElement;
-      console.log('Élément PDF trouvé', content);
-      
-      // Créer un clone de l'élément pour éviter les problèmes de style
-      const clonedContent = content.cloneNode(true);
-      clonedContent.style.display = 'block'; // S'assurer que le contenu est visible
-      document.body.appendChild(clonedContent);
-      
-      try {
-        console.log('Génération du canvas...');
-        const canvas = await html2canvas(clonedContent as HTMLElement, {
-          scale: 1, // Réduire la qualité pour le débogage
-          useCORS: true,
-          allowTaint: true,
-          logging: true, // Activer les logs pour le débogage
-          backgroundColor: '#FFFFFF',
-          onclone: (clonedDoc, element) => {
-            // S'assurer que le contenu est visible lors du clonage
-            (element as HTMLElement).style.display = 'block';
-            (element as HTMLElement).style.visibility = 'visible';
-          }
-        });
-        
-        console.log('Création du PDF...');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        
-        try {
-          const imgData = canvas.toDataURL('image/png');
-          console.log('Données de l\'image générées', imgData.substring(0, 50) + '...');
-          
-          // Calculer les dimensions pour que l'image tienne sur la page A4
-          const imgWidth = 210; // Largeur A4 en mm
-          const pageHeight = 295; // Hauteur A4 en mm
-          const imgHeight = (canvas.height * imgWidth) / canvas.width;
-          
-          console.log(`Dimensions du canvas: ${canvas.width}x${canvas.height}`);
-          console.log(`Dimensions du PDF: ${imgWidth}x${imgHeight}mm`);
-          
-          // Ajouter la première page
-          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
-          
-          console.log('Enregistrement du PDF...');
-          // Télécharger le PDF
-          const fileName = `autorisation-${this.demande.numero || this.demande.id}.pdf`;
-          pdf.save(fileName);
-          console.log(`PDF enregistré sous le nom: ${fileName}`);
-          
-        } catch (error: any) {
-          const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
-          console.error('Erreur lors de la création de l\'image:', error);
-          throw new Error(`Échec de la création de l'image: ${errorMessage}`);
-        }
-        
-      } catch (error: any) {
-        const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
-        console.error('Erreur lors de la création du canvas:', error);
-        throw new Error(`Échec de la création du canvas: ${errorMessage}`);
-      } finally {
-        // Nettoyer le clone
-        if (document.body.contains(clonedContent)) {
-          document.body.removeChild(clonedContent);
-        }
-      }
-      
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue';
-      console.error('Erreur lors de la génération du PDF:', error);
-      alert(`Erreur lors de la génération du PDF: ${errorMessage}`);
-    } finally {
-      this.isLoading = false;
+    switch (statut) {
+      case StatutDemande.VALIDE:
+        return 'badge-success';
+      case StatutDemande.REJETE:
+        return 'badge-danger';
+      case StatutDemande.EN_ATTENTE:
+        return 'badge-warning';
+      case StatutDemande.TRAITE:
+        return 'badge-info';
+      default:
+        return 'badge-secondary';
     }
   }
 }

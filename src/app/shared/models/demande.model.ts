@@ -53,6 +53,19 @@ export enum TypeMoto {
   ALOBA = 'ALOBA',
 }
 
+// Interfaces pour les parties prenantes
+export interface PartiePrenante {
+  nom: string;
+  adresse: string;
+  telephone: string;
+  email: string;
+  type?: string;
+}
+
+export interface Importateur extends PartiePrenante {}
+export interface Acheteur extends PartiePrenante {}
+export interface Vendeur extends PartiePrenante {}
+
 export interface Demande {
   // Informations de base
   id: number;
@@ -62,39 +75,64 @@ export interface Demande {
   statut: StatutDemande;
   motif: MotifDemande;
   emetteur: string;
-  destinataire: Destinataire;
   dateSoumission: Date;
-  fichierJoint: FichierJoint;
-  quantiteMoto: number;
-  valeur: number;
-
-  // Informations sur les motos
-  marquemoto: MarqueMoto;
-  typemoto: TypeMoto;
-  moto: Moto;
-  quantite:number;
-  prix:number;
-
-
-  // Informations sur l'importateur
+  dateTraitement?: Date;
+  // Propriétés d'importateur (maintenues pour la rétrocompatibilité)
   nomImportateur: string;
   adresseImportateur: string;
   telephoneImportateur: string;
   emailImportateur: string;
-
-  // Informations sur l'acheteur
-  nomAcheteur: string;
-  adresseAcheteur: string;
-  telephoneAcheteur: string;
-  emailAcheteur: string;
+  // Nouvelle structure d'importateur
+  importateur?: Importateur;
+  // Propriétés d'acheteur (maintenues pour la rétrocompatibilité)
+  nomAcheteur?: string;
+  adresseAcheteur?: string;
+  telephoneAcheteur?: string;
+  emailAcheteur?: string;
+  // Nouvelle structure d'acheteur
+  acheteur?: Acheteur;
+  // Propriétés de vendeur (maintenues pour la rétrocompatibilité)
+  nomVendeur?: string;
+  adresseVendeur?: string;
+  telephoneVendeur?: string;
+  emailVendeur?: string;
+  // Nouvelle structure de vendeur
+  vendeur?: Vendeur;
+  // Propriétés de bénéficiaire
+  nomBeneficiaire?: string;
+  adresseBeneficiaire?: string;
+  telephoneBeneficiaire?: string;
+  emailBeneficiaire?: string;
 
   // Informations complémentaires
   detailsComplementaires?: string;
   documentsFournis: string[];
 
+  // Propriétés pour les motos
+  marquemoto?: string;
+  typemoto?: string;
+  quantite?: number;
+  prix?: number;
+  valeur?: number;
+  quantiteMoto?: number;
+
+  // Propriétés pour les types de parties prenantes
+  typeVendeur?: string;
+  typeAcheteur?: string;
+  typeBeneficiaire?: string;
+
+  // Fichiers joints
+  fichierJoint: FichierJoint;
+
+  // Destinataire
+  destinataire?: Destinataire;
+
   // Validation et suivi
   dateValidation?: Date | null;
+  dateRejet?: Date | null;
   motifRejet?: string | null;
+  validePar?: string;
+  rejetePar?: string;
   utilisateurId: number;
   dateCreation: Date;
   dateMiseAJour: Date;

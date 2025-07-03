@@ -147,7 +147,6 @@ export class DemandesListComponent {
       // Ajout des propriétés manquantes avec des valeurs par défaut
       marquemoto: MarqueMoto.YAMAHA,
       typemoto: TypeMoto.Moto,
-      moto: Moto.MT_07,
       quantite:6,
       prix:20000,
       nomImportateur: 'Import Motors',
@@ -182,7 +181,6 @@ export class DemandesListComponent {
       // Ajout des propriétés manquantes avec des valeurs par défaut
       marquemoto: MarqueMoto.HONDA,
       typemoto: TypeMoto.Moto,
-      moto: Moto.MT_07,
       quantite:3,
       prix:40000,
       nomImportateur: 'Moto Import',
@@ -217,7 +215,6 @@ export class DemandesListComponent {
       // Ajout des propriétés manquantes avec des valeurs par défaut
       marquemoto: MarqueMoto.KAWASAKI,
       typemoto: TypeMoto.Moto,
-      moto: Moto.MT_07,
       quantite:5,
       prix:50000,
       nomImportateur: 'Global Imports',

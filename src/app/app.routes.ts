@@ -15,7 +15,7 @@ export const routes: Routes = [
       { path: '', component: DashboardComponent },
       { path: 'users', component: UsersComponent },
       { path: 'settings', component: SettingsComponent },
-      { 
+      {
         path: 'demande',
         children: [
           { path: 'new', component: DemandeFormComponent },

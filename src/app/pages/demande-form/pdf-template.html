@@ -1,0 +1,85 @@
+<div style="padding: 30px; max-width: 210mm; margin: 0 auto; font-family: Arial, sans-serif; min-height: 297mm; position: relative;">
+  <!-- En-tête avec logo et informations -->
+  <div style="margin-bottom: 20px; text-align: center;">
+    <div style="font-size: 14px; margin-bottom: 5px; text-transform: uppercase;">République du Cameroun</div>
+    <div style="font-size: 12px; margin-bottom: 10px;">Paix - Travail - Patrie</div>
+    <div style="font-size: 16px; font-weight: bold; margin-bottom: 5px; text-transform: uppercase;">Ministère des Transports</div>
+    <div style="font-size: 12px; margin-bottom: 15px;">Délégation Générale à la Sûreté Nationale</div>
+    <div style="border-top: 1px solid #000; border-bottom: 1px solid #000; padding: 5px 0; margin-bottom: 15px;">
+      <div style="font-size: 18px; font-weight: bold; text-transform: uppercase;">AUTORISATION D'IMPORTATION</div>
+      <div style="font-size: 14px;">N° {{numero || 'N/A'}}</div>
+    </div>
+  </div>
+
+  <!-- Section informations principales -->
+  <div style="margin-bottom: 30px;">
+    <div style="margin-bottom: 15px; text-align: center; font-style: italic;">
+      Le Directeur Général de la Sûreté Nationale, Officier Supérieur de Police,<br>
+      Vu la loi n° 90/061 du 19/12/90 portant liberté d'association au Cameroun,<br>
+      Vu la loi n° 90/053 du 19/12/90 relative à la liberté de réunion et de manifestation,<br>
+      Vu la loi n° 90/054 du 19/12/90 relative aux partis politiques,<br>
+      Vu la loi n° 90/055 du 19/12/90 portant sur la presse,<br>
+      Vu le décret n° 92/455 du 23/11/92 portant organisation du Ministère des Transports,<br>
+      Vu la demande d'autorisation d'importation de véhicules enregistrée sous le numéro {{numero || 'N/A'}} du {{dateSoumission || 'N/A'}},
+    </div>
+
+    <div style="text-align: center; font-weight: bold; margin: 25px 0;">
+      AUTORISE
+    </div>
+
+    <div style="margin-bottom: 20px; text-align: justify; line-height: 1.5;">
+      La société <span style="text-decoration: underline;">{{nomImportateur || 'NOM DE L\'IMPORTATEUR'}}</span>,
+      dont le siège social est situé à <span style="text-decoration: underline;">{{adresseImportateur || 'ADRESSE'}}</span>,
+      à importer au Cameroun les véhicules dont les caractéristiques sont les suivantes :
+    </div>
+
+    <!-- Détails du véhicule -->
+    <div style="margin: 20px 0; padding: 10px; border: 1px solid #000;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="padding: 8px; width: 30%; border: 1px solid #000;">Marque</td>
+          <td style="padding: 8px; border: 1px solid #000;">{{marquemoto || 'N/A'}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #000;">Type</td>
+          <td style="padding: 8px; border: 1px solid #000;">{{typemoto || 'N/A'}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #000;">Quantité</td>
+          <td style="padding: 8px; border: 1px solid #000;">{{quantite || 'N/A'}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px; border: 1px solid #000;">Valeur CIF</td>
+          <td style="padding: 8px; border: 1px solid #000;">{{prix ? (prix + ' FCFA') : 'N/A'}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="margin: 20px 0; text-align: justify; line-height: 1.5;">
+      La présente autorisation est valable pour une durée de trois (03) mois à compter de la date de sa signature.
+      Elle est personnelle et incessible.
+    </div>
+  </div>
+
+  <!-- Pied de page -->
+  <div style="position: absolute; bottom: 40px; width: 100%;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 40px;">
+      <div style="width: 45%; text-align: center;">
+        <div style="margin-bottom: 5px;">Le Directeur Général Adjoint</div>
+        <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto; height: 50px;"></div>
+        <div style="font-size: 12px; margin-top: 5px;">(Signature et cachet)</div>
+      </div>
+      <div style="width: 45%; text-align: center;">
+        <div style="margin-bottom: 5px;">Le Chef de la Division de la Réglementation</div>
+        <div style="border-top: 1px solid #000; width: 80%; margin: 0 auto; height: 50px;"></div>
+        <div style="font-size: 12px; margin-top: 5px;">(Signature et cachet)</div>
+      </div>
+    </div>
+
+    <div style="text-align: center; font-size: 10px; margin-top: 20px;">
+      <div>MINISTERE DES TRANSPORTS - Délégation Générale à la Sûreté Nationale</div>
+      <div>BP 1000 Yaoundé - Tél: 222 22 20 12 - Email: dgsn@ministere-transports.cm</div>
+      <div>Document généré électroniquement le {{dateGeneration || 'N/A'}}</div>
+    </div>
+  </div>
+</div>
