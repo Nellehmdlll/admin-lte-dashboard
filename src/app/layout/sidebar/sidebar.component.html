@@ -48,27 +48,27 @@
             <p>Utilisateurs</p>
           </a>
         </li>
-        <li class="nav-item has-treeview" >
-          <a class="nav-link" href="#" >
+        <li class="nav-item has-treeview" [class.menu-open]="isParametresOpen">
+          <a href="#" class="nav-link" (click)="toggleParametres($event)">
             <i class="nav-icon fas fa-cogs"></i>
-            <p>Paramètres<i class="right fas fa-angle-left"></i></p>
+            <p>
+              Paramètres
+              <i class="right fas fa-angle-left"></i>
+            </p>
           </a>
-          <ul class="nav nav-treeview" >
+          <ul class="nav nav-treeview" [style.display]="isParametresOpen ? 'block' : 'none'">
             <li class="nav-item">
-              <a [routerLink]="['/settings/marque-moto']" class="nav-link" routerLinkActive="active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+              <a [routerLink]="['/settings/marque-moto']" class="nav-link" routerLinkActive="active" (click)="setActiveLink('marque-moto')">
                 <p>Marques de moto</p>
               </a>
             </li>
             <li class="nav-item">
-              <a [routerLink]="['/settings/type-moto']" class="nav-link" routerLinkActive="active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+              <a [routerLink]="['/settings/type-moto']" class="nav-link" routerLinkActive="active" (click)="setActiveLink('type-moto')">
                 <p>Types de moto</p>
               </a>
             </li>
             <li class="nav-item">
-              <a [routerLink]="['/settings/ministere']" class="nav-link" routerLinkActive="active">
-                <i class="nav-icon fas fa-tachometer-alt"></i>
+              <a [routerLink]="['/settings/ministere']" class="nav-link" routerLinkActive="active" (click)="setActiveLink('ministere')">
                 <p>Ministères</p>
               </a>
             </li>

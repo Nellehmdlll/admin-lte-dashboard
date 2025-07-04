@@ -1,31 +1,171 @@
-<div class="card">
-  <div class="card-header">
-    <h3 class="card-title">Liste des utilisateurs</h3>
+<div class="container-fluid py-4">
+  <!-- En-tête avec titre et bouton d'ajout -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+      <i class="fas fa-users me-2"></i>
+      Gestion des utilisateurs
+    </h1>
+    <button class="btn btn-primary" (click)="createUser()">
+      <i class="fas fa-plus me-1"></i> Nouvel utilisateur
+    </button>
   </div>
-  <div class="card-body p-0">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Prénom</th>
-          <th>Email</th>
-          <th>Rôle</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{ user.nom }}</td>
-          <td>{{ user.prenom }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>
-            <button class="btn btn-sm btn-primary" >
-              <i class="fas fa-eye"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+  <!-- Filtres et recherche -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" 
+                   class="form-control" 
+                   [(ngModel)]="searchTerm" 
+                   placeholder="Rechercher un utilisateur..."
+                   (keyup.enter)="currentPage = 1">
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="selectedRole" (change)="currentPage = 1">
+            <option value="tous">Tous les rôles</option>
+            <option value="Administrateur">Administrateur</option>
+            <option value="Gestionnaire">Gestionnaire</option>
+            <option value="Utilisateur">Utilisateur</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="selectedStatus" (change)="currentPage = 1">
+            <option value="tous">Tous les statuts</option>
+            <option value="actif">Actif</option>
+            <option value="inactif">Inactif</option>
+            <option value="suspendu">Suspendu</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100" (click)="currentPage = 1">
+            <i class="fas fa-filter me-1"></i>Filtrer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tableau des utilisateurs -->
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Rôle</th>
+              <th>Date création</th>
+              <th>Statut</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of paginatedUsers" class="align-middle">
+              <td class="fw-medium">{{ user.nom }}</td>
+              <td>{{ user.prenom }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.telephone }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-primary': user.role === 'Administrateur',
+                  'bg-success': user.role === 'Gestionnaire',
+                  'bg-secondary': user.role === 'Utilisateur'
+                }">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td>{{ user.dateCreation | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-success': user.statut === 'actif',
+                  'bg-warning': user.statut === 'inactif',
+                  'bg-danger': user.statut === 'suspendu'
+                }">
+                  {{ user.statut | titlecase }}
+                </span>
+              </td>
+              <td class="text-end">
+                <div class="btn-group btn-group-sm">
+                  <button class="btn btn-outline-primary btn-sm me-1" 
+                    (click)="viewUser(user); $event.stopPropagation()" 
+                    title="Voir les détails">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-outline-secondary btn-sm me-1" 
+                    (click)="editUser(user); $event.stopPropagation()"
+                    title="Modifier">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-outline-danger btn-sm" 
+                    (click)="deleteUser(user); $event.stopPropagation()"
+                    title="Supprimer">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredUsers.length === 0">
+              <td colspan="8" class="text-center py-4">
+                <div class="text-muted">Aucun utilisateur trouvé</div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center p-3 border-top" *ngIf="totalPages > 1">
+        <div class="text-muted small">
+          Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à 
+          {{ Math.min(currentPage * itemsPerPage, filteredUsers.length) }} sur 
+          {{ filteredUsers.length }} utilisateur(s)
+        </div>
+        
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" href="#" (click)="changePage(currentPage - 1); $event.preventDefault()">
+                <i class="fas fa-chevron-left"></i>
+              </a>
+            </li>
+            
+            <ng-container *ngFor="let page of pageNumbers">
+              <li class="page-item" [class.active]="page === currentPage" *ngIf="page !== '...'">
+                <a class="page-link" href="#" (click)="changePage(page); $event.preventDefault()">
+                  {{ page }}
+                </a>
+              </li>
+              <li class="page-item disabled" *ngIf="page === '...'">
+                <span class="page-link">...</span>
+              </li>
+            </ng-container>
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" href="#" (click)="changePage(currentPage + 1); $event.preventDefault()">
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        
+        <div class="d-flex align-items-center">
+          <span class="me-2 small text-muted">Afficher</span>
+          <select class="form-select form-select-sm" style="width: auto;" 
+                  [(ngModel)]="itemsPerPage" (change)="currentPage = 1">
+            <option [value]="5">5</option>
+            <option [value]="10">10</option>
+            <option [value]="25">25</option>
+            <option [value]="50">50</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

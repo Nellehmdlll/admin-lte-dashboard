@@ -9,6 +9,8 @@ import { DemandesListComponent } from './pages/demandes-list/demandes-list.compo
 import { BordereauReceptionComponent } from './pages/bordereau-reception/bordereau-reception.component';
 import { GestionBordereauComponent } from './pages/gestion-bordereau/gestion-bordereau.component';
 import { StockComponent } from './pages/stock/stock.component';
+import { UserFormComponent } from './pages/users/user-form/user-form.component';
+import { UserDetailComponent } from './pages/users/user-detail/user-detail.component';
 
 export const routes: Routes = [
   {
@@ -17,12 +19,20 @@ export const routes: Routes = [
     children: [
       // Tableau de bord utilisateur standard
       { path: '', component: DashboardComponent },
-      
+
       // Tableau de bord administrateur
       { path: 'admin/dashboard', component: AdminDashboardComponent },
-      
+
       // Autres routes
-      { path: 'users', component: UsersComponent },
+      { path: 'users',
+        children: [
+          { path: '', component: UsersComponent },
+          { path: 'new', component: UserFormComponent },
+          { path: 'edit/:id', component: UserFormComponent },
+          { path: ':id', component: UserFormComponent },
+          { path: 'view/:id', component: UserDetailComponent },
+        ]
+      },
       { path: 'settings', component: SettingsComponent },
       {
         path: 'demande',
@@ -35,17 +45,17 @@ export const routes: Routes = [
       },
       { path: 'demandes', component: DemandesListComponent },
       { path: 'bordereau-reception', component: BordereauReceptionComponent },
-      { 
-        path: 'bordereaux', 
+      {
+        path: 'bordereaux',
         children: [
           { path: '', component: GestionBordereauComponent },
           { path: ':id', component: GestionBordereauComponent }
         ]
       },
-      
+
       // Gestion des stocks
       { path: 'stock', component: StockComponent },
-      
+
       // Redirection pour l'ancien tableau de bord
       { path: 'dashboard', redirectTo: '', pathMatch: 'full' }
     ]

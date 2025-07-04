@@ -1,0 +1,102 @@
+<div class="d-flex h-100">
+  <div class="m-auto">
+    <div class="card">
+      <div class="card-header bg-white">
+        <h2 class="h5 mb-0">
+          <i class="fas fa-user-edit me-2"></i>
+          {{ isEditMode ? 'Modifier l\'utilisateur' : 'Nouvel utilisateur' }}
+        </h2>
+      </div>
+      <div class="card-body">
+        <form (ngSubmit)="onSubmit()" [formGroup]="userForm">
+          <div class="row g-3">
+            <!-- Nom -->
+            <div class="col-md-6">
+              <label for="nom" class="form-label">Nom <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="nom" formControlName="nom"
+                     [ngClass]="{ 'is-invalid': f['nom'].touched && f['nom'].errors }">
+              <div *ngIf="f['nom'].touched && f['nom'].errors" class="invalid-feedback">
+                <div *ngIf="f['nom'].errors?.['required']">Le nom est requis</div>
+                <div *ngIf="f['nom'].errors?.['minlength']">Le nom doit contenir au moins 2 caractères</div>
+              </div>
+            </div>
+
+            <!-- Prénom -->
+            <div class="col-md-6">
+              <label for="prenom" class="form-label">Prénom <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="prenom" formControlName="prenom"
+                     [ngClass]="{ 'is-invalid': f['prenom'].touched && f['prenom'].errors }">
+              <div *ngIf="f['prenom'].touched && f['prenom'].errors" class="invalid-feedback">
+                <div *ngIf="f['prenom'].errors?.['required']">Le prénom est requis</div>
+                <div *ngIf="f['prenom'].errors?.['minlength']">Le prénom doit contenir au moins 2 caractères</div>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-12">
+              <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control" id="email" formControlName="email"
+                     [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].errors }">
+              <div *ngIf="f['email'].touched && f['email'].errors" class="invalid-feedback">
+                <div *ngIf="f['email'].errors?.['required']">L'email est requis</div>
+                <div *ngIf="f['email'].errors?.['email']">Veuillez entrer un email valide</div>
+              </div>
+            </div>
+
+            <!-- Téléphone -->
+            <div class="col-md-6">
+              <label for="telephone" class="form-label">Téléphone <span class="text-danger">*</span></label>
+              <input type="tel" class="form-control" id="telephone" formControlName="telephone"
+                     [ngClass]="{ 'is-invalid': f['telephone'].touched && f['telephone'].errors }">
+              <div *ngIf="f['telephone'].touched && f['telephone'].errors" class="invalid-feedback">
+                <div *ngIf="f['telephone'].errors?.['required']">Le numéro de téléphone est requis</div>
+                <div *ngIf="f['telephone'].errors?.['pattern']">Veuillez entrer un numéro de téléphone valide</div>
+              </div>
+            </div>
+
+            <!-- Rôle -->
+            <div class="col-md-6">
+              <label for="role" class="form-label">Rôle <span class="text-danger">*</span></label>
+              <select class="form-select" id="role" formControlName="role"
+                      [ngClass]="{ 'is-invalid': f['role'].touched && f['role'].errors }">
+                <option value="" disabled selected>Sélectionnez un rôle</option>
+                <option *ngFor="let role of roles" [value]="role.value">
+                  {{ role.label }}
+                </option>
+              </select>
+              <div *ngIf="f['role'].touched && f['role'].errors" class="invalid-feedback">
+                Le rôle est requis
+              </div>
+            </div>
+
+            <!-- Statut (visible uniquement en mode édition) -->
+            <div class="col-md-6" *ngIf="isEditMode">
+              <label for="statut" class="form-label">Statut <span class="text-danger">*</span></label>
+              <select class="form-select" id="statut" formControlName="statut"
+                      [ngClass]="{ 'is-invalid': f['statut'].touched && f['statut'].errors }">
+                <option *ngFor="let statut of statuts" [value]="statut.value">
+                  {{ statut.label }}
+                </option>
+              </select>
+              <div *ngIf="f['statut'].touched && f['statut'].errors" class="invalid-feedback">
+                Le statut est requis
+              </div>
+            </div>
+          </div>
+
+          <!-- Boutons d'action -->
+          <div class="d-flex justify-content-between mt-4">
+            <button type="button" class="btn btn-outline-secondary" (click)="onCancel()" [disabled]="loading">
+              <i class="fas fa-times me-1"></i> Annuler
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="loading || userForm.invalid">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+              <i *ngIf="!loading" class="fas fa-save me-1"></i>
+              {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
