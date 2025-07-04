@@ -140,9 +140,15 @@ export class AdminDashboardComponent {
   ];
 
   constructor(
-    private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
+
+  // Ouvre les détails d'un bordereau
+  ouvrirDetails(bordereau: Bordereau): void {
+    // Utiliser la méthode voirBordereau existante qui gère déjà la navigation
+    this.voirBordereau(bordereau.id);
+  }
 
   /**
    * Redirige vers la page de consultation du stock

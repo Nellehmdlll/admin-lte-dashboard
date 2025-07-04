@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgIf, NgFor, DatePipe } from '@angular/common';
 import { NgClass } from '@angular/common';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
@@ -48,7 +48,7 @@ interface Bordereau {
   templateUrl: './gestion-bordereau.component.html',
   styleUrls: ['./gestion-bordereau.component.scss']
 })
-export class GestionBordereauComponent implements OnInit {
+export class GestionBordereauComponent implements OnInit, OnDestroy {
   // Liste des bordereaux
   bordereaux: Bordereau[] = [];
 
@@ -90,34 +90,44 @@ Math: any;
     private toastr: ToastrService
   ) {}
 
+  private subscription: any;
+  
   ngOnInit(): void {
-    this.chargerBordereaux();
-
-    // Vérifier si un ID est passé dans l'URL
-    this.route.paramMap.subscribe(params => {
+    this.Math = Math;
+    
+    // S'abonner aux changements de paramètres de route
+    this.subscription = this.route.paramMap.subscribe(params => {
       const bordereauId = params.get('id');
       console.log('ID du bordereau depuis l\'URL:', bordereauId);
-
+      
       if (bordereauId) {
-        // Attendre que les bordereaux soient chargés
-        if (this.bordereaux.length > 0) {
-          this.chargerBordereauParId(bordereauId);
-        } else {
-          // Si les bordereaux ne sont pas encore chargés, on attend qu'ils le soient
-          const subscription = this.chargerBordereaux().subscribe({
-            next: () => {
-              this.chargerBordereauParId(bordereauId);
-              subscription.unsubscribe();
-            },
-            error: (error) => {
-              console.error('Erreur lors du chargement des bordereaux:', error);
-              this.toastr.error('Erreur lors du chargement des bordereaux', 'Erreur');
-              subscription.unsubscribe();
-            }
-          });
-        }
+        // Si on a un ID, on charge les détails après le chargement des bordereaux
+        this.chargerBordereaux().subscribe({
+          next: () => {
+            this.chargerBordereauParId(bordereauId);
+          },
+          error: (error) => {
+            console.error('Erreur lors du chargement des bordereaux:', error);
+            this.toastr.error('Erreur lors du chargement des bordereaux', 'Erreur');
+          }
+        });
+      } else {
+        // Sinon, on charge simplement la liste
+        this.chargerBordereaux().subscribe({
+          error: (error) => {
+            console.error('Erreur lors du chargement des bordereaux:', error);
+            this.toastr.error('Erreur lors du chargement des bordereaux', 'Erreur');
+          }
+        });
       }
     });
+  }
+  
+  ngOnDestroy(): void {
+    // Nettoyer les abonnements pour éviter les fuites de mémoire
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   // Charge un bordereau par son ID
@@ -192,18 +202,37 @@ Math: any;
 
   // Obtient les bordereaux pour la page courante
   get bordereauxPagination(): Bordereau[] {
-    const debut = (this.pageCourante - 1) * this.elementsParPage;
-    return this.bordereauxFiltres.slice(debut, debut + this.elementsParPage);
+    if (!this.bordereauxFiltres || this.bordereauxFiltres.length === 0) {
+      return [];
+    }
+    
+    const startIndex = (this.pageCourante - 1) * this.elementsParPage;
+    const endIndex = startIndex + this.elementsParPage;
+    const paginated = this.bordereauxFiltres.slice(startIndex, endIndex);
+    
+    console.log(`Pagination: page ${this.pageCourante}, affichage des éléments ${startIndex + 1} à ${Math.min(endIndex, this.bordereauxFiltres.length)} sur ${this.bordereauxFiltres.length}`);
+    console.log('Éléments paginés:', paginated);
+    
+    return paginated;
   }
 
   // Change de page
   changerPage(page: number | string): void {
-    // Ne rien faire si c'est une chaîne (comme '...')
-    if (typeof page === 'string') {
-      return;
+    if (typeof page === 'number' && page >= 1 && page <= this.totalPages) {
+      this.pageCourante = page;
+      console.log(`Changement de page vers: ${page}`);
+    } else if (page === 'prev' && this.pageCourante > 1) {
+      this.pageCourante--;
+      console.log(`Page précédente: ${this.pageCourante}`);
+    } else if (page === 'next' && this.pageCourante < this.totalPages) {
+      this.pageCourante++;
+      console.log(`Page suivante: ${this.pageCourante}`);
     }
-    this.pageCourante = page;
-    window.scrollTo(0, 0);
+  }
+  
+  // Obtient le nombre total de pages
+  get totalPages(): number {
+    return Math.ceil(this.bordereauxFiltres.length / this.elementsParPage);
   }
 
   // Génère la liste des numéros de page pour la pagination
@@ -259,10 +288,8 @@ Math: any;
   ouvrirDetails(bordereau: Bordereau): void {
     this.bordereauSelectionne = bordereau;
     // Mettre à jour l'URL pour refléter l'ID du bordereau
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { id: bordereau.id },
-      queryParamsHandling: 'merge',
+    this.router.navigate(['/bordereaux', bordereau.id], {
+      relativeTo: this.route.parent
     });
   }
 
