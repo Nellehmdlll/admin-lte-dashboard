@@ -21,6 +21,7 @@ export class BordereauReceptionComponent implements OnInit {
   fileToUpload: File | null = null;
   isUploading = false;
   uploadSuccess = false;
+  searchError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -33,12 +34,29 @@ export class BordereauReceptionComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  // Méthode appelée à chaque frappe dans le champ de recherche
+  onSearchInput(): void {
+    // Effacer les messages d'erreur existants lors d'une nouvelle saisie
+    if (this.searchError) {
+      this.searchError = null;
+    }
+  }
+
   onSearch(): void {
     if (this.searchForm.valid) {
       this.isSearching = true;
+      this.searchError = null;
+      this.autorisation = null;
 
       // Simuler un appel API
       setTimeout(() => {
+        // Simulation : si le numéro contient "404", on simule une erreur de non trouvé
+        if (this.searchForm.value.numeroArrete.includes('404')) {
+          this.searchError = 'Aucune autorisation trouvée avec ce numéro d\'arrêté.';
+          this.isSearching = false;
+          return;
+        }
+
         // Données factices pour la démo
         this.autorisation = {
           numero: this.searchForm.value.numeroArrete,

@@ -56,7 +56,7 @@ export class MarqueListComponent implements OnInit {
     {
       id: 3,
       nom: 'Kawasaki',
-      description: 'Fabricant japonais de motos et véhicules',
+      description: 'Fabricant japonais de motos et motos',
       statut: 'inactif',
       dateCreation: new Date('2024-02-05'),
       dateModification: new Date('2024-02-10')

@@ -89,7 +89,7 @@
                   <div class="form-group">
                     <label class="font-weight-bold">Type de moto <span class="text-danger">*</span></label>
                     <select class="form-control" [(ngModel)]="demande.typemoto" name="typeMoto" [disabled]="isViewMode" required>
-                      <option *ngFor="let type of typemoto | keyvalue" [value]="type.value">
+                      <option *ngFor="let type of TypeMoto | keyvalue" [value]="type.value">
                         {{ type.value }}
                       </option>
                     </select>
@@ -698,7 +698,7 @@
         Vu la loi n° 90/054 du 19/12/90 relative aux partis politiques,<br>
         Vu la loi n° 90/055 du 19/12/90 portant sur la presse,<br>
         Vu le décret n° 92/455 du 23/11/92 portant organisation du Ministère des Transports,<br>
-        Vu la demande d'autorisation d'importation de véhicules enregistrée sous le numéro {{demande.numero || 'N/A'}} du {{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}},
+        Vu la demande d'autorisation d'importation de motos enregistrée sous le numéro {{demande.numero || 'N/A'}} du {{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}},
       </div>
 
       <div style="text-align: center; font-weight: bold; margin: 25px 0;">
@@ -708,7 +708,7 @@
       <div style="margin-bottom: 20px; text-align: justify; line-height: 1.5;">
         La société <span style="text-decoration: underline;">{{demande.nomImportateur || 'NOM DE L\'IMPORTATEUR'}}</span>,
         dont le siège social est situé à <span style="text-decoration: underline;">{{demande.adresseImportateur || 'ADRESSE'}}</span>,
-        à importer au Cameroun les véhicules dont les caractéristiques sont les suivantes :
+        à importer au Cameroun les motos dont les caractéristiques sont les suivantes :
       </div>
 
       <div style="margin: 20px 0; padding: 10px; border: 1px solid #000;">
@@ -797,13 +797,13 @@
         Vu la loi n° 90/054 du 19/12/90 relative aux partis politiques,<br>
         Vu la loi n° 90/055 du 19/12/90 portant sur la presse,<br>
         Vu le décret n° 92/455 du 23/11/92 portant organisation du Ministère des Transports,<br>
-        Vu la demande d'autorisation d'importation de véhicules enregistrée sous le numéro {{demande.numero || 'N/A'}} du {{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}},
+        Vu la demande d'autorisation d'importation de motos enregistrée sous le numéro {{demande.numero || 'N/A'}} du {{(demande.dateSoumission | date:'dd/MM/yyyy') || 'N/A'}},
       </p>
 
       <p style="margin-bottom: 15px;">
         A titre dérogatoire, il est accordé au {{demande.nomImportateur || 'NOM DE L\'IMPORTATEUR'}} une autorisation spéciale d'importation de {{demande.quantite || 'N/A'}} motocyclettes de marque {{demande.marquemoto || 'N/A'}} et type {{demande.typemoto || 'N/A'}},
         dont le siège social est situé à {{demande.adresseImportateur || 'ADRESSE'}},auprès de {{demande.telephoneImportateur || 'TELEPHONE'}}
-        à importer au Burkina Faso les véhicules dont les caractéristiques sont les suivantes :
+        à importer au Burkina Faso les motos dont les caractéristiques sont les suivantes :
       </p>
 
 

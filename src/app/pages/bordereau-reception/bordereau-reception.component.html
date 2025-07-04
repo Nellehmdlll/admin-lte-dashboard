@@ -23,9 +23,11 @@
                   <input
                     type="text"
                     class="form-control form-control-lg"
+                    [class.is-invalid]="searchError"
                     placeholder="Saisir le numéro d'arrêté"
                     formControlName="numeroArrete"
                     [disabled]="isSearching || autorisation"
+                    (input)="onSearchInput()"
                   >
                   <div class="input-group-append">
                     <button
@@ -42,6 +44,25 @@
                   </div>
                 </div>
               </form>
+
+              <!-- Message d'erreur -->
+              <div *ngIf="searchError" class="alert alert-danger mt-4">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-exclamation-circle me-3" style="font-size: 1.5rem;"></i>
+                  <div>
+                    <h5 class="alert-heading mb-1">Aucun résultat trouvé</h5>
+                    <p class="mb-0">{{ searchError }}</p>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <p class="mb-2">Suggestions :</p>
+                  <ul class="mb-0 ps-3">
+                    <li>Vérifiez l'orthographe du numéro d'arrêté</li>
+                    <li>Assurez-vous que le numéro est complet</li>
+                    <li>Contactez l'administrateur si le problème persiste</li>
+                  </ul>
+                </div>
+              </div>
 
               <!-- Affichage des résultats de la recherche -->
               <div *ngIf="autorisation" class="mt-4">
@@ -117,4 +138,5 @@
       </div>
     </div>
   </section>
+
 </div>

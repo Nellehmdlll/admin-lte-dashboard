@@ -47,7 +47,7 @@ export class MarqueFormComponent implements OnInit {
     {
       id: 3,
       nom: 'Kawasaki',
-      description: 'Fabricant japonais de motos et véhicules',
+      description: 'Fabricant japonais de motos et motos',
       statut: 'inactif',
       dateCreation: new Date('2024-02-05'),
       dateModification: new Date('2024-02-10')
@@ -117,7 +117,7 @@ export class MarqueFormComponent implements OnInit {
     // Simulation d'envoi au serveur
     setTimeout(() => {
       const marqueData = this.marqueForm.value;
-      
+
       if (this.isEditMode && this.marqueId) {
         // Mise à jour d'une marque existante
         console.log('Mise à jour de la marque:', { id: this.marqueId, ...marqueData });

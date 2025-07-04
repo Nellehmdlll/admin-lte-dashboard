@@ -47,7 +47,7 @@ export class MarqueDetailComponent implements OnInit {
     {
       id: 3,
       nom: 'Kawasaki',
-      description: 'Fabricant japonais de motos et véhicules',
+      description: 'Fabricant japonais de motos et motos',
       statut: 'inactif',
       dateCreation: new Date('2024-02-05'),
       dateModification: new Date('2024-02-10'),
@@ -74,7 +74,7 @@ export class MarqueDetailComponent implements OnInit {
 
   private loadMarque(id: number): void {
     this.loading = true;
-    
+
     // Simulation de chargement
     setTimeout(() => {
       const marque = this.dummyMarques.find(m => m.id === id);
