@@ -117,7 +117,7 @@
               <th>N° Demande</th>
               <th>Demandeur</th>
               <th>Date</th>
-              <th>Véhicule</th>
+              <th>Moto</th>
               <th>Statut</th>
               <th class="text-end">Actions</th>
             </tr>
@@ -152,24 +152,9 @@
             <tr *ngFor="let bordereau of bordereauxPagination" class="cursor-pointer" (click)="ouvrirDetails(bordereau)">
               <td class="fw-medium">{{bordereau.numero}}</td>
               <td>{{bordereau.demande.numero}}</td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="avatar-sm me-2">
-                    <div class="avatar-title bg-light rounded-circle text-primary fw-medium">
-                      {{bordereau.demande.demandeur.nom.charAt(0)}}
-                    </div>
-                  </div>
-                  <div>
-                    <div class="fw-medium">{{bordereau.demande.demandeur.nom}}</div>
-                    <small class="text-muted">{{bordereau.demande.demandeur.email}}</small>
-                  </div>
-                </div>
-              </td>
+              <td>{{bordereau.demande.demandeur.nom}}</td>
               <td>{{bordereau.dateCreation | date:'dd/MM/yyyy'}}</td>
-              <td>
-                <div class="fw-medium">{{bordereau.demande.vehicule.marque}} {{bordereau.demande.vehicule.modele}}</div>
-                <small class="text-muted">Année {{bordereau.demande.vehicule.annee}}</small>
-              </td>
+              <td>{{bordereau.demande.vehicule.marque}} {{bordereau.demande.vehicule.modele}}</td>
               <td>
                 <span class="badge" [ngClass]="getClasseStatut(bordereau.statut)">
                   {{getLibelleStatut(bordereau.statut)}}
