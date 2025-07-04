@@ -1,0 +1,133 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.type-list-container {
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  .card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    
+    .card-header {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 1rem 1.25rem;
+    }
+    
+    .card-body {
+      flex: 1;
+      padding: 1.5rem;
+      overflow-y: auto;
+    }
+  }
+  
+  .table {
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+      color: #6c757d;
+      border-top: none;
+      border-bottom: 2px solid #dee2e6;
+      white-space: nowrap;
+    }
+    
+    td {
+      vertical-align: middle;
+      border-color: #edf2f9;
+    }
+    
+    tr:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+    
+    .badge {
+      font-weight: 500;
+      font-size: 0.7rem;
+      padding: 0.35em 0.65em;
+    }
+  }
+  
+  .pagination {
+    .page-link {
+      min-width: 2.5rem;
+      text-align: center;
+      margin: 0 0.15rem;
+      border-radius: 0.25rem;
+      color: #4e73df;
+      border-color: #e3e6f0;
+      
+      &:hover {
+        background-color: #eaecf4;
+        border-color: #dde1ed;
+      }
+    }
+    
+    .page-item.active .page-link {
+      background-color: #4e73df;
+      border-color: #4e73df;
+    }
+    
+    .page-item.disabled .page-link {
+      color: #b7b9cc;
+      background-color: #f8f9fc;
+      border-color: #e3e6f0;
+    }
+  }
+  
+  .btn-group {
+    .btn {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      border-radius: 0.2rem;
+      
+      i {
+        font-size: 0.8rem;
+      }
+    }
+  }
+  
+  .form-control, .form-select, .input-group-text {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.35rem;
+  }
+  
+  .input-group-text {
+    background-color: #f8f9fc;
+    border-color: #d1d3e2;
+  }
+  
+  .text-muted {
+    font-size: 0.85rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1rem;
+    }
+    
+    .table-responsive {
+      border: none;
+    }
+    
+    .pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+      
+      .page-link {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}

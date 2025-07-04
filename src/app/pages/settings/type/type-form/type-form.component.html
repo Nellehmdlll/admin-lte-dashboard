@@ -1,0 +1,92 @@
+<div class="d-flex flex-column vh-100">
+  <div class="flex-grow-1 overflow-auto">
+    <div class="container py-5">
+      <div class="card">
+        <div class="card-header bg-white">
+          <h2 class="h5 mb-0">
+            <i class="fas fa-motorcycle me-2"></i>
+            {{ isEditMode ? 'Modifier le type de moto' : 'Nouveau type de moto' }}
+          </h2>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="onSubmit()" [formGroup]="typeForm">
+            <!-- Nom du type -->
+            <div class="mb-4">
+              <label for="nom" class="form-label required">Nom du type</label>
+              <input type="text" 
+                     id="nom" 
+                     class="form-control" 
+                     formControlName="nom"
+                     [ngClass]="{ 'is-invalid': hasError('nom', 'required') || hasError('nom', 'minlength') || hasError('nom', 'maxlength') }">
+              <div class="invalid-feedback" *ngIf="hasError('nom', 'required')">
+                Le nom du type est requis
+              </div>
+              <div class="invalid-feedback" *ngIf="hasError('nom', 'minlength')">
+                Le nom doit contenir au moins 2 caractères
+              </div>
+              <div class="invalid-feedback" *ngIf="hasError('nom', 'maxlength')">
+                Le nom ne peut pas dépasser 100 caractères
+              </div>
+              <div class="form-text">
+                Entrez un nom clair et descriptif pour ce type de moto (ex: Sportive, Custom, Roadster, etc.)
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-4">
+              <label for="description" class="form-label">Description</label>
+              <textarea id="description" 
+                        class="form-control" 
+                        formControlName="description"
+                        rows="3"
+                        [ngClass]="{ 'is-invalid': hasError('description', 'maxlength') }">
+              </textarea>
+              <div class="invalid-feedback" *ngIf="hasError('description', 'maxlength')">
+                La description ne peut pas dépasser 500 caractères
+              </div>
+              <div class="form-text">
+                Une brève description des caractéristiques de ce type de moto (optionnel)
+              </div>
+            </div>
+
+            <!-- Statut -->
+            <div class="mb-4">
+              <label for="statut" class="form-label required">Statut</label>
+              <select id="statut" 
+                      class="form-select" 
+                      formControlName="statut"
+                      [ngClass]="{ 'is-invalid': hasError('statut', 'required') }">
+                <option value="actif">Actif</option>
+                <option value="inactif">Inactif</option>
+              </select>
+              <div class="invalid-feedback" *ngIf="hasError('statut', 'required')">
+                Le statut est requis
+              </div>
+              <div class="form-text">
+                Un type inactif ne sera pas disponible pour la sélection dans les formulaires
+              </div>
+            </div>
+
+            <!-- Boutons d'action -->
+            <div class="d-flex justify-content-between pt-3 mt-4 border-top">
+              <button type="button" 
+                      class="btn btn-outline-secondary" 
+                      (click)="onCancel()"
+                      [disabled]="loading">
+                <i class="fas fa-times me-1"></i> Annuler
+              </button>
+              
+              <button type="submit" 
+                      class="btn btn-primary"
+                      [disabled]="loading || typeForm.invalid">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                <i *ngIf="!loading" class="fas fa-save me-1"></i>
+                {{ isEditMode ? 'Mettre à jour' : 'Créer le type' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

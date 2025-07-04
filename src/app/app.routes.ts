@@ -14,6 +14,12 @@ import { UserDetailComponent } from './pages/users/user-detail/user-detail.compo
 import { MarqueListComponent } from './pages/settings/marque/marque-list/marque-list.component';
 import { MarqueFormComponent } from './pages/settings/marque/marque-form/marque-form.component';
 import { MarqueDetailComponent } from './pages/settings/marque/marque-detail/marque-detail.component';
+import { MinistereListComponent } from './pages/settings/ministere/ministere-list/ministere-list.component';
+import { MinistereFormComponent } from './pages/settings/ministere/ministere-form/ministere-form.component';
+import { MinistereDetailComponent } from './pages/settings/ministere/ministere-detail/ministere-detail.component';
+import { TypeListComponent } from './pages/settings/type/type-list/type-list.component';
+import { TypeFormComponent } from './pages/settings/type/type-form/type-form.component';
+import { TypeDetailComponent } from './pages/settings/type/type-detail/type-detail.component';
 
 export const routes: Routes = [
   {
@@ -61,7 +67,11 @@ export const routes: Routes = [
 
       // Redirection pour l'ancien tableau de bord
       { path: 'dashboard', redirectTo: '', pathMatch: 'full' },
-      
+
+      {
+        path: 'settings/ministere',
+        loadChildren: () => import('./pages/settings/ministere/ministere.module').then(m => m.MinistereModule)
+      },
       { path: 'settings/marque',
         children: [
           { path: '', component: MarqueListComponent },
@@ -71,6 +81,25 @@ export const routes: Routes = [
           { path: 'view/:id', component: MarqueDetailComponent },
         ]
       },
+      { path: 'settings/ministere',
+        children: [
+          { path: '', component: MinistereListComponent },
+          { path: 'new', component: MinistereFormComponent },
+          { path: 'edit/:id', component: MinistereFormComponent },
+          { path: ':id', component: MinistereFormComponent },
+          { path: 'view/:id', component: MinistereDetailComponent },
+        ]
+      },
+      { path: 'settings/type',
+        children: [
+          { path: '', component: TypeListComponent },
+          { path: 'new', component: TypeFormComponent },
+          { path: 'edit/:id', component: TypeFormComponent },
+          { path: ':id', component: TypeFormComponent },
+          { path: 'view/:id', component: TypeDetailComponent },
+        ]
+      },
+
     ]
   }
 ];

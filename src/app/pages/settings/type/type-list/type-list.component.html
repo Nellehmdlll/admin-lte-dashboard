@@ -1,0 +1,134 @@
+<div class="type-list-container">
+  <div class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <h2 class="h5 mb-0">
+        <i class="fas fa-motorcycle me-2"></i>
+        Gestion des types de moto
+      </h2>
+      <button class="btn btn-primary" (click)="onCreateType()">
+        <i class="fas fa-plus me-1"></i> Nouveau type
+      </button>
+    </div>
+    
+    <div class="card-body">
+      <!-- Barre de recherche et filtres -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder="Rechercher un type de moto..."
+              [(ngModel)]="searchTerm"
+              (keyup.enter)="applyFilter()"
+              (blur)="applyFilter()">
+            <button 
+              class="btn btn-outline-secondary" 
+              type="button" 
+              (click)="applyFilter()">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <select class="form-select" [(ngModel)]="itemsPerPage" (change)="applyFilter()">
+            <option [value]="5">5 par page</option>
+            <option [value]="10" selected>10 par page</option>
+            <option [value]="20">20 par page</option>
+            <option [value]="50">50 par page</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tableau des types de moto -->
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Description</th>
+              <th>Statut</th>
+              <th>Créé le</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let type of paginatedTypes" (click)="onViewType(type.id)" style="cursor: pointer;">
+              <td>{{ type.id }}</td>
+              <td>
+                <strong>{{ type.nom }}</strong>
+              </td>
+              <td>{{ type.description | slice:0:50 }}{{ type.description.length > 50 ? '...' : '' }}</td>
+              <td>
+                <span class="badge" [ngClass]="{'bg-success': type.statut === 'actif', 'bg-secondary': type.statut === 'inactif'}">
+                  {{ type.statut === 'actif' ? 'Actif' : 'Inactif' }}
+                </span>
+              </td>
+              <td>{{ type.dateCreation | date:'dd/MM/yyyy' }}</td>
+              <td>
+                <div class="btn-group" role="group" (click)="$event.stopPropagation()">
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="onViewType(type.id)" title="Voir">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-warning me-1" (click)="onEditType(type.id, $event)" title="Modifier">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="onDeleteType(type.id, $event)" title="Supprimer">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="filteredTypes.length === 0">
+              <td colspan="6" class="text-center py-4">
+                <div class="text-muted">
+                  <i class="fas fa-inbox fa-2x d-block mb-2"></i>
+                  Aucun type de moto trouvé
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="totalPages > 1">
+        <div class="text-muted">
+          Affichage de {{ (currentPage - 1) * itemsPerPage + 1 }} à 
+          {{ Math.min(currentPage * itemsPerPage, totalItems) }} sur {{ totalItems }} entrées
+        </div>
+        
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item" [class.disabled]="currentPage === 1">
+              <a class="page-link" href="#" (click)="goToPage(currentPage - 1); $event.preventDefault()">
+                <i class="fas fa-chevron-left"></i>
+              </a>
+            </li>
+            
+            <ng-container *ngFor="let page of pageNumbers">
+              <li class="page-item" [class.active]="page === currentPage" *ngIf="page !== '...'">
+                <a class="page-link" href="#" (click)="goToPage(page); $event.preventDefault()">
+                  {{ page }}
+                </a>
+              </li>
+              <li class="page-item disabled" *ngIf="page === '...'">
+                <span class="page-link">...</span>
+              </li>
+            </ng-container>
+            
+            <li class="page-item" [class.disabled]="currentPage === totalPages">
+              <a class="page-link" href="#" (click)="goToPage(currentPage + 1); $event.preventDefault()">
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>

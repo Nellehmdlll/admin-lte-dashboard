@@ -1,0 +1,236 @@
+.ministere-list-container {
+  min-height: 100%;
+  background-color: #f8f9fc;
+  padding: 1.5rem 0;
+  
+  .card {
+    border: none;
+    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+    margin-bottom: 1.5rem;
+    
+    .card-header {
+      background-color: #f8f9fc;
+      border-bottom: 1px solid #e3e6f0;
+      padding: 1rem 1.25rem;
+      font-weight: 600;
+      color: #5a5c69;
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+    }
+  }
+  
+  .table {
+    margin-bottom: 0;
+    
+    th {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      color: #4e73df;
+      border-top: none;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #e3e6f0;
+    }
+    
+    td {
+      vertical-align: middle;
+      padding: 1rem 1.5rem;
+      border-color: #eaecf4;
+    }
+    
+    .btn-group {
+      .btn {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
+        border-radius: 0.2rem;
+        
+        i {
+          width: 1.25rem;
+          text-align: center;
+        }
+      }
+    }
+  }
+  
+  .badge {
+    font-weight: 500;
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 0.25rem;
+    
+    &.bg-success {
+      background-color: #1cc88a !important;
+    }
+    
+    &.bg-secondary {
+      background-color: #858796 !important;
+    }
+  }
+  
+  .pagination {
+    margin-bottom: 0;
+    
+    .page-link {
+      color: #4e73df;
+      border: 1px solid #e3e6f0;
+      padding: 0.5rem 0.75rem;
+      margin: 0 0.2rem;
+      border-radius: 0.2rem;
+      min-width: 2.5rem;
+      text-align: center;
+      
+      &:hover {
+        background-color: #eaecf4;
+        border-color: #d1d3e2;
+      }
+    }
+    
+    .page-item.active .page-link {
+      background-color: #4e73df;
+      border-color: #4e73df;
+      color: white;
+    }
+    
+    .page-item.disabled .page-link {
+      color: #b7b9cc;
+      background-color: #f8f9fc;
+      border-color: #e3e6f0;
+    }
+  }
+  
+  .form-control, .form-select {
+    border-radius: 0.35rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    border: 1px solid #d1d3e2;
+    
+    &:focus {
+      border-color: #bac8f3;
+      box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+    }
+  }
+  
+  .input-group-text {
+    background-color: #f8f9fc;
+    border: 1px solid #d1d3e2;
+    color: #6e707e;
+  }
+  
+  .btn {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 0.35rem;
+    font-size: 0.9rem;
+    transition: all 0.15s ease-in-out;
+    
+    i {
+      margin-right: 0.25rem;
+    }
+    
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background-color: #4e73df;
+    border-color: #4e73df;
+    
+    &:hover, &:focus {
+      background-color: #2e59d9;
+      border-color: #2653d4;
+    }
+    
+    &:active {
+      background-color: #2653d4;
+      border-color: #1e49b0;
+    }
+  }
+  
+  .btn-outline-secondary {
+    color: #5a5c69;
+    border-color: #d1d3e2;
+    
+    &:hover, &:focus {
+      background-color: #f8f9fc;
+      border-color: #b7b9cc;
+      color: #4e73df;
+    }
+    
+    &:active {
+      background-color: #eaecf4;
+      border-color: #b7b9cc;
+    }
+  }
+  
+  .btn-outline-danger {
+    color: #e74a3b;
+    border-color: #e74a3b;
+    
+    &:hover, &:focus {
+      background-color: #fff;
+      border-color: #e02d1b;
+      color: #e02d1b;
+    }
+    
+    &:active {
+      background-color: #f8f9fc;
+      border-color: #d52a1a;
+    }
+  }
+  
+  .spinner-border {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-width: 0.2em;
+  }
+  
+  .text-muted {
+    color: #858796 !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    padding: 1rem 0;
+    
+    .card-body {
+      padding: 1.25rem;
+    }
+    
+    .d-flex {
+      flex-direction: column;
+      gap: 1rem;
+      
+      .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+    }
+    
+    .table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      th, td {
+        white-space: nowrap;
+      }
+    }
+    
+    .pagination {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.25rem;
+      
+      .page-item {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+}
