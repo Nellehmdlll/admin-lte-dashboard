@@ -1,0 +1,210 @@
+// Styles pour le composant de liste des marques
+.marque-list-container {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+// Style pour les lignes cliquables
+.cursor-pointer {
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+}
+
+// Style pour les boutons d'action
+.btn-group {
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+    
+    i {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Style pour la pagination
+.pagination {
+  .page-item {
+    margin: 0 2px;
+    
+    .page-link {
+      min-width: 36px;
+      text-align: center;
+      color: var(--bs-primary);
+      border: 1px solid var(--bs-border-color);
+      
+      &:hover {
+        background-color: var(--bs-light);
+      }
+    }
+    
+    &.active .page-link {
+      background-color: var(--bs-primary);
+      border-color: var(--bs-primary);
+      color: white;
+    }
+    
+    &.disabled .page-link {
+      color: var(--bs-secondary);
+      opacity: 0.5;
+    }
+  }
+}
+
+// Style pour les badges de statut
+.badge {
+  font-weight: 500;
+  padding: 0.4em 0.8em;
+  font-size: 0.8em;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  
+  &.bg-success {
+    background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+    color: var(--bs-success) !important;
+  }
+  
+  &.bg-warning {
+    background-color: rgba(var(--bs-warning-rgb), 0.1) !important;
+    color: var(--bs-warning) !important;
+  }
+  
+  &.bg-secondary {
+    background-color: rgba(var(--bs-secondary-rgb), 0.1) !important;
+    color: var(--bs-secondary) !important;
+  }
+}
+
+// Style pour les cartes
+.card {
+  border: 1px solid var(--bs-border-color);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+  
+  .card-header {
+    background-color: var(--bs-light);
+    border-bottom: 1px solid var(--bs-border-color);
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+  }
+  
+  .card-body {
+    padding: 1.25rem;
+  }
+}
+
+// Style pour les tableaux
+.table {
+  th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: var(--bs-secondary);
+    border-bottom-width: 1px;
+    white-space: nowrap;
+  }
+  
+  td {
+    vertical-align: middle;
+    padding: 1rem 0.75rem;
+    border-color: var(--bs-border-color);
+  }
+  
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+// Style pour la barre de recherche
+.input-group {
+  max-width: 500px;
+  
+  .form-control, .form-select {
+    border-color: var(--bs-border-color);
+    
+    &:focus {
+      border-color: var(--bs-primary);
+      box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.15);
+    }
+  }
+  
+  .input-group-text {
+    background-color: var(--bs-light);
+    border-color: var(--bs-border-color);
+    color: var(--bs-secondary);
+  }
+}
+
+// Style pour les boutons
+.btn {
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease-in-out;
+  
+  i {
+    margin-right: 0.25rem;
+  }
+  
+  &:hover {
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Style pour les messages vides
+.text-muted {
+  color: var(--bs-gray-600) !important;
+  
+  i {
+    opacity: 0.5;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .marque-list-container {
+    padding: 1rem;
+  }
+  
+  .table-responsive {
+    border: none;
+    
+    .table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      
+      th, td {
+        white-space: nowrap;
+      }
+    }
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1rem 0;
+    
+    .page-item {
+      margin: 2px;
+    }
+  }
+  
+  .d-flex {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+}

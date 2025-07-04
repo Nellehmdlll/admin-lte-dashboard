@@ -11,6 +11,9 @@ import { GestionBordereauComponent } from './pages/gestion-bordereau/gestion-bor
 import { StockComponent } from './pages/stock/stock.component';
 import { UserFormComponent } from './pages/users/user-form/user-form.component';
 import { UserDetailComponent } from './pages/users/user-detail/user-detail.component';
+import { MarqueListComponent } from './pages/settings/marque/marque-list/marque-list.component';
+import { MarqueFormComponent } from './pages/settings/marque/marque-form/marque-form.component';
+import { MarqueDetailComponent } from './pages/settings/marque/marque-detail/marque-detail.component';
 
 export const routes: Routes = [
   {
@@ -57,7 +60,17 @@ export const routes: Routes = [
       { path: 'stock', component: StockComponent },
 
       // Redirection pour l'ancien tableau de bord
-      { path: 'dashboard', redirectTo: '', pathMatch: 'full' }
+      { path: 'dashboard', redirectTo: '', pathMatch: 'full' },
+      
+      { path: 'settings/marque',
+        children: [
+          { path: '', component: MarqueListComponent },
+          { path: 'new', component: MarqueFormComponent },
+          { path: 'edit/:id', component: MarqueFormComponent },
+          { path: ':id', component: MarqueFormComponent },
+          { path: 'view/:id', component: MarqueDetailComponent },
+        ]
+      },
     ]
   }
 ];

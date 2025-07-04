@@ -1,0 +1,218 @@
+// Styles pour la page de détail d'une marque
+.marque-detail-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  
+  .card {
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    
+    .card-header {
+      background-color: var(--bs-light);
+      border-bottom: 1px solid var(--bs-border-color);
+      padding: 1.25rem 1.5rem;
+      
+      h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--bs-primary);
+        display: flex;
+        align-items: center;
+        
+        i {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+      
+      h3 {
+        color: var(--bs-dark);
+        font-weight: 600;
+      }
+      
+      h4 {
+        color: var(--bs-secondary);
+        font-weight: 600;
+        margin-bottom: 1rem;
+      }
+      
+      .text-muted {
+        color: var(--bs-gray-600) !important;
+      }
+    }
+    
+    .card-footer {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid var(--bs-border-color);
+      background-color: var(--bs-light);
+    }
+  }
+  
+  // Style pour les badges
+  .badge {
+    font-weight: 500;
+    padding: 0.4em 0.8em;
+    font-size: 0.8em;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    
+    &.bg-success {
+      background-color: rgba(var(--bs-success-rgb), 0.1) !important;
+      color: var(--bs-success) !important;
+    }
+    
+    &.bg-secondary {
+      background-color: rgba(var(--bs-secondary-rgb), 0.1) !important;
+      color: var(--bs-secondary) !important;
+    }
+  }
+  
+  // Style pour les cartes de statistiques
+  .bg-light {
+    background-color: var(--bs-light) !important;
+    border-radius: 0.5rem;
+    
+    .card-body {
+      padding: 1.25rem;
+    }
+    
+    h5 {
+      color: var(--bs-secondary);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .rounded-circle {
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        font-size: 1.25rem;
+      }
+    }
+  }
+  
+  // Style pour les boutons
+  .btn {
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.375rem;
+    transition: all 0.2s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    i {
+      margin-right: 0.5rem;
+    }
+    
+    &:hover {
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+    
+    &:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+  }
+  
+  .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    
+    &:hover, &:focus {
+      background-color: var(--bs-primary-dark);
+      border-color: var(--bs-primary-dark);
+    }
+  }
+  
+  .btn-outline-secondary {
+    color: var(--bs-secondary);
+    border-color: var(--bs-border-color);
+    
+    &:hover {
+      background-color: var(--bs-light);
+      border-color: var(--bs-border-color);
+      color: var(--bs-dark);
+    }
+  }
+  
+  .btn-outline-danger {
+    color: var(--bs-danger);
+    border-color: var(--bs-danger);
+    
+    &:hover {
+      background-color: var(--bs-danger);
+      color: white;
+    }
+  }
+  
+  // Style pour le spinner de chargement
+  .spinner-border {
+    width: 2rem;
+    height: 2rem;
+    border-width: 0.2em;
+  }
+  
+  // Style pour les icônes
+  .fas, .far, .fab {
+    font-size: 1em;
+  }
+}
+
+// Styles responsifs
+@media (max-width: 768px) {
+  .marque-detail-container {
+    padding: 1rem;
+    
+    .card {
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
+    
+    .d-flex {
+      flex-direction: column;
+      gap: 0.75rem;
+      
+      &.justify-content-between {
+        align-items: stretch;
+      }
+    }
+    
+    .btn {
+      width: 100%;
+      margin-bottom: 0.5rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    .card-footer {
+      .d-flex {
+        flex-direction: column;
+        gap: 0.5rem;
+        
+        .btn {
+          width: 100%;
+          margin: 0.25rem 0;
+        }
+      }
+    }
+  }
+}
