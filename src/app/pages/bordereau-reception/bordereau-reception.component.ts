@@ -36,7 +36,7 @@ export class BordereauReceptionComponent implements OnInit {
   onSearch(): void {
     if (this.searchForm.valid) {
       this.isSearching = true;
-      
+
       // Simuler un appel API
       setTimeout(() => {
         // Données factices pour la démo
@@ -65,7 +65,7 @@ export class BordereauReceptionComponent implements OnInit {
   onSubmitBordereau(): void {
     if (this.fileToUpload) {
       this.isUploading = true;
-      
+
       // Simuler l'upload
       setTimeout(() => {
         this.isUploading = false;

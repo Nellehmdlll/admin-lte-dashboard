@@ -154,22 +154,20 @@ export class AdminDashboardComponent {
   }
 
   /**
-   * Affiche les détails d'un bordereau et de la demande associée
+   * Redirige vers la page de gestion des bordereaux pour afficher les détails d'un bordereau
    * @param bordereauId ID du bordereau à afficher
    */
   voirBordereau(bordereauId: string): void {
-    this.selectedBordereau = this.bordereaux.find(b => b.id === bordereauId) || null;
-    
-    if (this.selectedBordereau) {
-      // Trouver la demande associée au bordereau
-      this.selectedDemande = this.recentDemandes.find(
-        d => d.numero === this.selectedBordereau?.demandeAssociee
-      ) || null;
-      
-      this.isViewingBordereau = true;
-    } else {
-      this.toastr.error('Bordereau introuvable', 'Erreur');
-    }
+    console.log('Navigation vers le bordereau:', bordereauId);
+    this.router.navigate(['/bordereaux', bordereauId])
+      .then(success => {
+        console.log('Navigation réussie:', success);
+      })
+      .catch(error => {
+        console.error('Erreur de navigation:', error);
+        // Essayer avec l'ancienne URL au cas où
+        this.router.navigate(['/gestion-bordereaux', bordereauId]);
+      });
   }
 
   /**

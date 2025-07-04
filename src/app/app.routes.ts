@@ -7,6 +7,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { DemandeFormComponent } from './pages/demande-form/demande-form.component';
 import { DemandesListComponent } from './pages/demandes-list/demandes-list.component';
 import { BordereauReceptionComponent } from './pages/bordereau-reception/bordereau-reception.component';
+import { GestionBordereauComponent } from './pages/gestion-bordereau/gestion-bordereau.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +34,13 @@ export const routes: Routes = [
       },
       { path: 'demandes', component: DemandesListComponent },
       { path: 'bordereau-reception', component: BordereauReceptionComponent },
+      { 
+        path: 'bordereaux', 
+        children: [
+          { path: '', component: GestionBordereauComponent },
+          { path: ':id', component: GestionBordereauComponent }
+        ]
+      },
       
       // Redirection pour l'ancien tableau de bord
       { path: 'dashboard', redirectTo: '', pathMatch: 'full' }
