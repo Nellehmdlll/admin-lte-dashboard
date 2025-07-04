@@ -154,9 +154,7 @@ export class AdminDashboardComponent {
    * Redirige vers la page de consultation du stock
    */
   consulterStock(): void {
-    // À implémenter : logique pour consulter le stock
-    this.toastr.info('Fonctionnalité de consultation du stock à implémenter', 'Information');
-    // this.router.navigate(['/stock']);
+    this.router.navigate(['/stock']);
   }
 
   /**

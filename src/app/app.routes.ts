@@ -8,6 +8,7 @@ import { DemandeFormComponent } from './pages/demande-form/demande-form.componen
 import { DemandesListComponent } from './pages/demandes-list/demandes-list.component';
 import { BordereauReceptionComponent } from './pages/bordereau-reception/bordereau-reception.component';
 import { GestionBordereauComponent } from './pages/gestion-bordereau/gestion-bordereau.component';
+import { StockComponent } from './pages/stock/stock.component';
 
 export const routes: Routes = [
   {
@@ -41,6 +42,9 @@ export const routes: Routes = [
           { path: ':id', component: GestionBordereauComponent }
         ]
       },
+      
+      // Gestion des stocks
+      { path: 'stock', component: StockComponent },
       
       // Redirection pour l'ancien tableau de bord
       { path: 'dashboard', redirectTo: '', pathMatch: 'full' }
