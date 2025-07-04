@@ -31,6 +31,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a [routerLink]="['/bordereaux']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>Gestion bordereau</p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a [routerLink]="['/users']" class="nav-link" routerLinkActive="active">
             <i class="nav-icon fas fa-users"></i>
             <p>Utilisateurs</p>

@@ -6,6 +6,9 @@
       <button type="button" class="btn btn-primary" (click)="consulterStock()">
         <i class="fas fa-boxes me-2"></i>Consulter le stock
       </button>
+      <a [routerLink]="['/bordereaux']" routerLinkActive="active" class="btn btn-primary" [routerLinkActiveOptions]="{exact: true}">
+        <i class="fas fa-file-invoice me-2"></i>Consulter les bordereaux
+      </a>
     </div>
   </div>
 
@@ -198,7 +201,7 @@
   </div>
 
   <!-- Tableau des bordereaux -->
-  <div class="card" *ngIf="!isViewingBordereau">
+  <!-- <div class="card" *ngIf="!isViewingBordereau">
     <div class="card-header">
       <h5 class="mb-0">Bordereaux de validation</h5>
     </div>
@@ -238,5 +241,6 @@
         </table>
       </div>
     </div>
-  </div>
+  </div> -->
+
 </div>
