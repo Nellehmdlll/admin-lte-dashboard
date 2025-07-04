@@ -12,6 +12,12 @@
             <p>Tableau de bord</p>
           </a>
         </li>
+        <li>
+          <a [routerLink]="['/admin/dashboard']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p class="text-white">Tableau de bord admin</p>
+          </a>
+        </li>
         <li class="nav-item">
           <a [routerLink]="['/demandes']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
