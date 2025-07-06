@@ -1,0 +1,33 @@
+<div class="container mt-5">
+  <h3>Informations sur la personne physique</h3>
+  <form (ngSubmit)="valider()">
+    <div class="mb-3">
+      <label>Nom</label>
+      <input type="text" class="form-control" [(ngModel)]="nom" name="nom" required />
+    </div>
+    <div class="mb-3">
+      <label>Prénom</label>
+      <input type="text" class="form-control" [(ngModel)]="prenom" name="prenom" required />
+    </div>
+    <div class="mb-3">
+      <label>Date de naissance</label>
+      <input type="date" class="form-control" [(ngModel)]="dateNaissance" name="dateNaissance" required />
+    </div>
+    <div class="mb-3">
+      <label>Téléphone</label>
+      <input type="tel" class="form-control" [(ngModel)]="telephone" name="telephone" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</div>
+
+<!-- Toast -->
+<div id="successToast" class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">
+        Informations enregistrées avec succès !
+      </div>
+    </div>
+  </div>
+</div>

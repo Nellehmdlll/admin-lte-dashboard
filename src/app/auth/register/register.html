@@ -1,0 +1,73 @@
+<div class="auth-container">
+  <h2>Inscription</h2>
+  <form (ngSubmit)="register()">
+    <div class="mb-3">
+      <label for="nom">Nom</label>
+      <input [(ngModel)]="nom" name="nom" id="nom" class="form-control" placeholder="Nom de famille" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="prenom">Prénom</label>
+      <input [(ngModel)]="prenom" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="telephone">Téléphone</label>
+      <input
+        [(ngModel)]="telephone"
+        name="telephone"
+        id="telephone"
+        type="tel"
+        class="form-control"
+        placeholder="+226 70 00 00 00"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="email">Adresse email</label>
+      <input
+        [(ngModel)]="email"
+        name="email"
+        id="email"
+        type="email"
+        class="form-control"
+        placeholder="exemple@mail.com"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="adresse">Adresse</label>
+      <input
+        [(ngModel)]="adresse"
+        name="adresse"
+        id="adresse"
+        class="form-control"
+        placeholder="Adresse de résidence"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="password">Mot de passe</label>
+      <input
+        [(ngModel)]="password"
+        name="password"
+        id="password"
+        type="password"
+        class="form-control"
+        placeholder="••••••••"
+        required
+      />
+    </div>
+
+    <button type="submit" class="btn btn-success">Créer mon compte</button>
+
+    <div class="switch-link">
+        <button type="button" class="btn btn-link p-0" (click)="goToLogin()">
+            Déjà inscrit ? Connectez-vous
+        </button>
+    </div>
+  </form>
+</div>

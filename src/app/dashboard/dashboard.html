@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-outline-danger" (click)="logout()">Se déconnecter</button>
+</div>
+
+<div class="alert alert-info text-end">
+  Type d'utilisateur : <strong>{{ typeUtilisateur === 'physique' ? 'Personne Physique' : 'Personne Morale' }}</strong>
+</div>
+
+
+  <div *ngIf="typeUtilisateur === 'physique'">
+  <p>Bienvenue, utilisateur individuel 👤</p>
+</div>
+
+<div *ngIf="typeUtilisateur === 'morale'">
+  <p>Bienvenue, entreprise 🏢</p>
+</div>
+
+
+<div class="row m-2">
+  <div class="col-lg-3 col-6" *ngFor="let stat of [
+    {label:'Demandes en cours', val:demandesEnCours, icon:'spinner', bg:'info'},
+    {label:'Acceptées', val:demandesAcceptees, icon:'check-circle', bg:'success'},
+    {label:'Rejetées', val:demandesRejetees, icon:'times-circle', bg:'danger'},
+    {label:'Total', val:totalDemandes, icon:'folder-open', bg:'warning'}
+  ]">
+    <div class="small-box text-white p-3 mb-3 rounded" [ngClass]="'bg-' + stat.bg">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h3>{{ stat.val }}</h3>
+          <p>{{ stat.label }}</p>
+        </div>
+        <div>
+          <i class="fas fa-2x fa-{{ stat.icon }}"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row m-2">
+  <div class="col-md-6">
+    <h5>Demandes en cours</h5>
+    <table class="table table-striped">
+      <thead><tr><th>ID</th><th>Nom</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let demande of demandesEnCoursList">
+          <td>{{ demande.id }}</td>
+          <td>{{ demande.nom }}</td>
+          <td>{{ demande.date }}</td>
+          <td>
+              <button class="btn btn-sm btn-info" [routerLink]="['/demande', demande.id]">
+              Détails
+              </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h5>Bordereaux soumis</h5>
+    <table class="table table-striped">
+      <thead><tr><th>ID</th><th>Nom</th><th>Date</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let bord of bordereauxSoumisList">
+          <td>{{ bord.id }}</td>
+          <td>{{ bord.nom }}</td>
+          <td>{{ bord.date }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
