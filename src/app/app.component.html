@@ -1,2 +1,12 @@
 
 <router-outlet />
+<div class="app-wrapper">
+  <h2>{{ showLogin ? 'Connexion' : 'Créer un compte' }}</h2>
+
+  <app-login *ngIf="showLogin"></app-login>
+  <app-register *ngIf="!showLogin"></app-register>
+
+  <button class="toggle-btn" (click)="toggleView()">
+    {{ showLogin ? "Créer un compte" : "Déjà inscrit ? Se connecter" }}
+  </button>
+</div>

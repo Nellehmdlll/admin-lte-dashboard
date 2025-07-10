@@ -20,6 +20,14 @@ import { MinistereDetailComponent } from './pages/settings/ministere/ministere-d
 import { TypeListComponent } from './pages/settings/type/type-list/type-list.component';
 import { TypeFormComponent } from './pages/settings/type/type-form/type-form.component';
 import { TypeDetailComponent } from './pages/settings/type/type-detail/type-detail.component';
+import { Login } from './pages/login/login.component';
+import { Register } from './pages/register/register.component';
+import { ChoixType } from './pages/choix-type/choix-type.component';
+import { PersonnePhysique } from './pages/personne-physique/personne-physique.component';
+import { PersonneMorale } from './pages/personne-morale/personne-morale.component';
+import { Dashboard } from './pages/dashboard/dashboard.component';
+import { DemandeInfo } from './pages/demande-info/demande-info.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -100,6 +108,15 @@ export const routes: Routes = [
         ]
       },
 
+      // login et déconnexion
+        { path: '', redirectTo: 'login', pathMatch: 'full' },
+        { path: 'login', component: Login },
+        { path: 'register', component: Register },
+        { path: 'choix-type', component: ChoixType },
+        { path: 'personne-physique', component: PersonnePhysique },
+        { path: 'personne-morale', component: PersonneMorale },
+        { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+        { path: 'demande/:id', component: DemandeInfo, canActivate: [authGuard] }
     ]
   }
 ];
