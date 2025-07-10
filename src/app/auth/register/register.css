@@ -1,0 +1,57 @@
+.auth-container {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+    color: #343a40;
+  }
+
+  form {
+    .form-control {
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+
+    label {
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.75rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  }
+
+  .switch-link {
+    display: block;
+    margin-top: 1rem;
+    text-align: center;
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 576px) {
+  .auth-container {
+    margin: 2rem 1rem;
+    padding: 1.5
+  }
+}
