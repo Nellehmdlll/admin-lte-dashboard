@@ -11,12 +11,20 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./register.scss']
 })
 export class Register {
-  nom = '';
-  prenom = '';
-  telephone = '';
-  email = '';
-  adresse = '';
-  password = '';
+  form = {
+    nom: '',
+    prenom: '',
+    civilite: '',
+    date_naissance: '',
+    numero_nip: '',
+    profession: '',
+    email: '',
+    password: ''
+  };
+  email: any;
+  password: any;
+  nom: any;
+  prenom: any;
 
   constructor(private router: Router) {} // injection du routeur
 

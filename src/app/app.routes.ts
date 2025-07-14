@@ -20,7 +20,6 @@ import { MinistereDetailComponent } from './pages/settings/ministere/ministere-d
 import { TypeListComponent } from './pages/settings/type/type-list/type-list.component';
 import { TypeFormComponent } from './pages/settings/type/type-form/type-form.component';
 import { TypeDetailComponent } from './pages/settings/type/type-detail/type-detail.component';
-
 import { Login } from './auth/login/login';
 import { Register } from './auth/register/register';
 import { ChoixType } from './auth/choix-type/choix-type';
