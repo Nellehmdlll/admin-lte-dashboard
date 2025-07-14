@@ -20,7 +20,7 @@ export class Login {
 
   login() {
     this.authService.login();
-    this.router.navigate(['/choix-type']); // Redirection vers le choix du type d'utilisateur
+    this.router.navigate(['/dashboard']); // Redirection vers le choix du type d'utilisateur
   }
 
   goToRegister() {
