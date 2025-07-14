@@ -8,6 +8,8 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { StatusColorPipe } from '../../shared/pipes/status-color.pipe';
+
+
 import {
   Demande,
   TypeDemande,
@@ -148,12 +150,7 @@ export class DemandeFormComponent implements OnInit {
       detailsComplementaires: [''],
       documentsFournis: this.fb.array([])
 
-      // Moto information
-      // marquemoto: [MarqueMoto.YAMAHA],
-      // typemoto: [TypeMoto.Moto],
-      // quantitemoto: [0],
-      // prixmoto: [0],
-      // valeurmoto: [0],
+
     });
   }
 
@@ -200,12 +197,7 @@ export class DemandeFormComponent implements OnInit {
       acheteur: undefined,
       vendeur: undefined
 
-      // Moto information
-      // marquemoto: '',
-      // typemoto: '',
-      // quantitemoto: 0,
-      // prixmoto: 0,
-      // valeurmoto: 0,
+
     };
 
     // Patch form with default values
@@ -221,40 +213,6 @@ export class DemandeFormComponent implements OnInit {
       this.demandeForm.disable();
     }
   }
-
-  // loadDemande(id: number): void {
-  //   this.isLoading = true;
-  //   this.demandeService.getDemande(id).pipe(
-  //     catchError((error: any) => {
-  //       console.error('Error loading demande:', error);
-  //       this.toastr.error('Erreur lors du chargement de la demande', 'Erreur');
-  //       this.isLoading = false;
-  //       return of(null);
-  //     })
-  //   ).subscribe((data: Demande | null) => {
-  //     this.isLoading = false;
-  //     if (data) {
-  //       // Ensure dates are properly converted from strings to Date objects
-  //       const processedData: Demande = {
-  //         ...data,
-  //         date: new Date(data.date),
-  //         dateSoumission: new Date(data.dateSoumission),
-  //         dateCreation: new Date(data.dateCreation),
-  //         dateMiseAJour: new Date(data.dateMiseAJour),
-  //         dateTraitement: data.dateTraitement ? new Date(data.dateTraitement) : undefined,
-  //         dateValidation: data.dateValidation ? new Date(data.dateValidation) : undefined,
-  //         dateRejet: data.dateRejet ? new Date(data.dateRejet) : undefined
-  //       };
-
-  //       this.demande = processedData;
-  //       this.demandeForm.patchValue(processedData);
-
-  //       if (this.isViewMode) {
-  //         this.demandeForm.disable();
-  //       }
-  //     }
-  //   });
-  // }
 
   loadDemande(id: number): void {
     this.isLoading = true;

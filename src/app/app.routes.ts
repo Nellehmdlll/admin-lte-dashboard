@@ -42,7 +42,7 @@ export const routes: Routes = [
   {
     path: '',
     component: LayoutComponent,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
       // Tableau de bord utilisateur standard
       { path: '', component: DashboardComponent
