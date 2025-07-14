@@ -25,8 +25,6 @@ import { Register } from './auth/register/register';
 import { ChoixType } from './auth/choix-type/choix-type';
 import { PersonnePhysique } from './auth/personne-physique/personne-physique';
 import { PersonneMorale } from './auth/personne-morale/personne-morale';
-import { Dashboard } from './dashboard/dashboard';
-import { DemandeInfo } from './dashboard/demande-info/demande-info';
 import { authGuard } from './services/auth.guard';
 
 
@@ -112,8 +110,6 @@ export const routes: Routes = [
         ]
       },
 
-      { path: 'protected-dashboard', component: Dashboard },
-      { path: 'demande/:id', component: DemandeInfo }
     ]
   },
 

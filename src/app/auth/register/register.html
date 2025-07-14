@@ -1,51 +1,51 @@
-<div class="auth-container">
-  <h2>Inscription</h2>
-  <form (ngSubmit)="register()">
-    <div class="mb-3">
+<div class="container mt-4">
+  <h3>Inscription</h3>
+  <form (ngSubmit)="register()" #registerForm="ngForm">
+
+    <div class="form-group mb-3">
+      <label for="civilite">Civilité</label>
+      <select id="civilite" class="form-control" [(ngModel)]="form.civilite" name="civilite" required>
+        <option value="" disabled selected>Choisir...</option>
+        <option value="M.">M.</option>
+        <option value="Mme">Mme</option>
+      </select>
+    </div>
+
+    <div class="form-group mb-3">
       <label for="nom">Nom</label>
-      <input [(ngModel)]="nom" name="nom" id="nom" class="form-control" placeholder="Nom de famille" required />
+      <input id="nom" type="text" class="form-control" [(ngModel)]="form.nom" name="nom" required>
     </div>
 
-    <div class="mb-3">
+    <div class="form-group mb-3">
       <label for="prenom">Prénom</label>
-      <input [(ngModel)]="prenom" name="prenom" id="prenom" class="form-control" placeholder="Prénom" required />
+      <input id="prenom" type="text" class="form-control" [(ngModel)]="form.prenom" name="prenom" required>
     </div>
 
-
-
-    <div class="mb-3">
-      <label for="email">Adresse email</label>
-      <input
-        [(ngModel)]="email"
-        name="email"
-        id="email"
-        type="email"
-        class="form-control"
-        placeholder="exemple@mail.com"
-        required
-      />
+    <div class="form-group mb-3">
+      <label for="date_naissance">Date de naissance</label>
+      <input id="date_naissance" type="date" class="form-control" [(ngModel)]="form.date_naissance" name="date_naissance" required>
     </div>
 
+    <div class="form-group mb-3">
+      <label for="numero_nip">Numéro NIP</label>
+      <input id="numero_nip" type="text" class="form-control" [(ngModel)]="form.numero_nip" name="numero_nip" required>
+    </div>
 
-    <div class="mb-3">
+    <div class="form-group mb-3">
+      <label for="profession">Profession</label>
+      <input id="profession" type="text" class="form-control" [(ngModel)]="form.profession" name="profession" required>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input id="email" type="email" class="form-control" [(ngModel)]="form.email" name="email" required>
+    </div>
+
+    <div class="form-group mb-4">
       <label for="password">Mot de passe</label>
-      <input
-        [(ngModel)]="password"
-        name="password"
-        id="password"
-        type="password"
-        class="form-control"
-        placeholder="••••••••"
-        required
-      />
+      <input id="password" type="password" class="form-control" [(ngModel)]="form.password" name="password" minlength="6" required>
     </div>
 
-    <button type="submit" class="btn btn-success">Créer mon compte</button>
-
-    <div class="switch-link">
-        <button type="button" class="btn btn-link p-0" (click)="goToLogin()">
-            Déjà inscrit ? Connectez-vous
-        </button>
-    </div>
+    <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">S'inscrire</button>
   </form>
 </div>
