@@ -2,16 +2,18 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './register.html',
-  styleUrls: ['./register.scss']
+  styleUrls: ['./register.scss'],
+  imports: [CommonModule, FormsModule, HttpClientModule],
 })
 export class Register {
-  form = {
+  formData = {
     nom: '',
     prenom: '',
     civilite: '',
@@ -19,23 +21,26 @@ export class Register {
     numero_nip: '',
     profession: '',
     email: '',
-    password: ''
+    password: '',
   };
-  email: any;
-  password: any;
-  nom: any;
-  prenom: any;
 
-  constructor(private router: Router) {} // injection du routeur
+  constructor(private authService: AuthService, private router: Router) {}
 
-register() {
-  if (this.email && this.password && this.nom && this.prenom) {
-    this.router.navigate(['/login']); // après inscription
+  register() {
+    this.authService.register(this.formData).subscribe({
+      next: (res: any) => {
+        alert('Inscription réussie !');
+        this.router.navigate(['/login']);
+      },
+      error: (err: any) => {
+        console.error(err);
+       alert('Erreur lors de l’inscription : ' + (err?.error?.message || err.message || 'Erreur inconnue'));
+
+      }
+    });
   }
-}
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
-
 }

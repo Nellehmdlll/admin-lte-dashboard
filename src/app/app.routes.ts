@@ -26,6 +26,8 @@ import { ChoixType } from './auth/choix-type/choix-type';
 import { PersonnePhysique } from './auth/personne-physique/personne-physique';
 import { PersonneMorale } from './auth/personne-morale/personne-morale';
 import { authGuard } from './services/auth.guard';
+// import { RoleGuard } from './services/role.guard';
+
 
 
 
@@ -43,7 +45,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       // Tableau de bord utilisateur standard
-      { path: '', component: DashboardComponent },
+      { path: '', component: DashboardComponent
+},
 
       // Tableau de bord administrateur
       { path: 'admin/dashboard', component: AdminDashboardComponent },
