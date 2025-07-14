@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-personne-morale',
   standalone: true,
   templateUrl: './personne-morale.html',
-  styleUrls: ['./personne-morale.css'],
+  styleUrls: ['./personne-morale.scss'],
   imports: [CommonModule, FormsModule]
 })
 export class PersonneMorale {

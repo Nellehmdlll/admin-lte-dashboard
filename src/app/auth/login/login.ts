@@ -1,6 +1,6 @@
 
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service'; // Importation du service d'authentification
@@ -9,7 +9,7 @@ import { AuthService } from '../../services/auth.service'; // Importation du ser
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.html',
-  styleUrls: ['./login.css'],
+  styleUrls: ['./login.scss'],
   imports: [CommonModule, FormsModule] //
 })
 export class Login {

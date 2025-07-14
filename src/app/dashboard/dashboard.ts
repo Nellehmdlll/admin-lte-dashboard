@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
   standalone: true,
   imports: [CommonModule , RouterModule],
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css']
+  styleUrls: ['./dashboard.scss']
 })
 export class Dashboard {
 typeUtilisateur: string | null = null;

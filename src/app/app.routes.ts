@@ -20,14 +20,17 @@ import { MinistereDetailComponent } from './pages/settings/ministere/ministere-d
 import { TypeListComponent } from './pages/settings/type/type-list/type-list.component';
 import { TypeFormComponent } from './pages/settings/type/type-form/type-form.component';
 import { TypeDetailComponent } from './pages/settings/type/type-detail/type-detail.component';
-import { Login } from './pages/login/login.component';
-import { Register } from './pages/register/register.component';
-import { ChoixType } from './pages/choix-type/choix-type.component';
-import { PersonnePhysique } from './pages/personne-physique/personne-physique.component';
-import { PersonneMorale } from './pages/personne-morale/personne-morale.component';
-import { Dashboard } from './pages/dashboard/dashboard.component';
-import { DemandeInfo } from './pages/demande-info/demande-info.component';
-import { authGuard } from './guards/auth.guard';
+
+import { Login } from './auth/login/login';
+import { Register } from './auth/register/register';
+import { ChoixType } from './auth/choix-type/choix-type';
+import { PersonnePhysique } from './auth/personne-physique/personne-physique';
+import { PersonneMorale } from './auth/personne-morale/personne-morale';
+import { Dashboard } from './dashboard/dashboard';
+import { DemandeInfo } from './dashboard/demande-info/demande-info';
+import { authGuard } from './services/auth.guard';
+
+
 
 export const routes: Routes = [
   {
