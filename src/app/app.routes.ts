@@ -33,9 +33,17 @@ import { authGuard } from './services/auth.guard';
 
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+  { path: 'choix-type', component: ChoixType },
+  { path: 'personne-physique', component: PersonnePhysique },
+  { path: 'personne-morale', component: PersonneMorale },
+
   {
     path: '',
     component: LayoutComponent,
+    canActivate: [authGuard],
     children: [
       // Tableau de bord utilisateur standard
       { path: '', component: DashboardComponent },
@@ -44,7 +52,8 @@ export const routes: Routes = [
       { path: 'admin/dashboard', component: AdminDashboardComponent },
 
       // Autres routes
-      { path: 'users',
+      {
+        path: 'users',
         children: [
           { path: '', component: UsersComponent },
           { path: 'new', component: UserFormComponent },
@@ -83,7 +92,8 @@ export const routes: Routes = [
         path: 'settings/ministere',
         loadChildren: () => import('./pages/settings/ministere/ministere.module').then(m => m.MinistereModule)
       },
-      { path: 'settings/marque',
+      {
+        path: 'settings/marque',
         children: [
           { path: '', component: MarqueListComponent },
           { path: 'new', component: MarqueFormComponent },
@@ -92,16 +102,8 @@ export const routes: Routes = [
           { path: 'view/:id', component: MarqueDetailComponent },
         ]
       },
-      { path: 'settings/ministere',
-        children: [
-          { path: '', component: MinistereListComponent },
-          { path: 'new', component: MinistereFormComponent },
-          { path: 'edit/:id', component: MinistereFormComponent },
-          { path: ':id', component: MinistereFormComponent },
-          { path: 'view/:id', component: MinistereDetailComponent },
-        ]
-      },
-      { path: 'settings/type',
+      {
+        path: 'settings/type',
         children: [
           { path: '', component: TypeListComponent },
           { path: 'new', component: TypeFormComponent },
@@ -111,15 +113,11 @@ export const routes: Routes = [
         ]
       },
 
-      // login et déconnexion
-        { path: '', redirectTo: 'login', pathMatch: 'full' },
-        { path: 'login', component: Login },
-        { path: 'register', component: Register },
-        { path: 'choix-type', component: ChoixType },
-        { path: 'personne-physique', component: PersonnePhysique },
-        { path: 'personne-morale', component: PersonneMorale },
-        { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
-        { path: 'demande/:id', component: DemandeInfo, canActivate: [authGuard] }
+      { path: 'protected-dashboard', component: Dashboard },
+      { path: 'demande/:id', component: DemandeInfo }
     ]
-  }
+  },
+
+  // Fallback route (keep this last)
+  { path: '**', redirectTo: 'login' }
 ];
