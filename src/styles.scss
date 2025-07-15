@@ -603,3 +603,6 @@ h1, h2, h3, h4, h5, h6 {
   animation: spin 1s ease-in-out infinite;
   margin-right: 0.5rem;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

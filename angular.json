@@ -32,6 +32,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/rose-red.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/admin-lte/dist/css/adminlte.min.css",
               "src/styles.scss"
@@ -97,6 +98,7 @@
               }
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/rose-red.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/admin-lte/dist/css/adminlte.min.css",
               "src/styles.scss"

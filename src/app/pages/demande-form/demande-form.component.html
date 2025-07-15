@@ -9,14 +9,15 @@
               <i class="fas {{ isViewMode ? 'fa-eye' : isEditMode ? 'fa-edit' : 'fa-plus' }} mr-2"></i>
               {{ isViewMode ? 'Détails de la demande' : isEditMode ? 'Modifier la demande' : 'Nouvelle demande' }}
               <span *ngIf="demande.numero" class="text-muted ml-2">
-                ({{ demande.numero }})
+                ({{ demande.numero }}) 
               </span>
             </h3>
+            
             <button type="button" class="close" (click)="onCancel()" *ngIf="!isLoading">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-
+          
           <!-- Chargement -->
           <div class="card-body text-center py-5" *ngIf="isLoading">
             <div class="spinner-border text-primary" role="status">
@@ -27,644 +28,421 @@
 
           <!-- Contenu principal -->
           <div class="card-body" *ngIf="!isLoading">
-            <!-- Formulaire en mode édition -->
-            <form (ngSubmit)="onSubmit()" *ngIf="!isViewMode; else viewModeTemplate">              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Type de demande <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.type" name="type" [disabled]="isViewMode" required>
-                      <option *ngFor="let type of TypeDemande | keyvalue" [value]="type.value">
-                        {{ type.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Destinataire <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.destinataire" name="destinataire" [disabled]="isViewMode" required>
-                      <option *ngFor="let destinataire of Destinataire | keyvalue" [value]="destinataire.value">
-                        {{ destinataire.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Motif <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.motif" name="motif" [disabled]="isViewMode" required>
-                      <option *ngFor="let motif of MotifDemande | keyvalue" [value]="motif.value">
-                        {{ motif.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Fichier joint <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.fichierJoint" name="fichierJoint" [disabled]="isViewMode" required>
-                      <option *ngFor="let fichier of FichierJoint | keyvalue" [value]="fichier.value">
-                        {{ fichier.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section Informations sur les motos -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <h5 class="font-weight-bold text-success">
-                    <i class="fas fa-motorcycle mr-2"></i>Informations sur les motos
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Type de moto <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.typemoto" name="typeMoto" [disabled]="isViewMode" required>
-                      <option *ngFor="let type of TypeMoto | keyvalue" [value]="type.value">
-                        {{ type.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Marque de moto <span class="text-danger">*</span></label>
-                    <select class="form-control" [(ngModel)]="demande.marquemoto" name="marqueMoto" [disabled]="isViewMode" required>
-                      <option *ngFor="let marque of MarqueMoto | keyvalue" [value]="marque.value">
-                        {{ marque.value }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Quantité des motos <span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" [(ngModel)]="demande.quantite" name="quantite" [readonly]="isViewMode" required>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Prix (FCFA) <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" [(ngModel)]="demande.prix" name="prix" [readonly]="isViewMode" required>
-                  </div>
-                </div>
-              </div>
-
-
-
-              <!-- Section Informations sur l'importateur -->
-              <div class="card mb-4" *ngIf="demande.type === TypeDemande.IMPORTATION">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">
-                    <i class="fas fa-building mr-2"></i>Informations sur l'importateur
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Nom de l'importateur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.nomImportateur" name="nomImportateur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Email de l'importateur </label>
-                        <input type="email" class="form-control" [(ngModel)]="demande.emailImportateur" name="emailImportateur" [readonly]="isViewMode" >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Adresse de l'importateur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.adresseImportateur" name="adresseImportateur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Téléphone de l'importateur <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" [(ngModel)]="demande.telephoneImportateur" name="telephoneImportateur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section Informations sur le vendeur (pour demande d'achat) -->
-              <div class="card mb-4" *ngIf="demande.type === TypeDemande.ACHAT">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">
-                    <i class="fas fa-store mr-2"></i>Informations sur le vendeur
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Nom du vendeur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.nomVendeur" name="nomVendeur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Type de vendeur <span class="text-danger">*</span></label>
-                        <select class="form-control" [(ngModel)]="demande.typeVendeur" name="typeVendeur" [disabled]="isViewMode" required>
-                          <option value="PERSONNE_PHYSIQUE">Personne physique</option>
-                          <option value="PERSONNE_MORALE">Personne morale</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" [(ngModel)]="demande.telephoneVendeur" name="telephoneVendeur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Email</label>
-                        <input type="email" class="form-control" [(ngModel)]="demande.emailVendeur" name="emailVendeur" [readonly]="isViewMode">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section Informations sur le don -->
-              <div class="card mb-4" *ngIf="demande.type === TypeDemande.DON">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">
-                    <i class="fas fa-gift mr-2"></i>Informations sur le don
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-                <div class="card-body">
-                  <h6 class="font-weight-bold mb-3">Bénéficiaire du don</h6>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Nom du bénéficiaire <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.nomBeneficiaire" name="nomBeneficiaire" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Type de bénéficiaire <span class="text-danger">*</span></label>
-                        <select class="form-control" [(ngModel)]="demande.typeBeneficiaire" name="typeBeneficiaire" [disabled]="isViewMode" required>
-                          <option value="PERSONNE_PHYSIQUE">Personne physique</option>
-                          <option value="PERSONNE_MORALE">Personne morale</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Adresse du bénéficiaire <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.adresseBeneficiaire" name="adresseBeneficiaire" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" [(ngModel)]="demande.telephoneBeneficiaire" name="telephoneBeneficiaire" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                  </div>
-
-                  <h6 class="font-weight-bold mb-3 mt-4">Informations sur l'acheteur</h6>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Nom de l'acheteur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.nomAcheteur" name="nomAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Type d'acheteur <span class="text-danger">*</span></label>
-                        <select class="form-control" [(ngModel)]="demande.typeAcheteur" name="typeAcheteur" [disabled]="isViewMode" required>
-                          <option value="PERSONNE_PHYSIQUE">Personne physique</option>
-                          <option value="PERSONNE_MORALE">Personne morale</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Adresse de l'acheteur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.adresseAcheteur" name="adresseAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" [(ngModel)]="demande.telephoneAcheteur" name="telephoneAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section Informations sur l'acheteur (pour demande de vente) -->
-              <div class="card mb-4" *ngIf="demande.type === TypeDemande.VENTE">
-                <div class="card-header">
-                  <h5 class="card-title mb-0">
-                    <i class="fas fa-user-tie mr-2"></i>Informations sur l'acheteur
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Nom de l'acheteur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.nomAcheteur" name="nomAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Email de l'acheteur </label>
-                        <input type="email" class="form-control" [(ngModel)]="demande.emailAcheteur" name="emailAcheteur" [readonly]="isViewMode" >
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Adresse de l'acheteur <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" [(ngModel)]="demande.adresseAcheteur" name="adresseAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="font-weight-bold">Téléphone de l'acheteur <span class="text-danger">*</span></label>
-                        <input type="tel" class="form-control" [(ngModel)]="demande.telephoneAcheteur" name="telephoneAcheteur" [readonly]="isViewMode" required>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Section Informations complémentaires -->
-              <div class="row mt-4">
-                <div class="col-12">
-                  <h5 class="font-weight-bold text-success">
-                    <i class="fas fa-info-circle mr-2"></i>Informations complémentaires
-                  </h5>
-                  <hr class="mt-1">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label class="font-weight-bold">Détails complémentaires</label>
-                    <textarea class="form-control" rows="3" [(ngModel)]="demande.detailsComplementaires" name="detailsComplementaires" [readonly]="isViewMode"></textarea>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <!-- Modifiez la section des documents fournis comme ceci : -->
-                  <div class="form-group" *ngIf="demande.documentsFournis">
-                    <label class="font-weight-bold">Documents fournis</label>
-                    <div *ngIf="!isViewMode">
-                      <div class="input-group mb-2" *ngFor="let doc of demande.documentsFournis; let i = index">
-                        <input type="text" class="form-control"
-                              [(ngModel)]="demande.documentsFournis[i]"
-                              [name]="'document' + i">
-                        <div class="input-group-append">
-                          <button class="btn btn-outline-danger" type="button" (click)="removeDocument(i)">
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-sm btn-outline-primary" (click)="addDocument()">
-                        <i class="fas fa-plus mr-1"></i> Ajouter un document
-                      </button>
-                    </div>
-                    <div *ngIf="isViewMode">
-                      <ul class="list-group">
-                        <li class="list-group-item" *ngFor="let doc of demande.documentsFournis">{{doc}}</li>
-                        <li class="list-group-item text-muted" *ngIf="!demande.documentsFournis.length">Aucun document fourni</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row mt-4">
-                <div class="col-12 text-right">
-                  <button type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">
-                    <i class="fas fa-times mr-1"></i> {{ isEditMode ? 'Annuler' : 'Retour' }}
-                  </button>
-                  <button type="submit" class="btn btn-success" [disabled]="isLoading">
-                    <i class="fas {{ isEditMode ? 'fa-save' : 'fa-plus' }} mr-1"></i>
-                    {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
-                  </button>
-                </div>
+            <!-- Choix du type de personne -->
+            <div *ngIf="!typePersonne" class="text-center my-4">
+              <button mat-raised-button color="primary" class="btn-success" (click)="choisirType('PHYSIQUE')">Personne physique</button>
+              <button mat-raised-button color="primary" class="btn-success" (click)="choisirType('MORALE')">Personne morale</button>
             </div>
-          </form>
 
-            <ng-template #viewModeTemplate>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="info-box">
-                    <span class="info-box-icon bg-info"><i class="fas fa-tag"></i></span>
-                    <div class="info-box-content">
-                      <span class="info-box-text">Type de demande</span>
-                      <span class="info-box-number">{{ demande.type }}</span>
-                    </div>
+            <!-- Stepper -->
+            <mat-horizontal-stepper *ngIf="typePersonne" linear>
+              <!-- Étape 1 : Personne physique ou morale -->
+              <mat-step [stepControl]="formPersonne">
+                <form [formGroup]="formPersonne">
+                  <ng-container *ngIf="typePersonne === 'PHYSIQUE'">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Nom</mat-label>
+                      <input matInput formControlName="nom" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Prénom</mat-label>
+                      <input matInput formControlName="prenom">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Adresse</mat-label>
+                      <input matInput formControlName="adresse" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Téléphone</mat-label>
+                      <input matInput formControlName="telephone" required>
+                    </mat-form-field>
+                  </ng-container>
+                  <ng-container *ngIf="typePersonne === 'MORALE'">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Raison sociale</mat-label>
+                      <input matInput formControlName="raisonSociale" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Registre de commerce</mat-label>
+                      <input matInput formControlName="registreCommerce">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Adresse</mat-label>
+                      <input matInput formControlName="adresseMorale" required>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>Téléphone</mat-label>
+                      <input matInput formControlName="telephoneMorale" required>
+                    </mat-form-field>
+                  </ng-container>
+                  <div class="text-right mt-3">
+                    <button mat-button matStepperNext [disabled]="formPersonne.invalid">Suivant</button>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="card border-left-primary shadow-sm">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-auto">
-                          <span class="info-box-icon" [ngClass]="'bg-' + (demande.statut | statusColor)">
-                            <i class="fas" [ngClass]="getStatusIcon(demande.statut)"></i>
-                          </span>
-                        </div>
-                        <div class="col">
-                          <h4 class="mb-0">{{ getStatusText(demande.statut) }}</h4>
-                          <p class="text-muted mb-0">Statut de la demande</p>
-                          <button *ngIf="demande.statut === StatutDemande.VALIDE"
-                                  class="btn btn-sm btn-success mt-2"
-                                  (click)="voirAutorisation()">
-                            <i class="fas fa-file-pdf mr-1"></i> Voir l'autorisation
-                          </button>
-                        </div>
+                </form>
+              </mat-step>
+
+              <!-- Étape 2 : Formulaire de la demande (celui déjà existant) -->
+              <mat-step [stepControl]="formDemande">
+                <form [formGroup]="formDemande" (ngSubmit)="onSubmit()">
+                  <!-- Formulaire en mode édition -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Type de demande <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="type" [disabled]="isViewMode" required>
+                          <option *ngFor="let type of TypeDemande | keyvalue" [value]="type.value">
+                            {{ type.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Destinataire <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="destinataire" [disabled]="isViewMode" required>
+                          <option *ngFor="let destinataire of Destinataire | keyvalue" [value]="destinataire.value">
+                            {{ destinataire.value }}
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div class="col-md-12">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Motif <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="motif" [disabled]="isViewMode" required>
+                          <option *ngFor="let motif of MotifDemande | keyvalue" [value]="motif.value">
+                            {{ motif.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Fichier joint <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="fichierJoint" [disabled]="isViewMode" required>
+                          <option *ngFor="let fichier of FichierJoint | keyvalue" [value]="fichier.value">
+                            {{ fichier.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
 
-                    <div class="card">
-                      <div class="card-header bg-light">
-                        <h3 class="card-title">Informations générales</h3>
+                  <!-- Section Informations sur les motos -->
+                  <div class="row mt-4">
+                    <div class="col-12">
+                      <h5 class="font-weight-bold text-success">
+                        <i class="fas fa-motorcycle mr-2"></i>Informations sur les motos
+                      </h5>
+                      <hr class="mt-1">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Type de moto <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="typemoto" [disabled]="isViewMode" required>
+                          <option *ngFor="let type of TypeMoto | keyvalue" [value]="type.value">
+                            {{ type.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Marque de moto <span class="text-danger">*</span></label>
+                        <select class="form-control" formControlName="marquemoto" [disabled]="isViewMode" required>
+                          <option *ngFor="let marque of MarqueMoto | keyvalue" [value]="marque.value">
+                            {{ marque.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Quantité des motos <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" formControlName="quantite" [readonly]="isViewMode" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="font-weight-bold">Prix (FCFA) <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" formControlName="prix" [readonly]="isViewMode" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Section Informations sur l'importateur -->
+                  <ng-container *ngIf="formDemande.get('type') as typeCtrl">
+                    <div class="card mb-4" *ngIf="typeCtrl.value === TypeDemande.IMPORTATION">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          <i class="fas fa-building mr-2"></i>Informations sur l'importateur
+                        </h5>
+                        <hr class="mt-1">
                       </div>
                       <div class="card-body">
                         <div class="row">
                           <div class="col-md-6">
-                            <table class="table table-borderless mb-0">
-                              <tr>
-                                <th style="width: 40%">Numéro</th>
-                                <td>{{ demande.numero || '-' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Date de création</th>
-                                <td>{{ demande.date | date:'dd/MM/yyyy' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Date de soumission</th>
-                                <td>{{ demande.dateSoumission | date:'dd/MM/yyyy' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Type de demande</th>
-                                <td>{{ demande.type || '-' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Statut</th>
-                                <td>
-                                  <span class="badge" [ngClass]="'bg-' + (demande.statut ? (demande.statut | statusColor) : 'secondary')">
-                                    {{ demande.statut || '-' }}
-                                  </span>
-                                </td>
-                              </tr>
-                            </table>
+                            <div class="form-group">
+                              <label class="font-weight-bold">Nom de l'importateur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="nomImportateur" [readonly]="isViewMode" required>
+                            </div>
                           </div>
                           <div class="col-md-6">
-                            <table class="table table-borderless mb-0">
-                              <tr>
-                                <th style="width: 40%">Motif</th>
-                                <td>{{ demande.motif || '-' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Fichier joint</th>
-                                <td>{{ demande.fichierJoint || '-' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Quantité de motos</th>
-                                <td>{{ demande.quantiteMoto || '0' }}</td>
-                              </tr>
-                              <tr>
-                                <th>Valeur (FCFA)</th>
-                                <td>{{ demande.valeur ? (demande.valeur | number:'1.0-0') + ' FCFA' : '-' }}</td>
-                              </tr>
-                              <tr *ngIf="demande.dateValidation">
-                                <th>Date de validation</th>
-                                <td>{{ demande.dateValidation | date:'dd/MM/yyyy' }}</td>
-                              </tr>
-                              <tr *ngIf="demande.motifRejet">
-                                <th>Motif de rejet</th>
-                                <td class="text-danger">{{ demande.motifRejet }}</td>
-                              </tr>
-                            </table>
+                            <div class="form-group">
+                              <label class="font-weight-bold">Email de l'importateur </label>
+                              <input type="email" class="form-control" formControlName="emailImportateur" [readonly]="isViewMode" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Adresse de l'importateur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="adresseImportateur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Téléphone de l'importateur <span class="text-danger">*</span></label>
+                              <input type="tel" class="form-control" formControlName="telephoneImportateur" [readonly]="isViewMode" required>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                </div>
+                  </ng-container>
 
-              </div>
-
-              <!-- Section Motos -->
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h3 class="card-title">
-                        Informations sur les motos
-                      </h3>
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-
-                            <tr>
-                              <th>Marque</th>
-                              <td>{{ demande.marquemoto || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th>Type</th>
-                              <td>{{ demande.typemoto || '-' }}</td>
-                            </tr>
-
-                          </table>
+                  <!-- Section Informations sur le vendeur (pour demande d'achat) -->
+                  <ng-container *ngIf="formDemande.get('type') as typeCtrl">
+                    <div class="card mb-4" *ngIf="typeCtrl.value === TypeDemande.ACHAT">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          <i class="fas fa-store mr-2"></i>Informations sur le vendeur
+                        </h5>
+                        <hr class="mt-1">
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Nom du vendeur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="nomVendeur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Type de vendeur <span class="text-danger">*</span></label>
+                              <select class="form-control" formControlName="typeVendeur" [disabled]="isViewMode" required>
+                                <option value="PERSONNE_PHYSIQUE">Personne physique</option>
+                                <option value="PERSONNE_MORALE">Personne morale</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-                            <tr>
-                              <th style="width: 40%">Quantité</th>
-                              <td>{{ demande.quantite || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th>Prix</th>
-                              <td>
-                                {{ demande.prix ? (demande.prix | number:'1.0-0') + ' FCFA' : '-' }}
-                              </td>
-                            </tr>
-
-                          </table>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
+                              <input type="tel" class="form-control" formControlName="telephoneVendeur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Email</label>
+                              <input type="email" class="form-control" formControlName="emailVendeur" [readonly]="isViewMode">
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </ng-container>
 
-              <!-- Section Importateur -->
-              <div class="row" *ngIf="demande.type === TypeDemande.IMPORTATION">
-                <div class="col-md-12">
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h3 class="card-title">
-                        Informations sur l'importateur
-                      </h3>
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-                            <tr>
-                              <th style="width: 40%">Nom</th>
-                              <td>{{ demande.nomImportateur || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th>Adresse</th>
-                              <td>{{ demande.adresseImportateur || '-' }}</td>
-                            </tr>
-                          </table>
+                  <!-- Section Informations sur le don -->
+                  <ng-container *ngIf="formDemande.get('type') as typeCtrl">
+                    <div class="card mb-4" *ngIf="typeCtrl.value === TypeDemande.DON">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          <i class="fas fa-gift mr-2"></i>Informations sur le don
+                        </h5>
+                        <hr class="mt-1">
+                      </div>
+                      <div class="card-body">
+                        <h6 class="font-weight-bold mb-3">Bénéficiaire du don</h6>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Nom du bénéficiaire <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="nomBeneficiaire" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Type de bénéficiaire <span class="text-danger">*</span></label>
+                              <select class="form-control" formControlName="typeBeneficiaire" [disabled]="isViewMode" required>
+                                <option value="PERSONNE_PHYSIQUE">Personne physique</option>
+                                <option value="PERSONNE_MORALE">Personne morale</option>
+                              </select>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-                            <tr>
-                              <th style="width: 40%">Téléphone</th>
-                              <td>{{ demande.telephoneImportateur || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th >Email</th>
-                              <td>{{ demande.emailImportateur || '-' }}</td>
-                            </tr>
-                          </table>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Adresse du bénéficiaire <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="adresseBeneficiaire" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
+                              <input type="tel" class="form-control" formControlName="telephoneBeneficiaire" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                        </div>
+
+                        <h6 class="font-weight-bold mb-3 mt-4">Informations sur l'acheteur</h6>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Nom de l'acheteur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="nomAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Type d'acheteur <span class="text-danger">*</span></label>
+                              <select class="form-control" formControlName="typeAcheteur" [disabled]="isViewMode" required>
+                                <option value="PERSONNE_PHYSIQUE">Personne physique</option>
+                                <option value="PERSONNE_MORALE">Personne morale</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Adresse de l'acheteur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="adresseAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Téléphone <span class="text-danger">*</span></label>
+                              <input type="tel" class="form-control" formControlName="telephoneAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </ng-container>
 
-              <!-- Section Acheteur -->
-              <div class="row" *ngIf="demande.type === TypeDemande.ACHAT">
-                <div class="col-md-12">
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h3 class="card-title">
-                        <i class="fas fa-user-tie mr-2"></i>Informations sur l'acheteur
-                      </h3>
-                    </div>
-                    <div class="card-body p-0">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-                            <tr>
-                              <th style="width: 40%">Nom</th>
-                              <td>{{ demande.nomAcheteur || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th>Adresse</th>
-                              <td>{{ demande.adresseAcheteur || '-' }}</td>
-                            </tr>
-                          </table>
+                  <!-- Section Informations sur l'acheteur (pour demande de vente) -->
+                  <ng-container *ngIf="formDemande.get('type') as typeCtrl">
+                    <div class="card mb-4" *ngIf="typeCtrl.value === TypeDemande.VENTE">
+                      <div class="card-header">
+                        <h5 class="card-title mb-0">
+                          <i class="fas fa-user-tie mr-2"></i>Informations sur l'acheteur
+                        </h5>
+                        <hr class="mt-1">
+                      </div>
+                      <div class="card-body">
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Nom de l'acheteur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="nomAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Email de l'acheteur </label>
+                              <input type="email" class="form-control" formControlName="emailAcheteur" [readonly]="isViewMode" >
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-6">
-                          <table class="table table-borderless mb-0">
-                            <tr>
-                              <th style="width: 40%">Téléphone</th>
-                              <td>{{ demande.telephoneAcheteur || '-' }}</td>
-                            </tr>
-                            <tr>
-                              <th>Email</th>
-                              <td>{{ demande.emailAcheteur || '-' }}</td>
-                            </tr>
-                          </table>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Adresse de l'acheteur <span class="text-danger">*</span></label>
+                              <input type="text" class="form-control" formControlName="adresseAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label class="font-weight-bold">Téléphone de l'acheteur <span class="text-danger">*</span></label>
+                              <input type="tel" class="form-control" formControlName="telephoneAcheteur" [readonly]="isViewMode" required>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+                  </ng-container>
 
-              <!-- Section Compléments -->
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="card mb-3">
-                    <div class="card-header bg-light">
-                      <h3 class="card-title">
+                  <!-- Section Informations complémentaires -->
+                  <div class="row mt-4">
+                    <div class="col-12">
+                      <h5 class="font-weight-bold text-success">
                         <i class="fas fa-info-circle mr-2"></i>Informations complémentaires
-                      </h3>
+                      </h5>
+                      <hr class="mt-1">
                     </div>
-                    <div class="card-body">
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label class="font-weight-bold">Détails complémentaires</label>
-                        <p class="form-control-static" *ngIf="demande.detailsComplementaires; else noDetails">
-                          {{ demande.detailsComplementaires }}
-                        </p>
-                        <ng-template #noDetails>
-                          <p class="text-muted font-italic">Aucun détail complémentaire fourni</p>
-                        </ng-template>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="font-weight-bold">Documents fournis</label>
-                        <div *ngIf="demande.documentsFournis?.length; else noDocuments">
-                          <ul class="list-group">
-                            <li class="list-group-item" *ngFor="let doc of demande.documentsFournis">
-                              <i class="fas fa-file-pdf text-danger mr-2"></i>{{ doc }}
-                            </li>
-                          </ul>
-                        </div>
-                        <ng-template #noDocuments>
-                          <p class="text-muted font-italic">Aucun document fourni</p>
-                        </ng-template>
+                        <textarea class="form-control" rows="3" formControlName="detailsComplementaires" [readonly]="isViewMode"></textarea>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              <div class="row mt-3">
-                <div class="col-12 text-right">
-                  <button type="button" class="btn btn-outline-secondary mr-2" (click)="onCancel()">
-                    <i class="fas fa-arrow-left mr-1"></i> Retour
-                  </button>
-                  <button type="button" class="btn btn-primary" (click)="onEdit()" *ngIf="!isEditMode">
-                    <i class="fas fa-edit mr-1"></i> Modifier
-                  </button>
-                </div>
-              </div>
-            </ng-template>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- Section documents fournis avec FormArray -->
+                      <div class="form-group">
+                        <label class="font-weight-bold">Documents fournis</label>
+                        <div *ngIf="!isViewMode">
+                          <div class="input-group mb-2" *ngFor="let docCtrl of documentsFournis?.controls; let i = index">
+                            <input type="text" class="form-control" [formControlName]="i">
+                            <div class="input-group-append">
+                              <button class="btn btn-outline-danger" type="button" (click)="removeDocument(i)">
+                                <i class="fas fa-trash" style="color:green;"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <button type="button" class="btn btn-sm btn-outline-primary" (click)="addDocument()">
+                            <i class="fas fa-plus mr-1" style="color:green;"></i> Ajouter un document
+                          </button>
+                        </div>
+                        <div *ngIf="isViewMode">
+                          <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let doc of documentsFournis?.value">{{doc}}</li>
+                            <li class="list-group-item text-muted" *ngIf="!documentsFournis?.value?.length">Aucun document fourni</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mt-4">
+                    <div class="col-12 text-right">
+                      <button mat-button matStepperPrevious class="btn-success">Précédent</button>
+                      <button type="submit" class="btn btn-success" [disabled]="isLoading">
+                        <i class="fas {{ isEditMode ? 'fa-save' : 'fa-plus' }} mr-1"></i>
+                        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </mat-step>
+            </mat-horizontal-stepper>
           </div>
         </div>
       </div>

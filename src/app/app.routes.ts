@@ -22,9 +22,9 @@ import { TypeFormComponent } from './pages/settings/type/type-form/type-form.com
 import { TypeDetailComponent } from './pages/settings/type/type-detail/type-detail.component';
 import { Login } from './auth/login/login';
 import { Register } from './auth/register/register';
-import { ChoixType } from './auth/choix-type/choix-type';
-import { PersonnePhysique } from './auth/personne-physique/personne-physique';
-import { PersonneMorale } from './auth/personne-morale/personne-morale';
+import { ChoixType } from './pages/choix-type/choix-type';
+import { PersonnePhysique } from './pages/choix-type/personne-physique/personne-physique';
+import { PersonneMorale } from './pages/choix-type/personne-morale/personne-morale';
 import { authGuard } from './services/auth.guard';
 
 

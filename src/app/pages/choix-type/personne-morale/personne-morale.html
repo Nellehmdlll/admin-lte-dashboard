@@ -1,0 +1,22 @@
+<div class="container mt-5">
+  <h3>Informations sur la personne morale</h3>
+  <form (ngSubmit)="valider()">
+    <div class="mb-3">
+      <label>Nom de l'entreprise</label>
+      <input type="text" class="form-control" [(ngModel)]="nomEntreprise" name="nomEntreprise" required />
+    </div>
+    <div class="mb-3">
+      <label>Numéro RCCM</label>
+      <input type="text" class="form-control" [(ngModel)]="numeroRCCM" name="numeroRCCM" required />
+    </div>
+    <div class="mb-3">
+      <label>NIF</label>
+      <input type="text" class="form-control" [(ngModel)]="nif" name="nif" required />
+    </div>
+    <div class="mb-3">
+      <label>Siège social</label>
+      <input type="text" class="form-control" [(ngModel)]="siegeSocial" name="siegeSocial" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</div>
