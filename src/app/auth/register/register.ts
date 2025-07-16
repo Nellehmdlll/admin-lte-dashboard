@@ -13,7 +13,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [CommonModule, FormsModule, HttpClientModule],
 })
 export class Register {
-  formData = {
+ form = {
     nom: '',
     prenom: '',
     civilite: '',
@@ -22,23 +22,25 @@ export class Register {
     profession: '',
     email: '',
     password: '',
+    telephone: ''
   };
+  email: any;
+  password: any;
+  nom: any;
+  prenom: any;
+profession: any;
+civilite: any;
+date_naissance: any;
+numero_nip: any;
+telephone: any;
 
   constructor(private authService: AuthService, private router: Router) {}
 
-  register() {
-    this.authService.register(this.formData).subscribe({
-      next: (res: any) => {
-        alert('Inscription réussie !');
-        this.router.navigate(['/login']);
-      },
-      error: (err: any) => {
-        console.error(err);
-       alert('Erreur lors de l’inscription : ' + (err?.error?.message || err.message || 'Erreur inconnue'));
-
-      }
-    });
+register() {
+  if (this.email && this.password && this.nom && this.prenom) {
+    this.router.navigate(['/login']); // après inscription
   }
+}
 
   goToLogin() {
     this.router.navigate(['/login']);
