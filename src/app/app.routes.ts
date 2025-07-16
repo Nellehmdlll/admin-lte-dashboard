@@ -28,6 +28,7 @@ import { PersonneMorale } from './auth/personne-morale/personne-morale';
 import { Dashboard } from './auth/dashboard/dashboard';
 import { DemandeInfo } from './auth/demande-info/demande-info';
 import { authGuard } from './services/auth.guard';
+import { SuperDashboard } from './super-dashboard/super-dashboard'; // Importation du dashboard super user
 
 export const routes: Routes = [
   {
@@ -39,7 +40,7 @@ export const routes: Routes = [
 
       // Tableau de bord administrateur
       { path: 'admin/dashboard', component: AdminDashboardComponent },
-
+      { path: 'admin', component: SuperDashboard },
       // Autres routes
       { path: 'users',
         children: [
