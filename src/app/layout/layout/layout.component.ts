@@ -13,4 +13,13 @@ import { RouterModule } from '@angular/router'; // ✅ Importer RouterModule ici
 })
 export class LayoutComponent {
 
+  userPrenom = localStorage.getItem('prenom');
+  authService: any;
+  router: any;
+
+    logout() {
+  this.authService.logout(); // supprime le token
+  this.router.navigate(['/login']); // redirige vers login
+}
+
 }

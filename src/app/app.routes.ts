@@ -28,6 +28,7 @@ import { PersonneMorale } from './pages/choix-type/personne-morale/personne-mora
 import { authGuard } from './services/auth.guard';
 import { roleGuard } from './services/role.guard';
 import { UnauthorizedComponentComponent } from './unauthorized-component/unauthorized-component.component';
+import { SuperDashboard } from './super-dashboard/super-dashboard';
 
 
 
@@ -59,6 +60,8 @@ export const routes: Routes = [
 
       // Tableau de bord administrateur
       { path: 'admin/dashboard', component: AdminDashboardComponent },
+
+      { path: 'administrateur', component: SuperDashboard },
 
       // Users (superadmin)
       {

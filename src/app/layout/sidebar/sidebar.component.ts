@@ -17,6 +17,10 @@ export class SidebarComponent {
   isParametresOpen = false;
   activeLink: string | null = null;
 
+  userPrenom = localStorage.getItem('prenom');
+
+
+
   constructor(private router: Router, private authService: AuthService) {
     this.role = this.authService.getUserRole();
 
@@ -56,4 +60,9 @@ export class SidebarComponent {
     this.activeLink = link;
     this.isParametresOpen = true;
   }
+
+  logout() {
+  this.authService.logout(); // supprime le token
+  this.router.navigate(['/login']); // redirige vers login
+}
 }

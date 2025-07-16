@@ -24,6 +24,7 @@ export class Login {
       console.log('✅ Connexion réussie, réponse :', response);
       localStorage.setItem('token', response.token);
       localStorage.setItem('role', response.roles[0]);
+      localStorage.setItem('prenom', response.prenom);
 
       const role = response.roles[0];
       console.log('📦 Rôle reçu :', role);
