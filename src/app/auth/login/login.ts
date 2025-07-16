@@ -21,11 +21,20 @@ export class Login {
   login() {
   this.authService.login(this.email, this.password).subscribe({
     next: (response: any) => {
-      //stocker token
+      console.log('✅ Connexion réussie, réponse :', response);
       localStorage.setItem('token', response.token);
+      localStorage.setItem('role', response.roles[0]);
 
-      // Naviguer vers dashboard après connexion réussie
-      this.router.navigate(['/dashboard']);
+      const role = response.roles[0];
+      console.log('📦 Rôle reçu :', role);
+
+      if (role === 'superadmin') {
+        this.router.navigate(['/users']);
+      } else if (role === 'agent_mica') {
+        this.router.navigate(['/admin/dashboard']);
+      } else {
+        this.router.navigate(['/dashboard']);
+      }
     },
     error: (err: any) => {
       console.error('Erreur de connexion', err);
@@ -33,6 +42,7 @@ export class Login {
     }
   });
 }
+
 
 
   goToRegister() {

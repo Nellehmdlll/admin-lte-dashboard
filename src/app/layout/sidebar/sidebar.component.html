@@ -5,50 +5,50 @@
 
   <div class="sidebar">
     <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
-        <li class="nav-item">
-          <a [routerLink]="['/']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
+      <ul class="nav nav-pills nav-sidebar flex-column" role="menu" >
+        <li class="nav-item" *ngIf="isUser()">
+          <a [routerLink]="['/dashboard']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>Tableau de bord</p>
           </a>
         </li>
-        <li>
+        <li class="nav-item" *ngIf="isAgent()">
           <a [routerLink]="['/admin/dashboard']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p class="text-white">Tableau de bord admin</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAgent()">
           <a [routerLink]="['/demandes']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-file-alt"></i>
             <p>Demandes</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isUser()">
           <a [routerLink]="['/bordereau-reception']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-file-alt"></i>
             <p>Bordereaux</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isUser()">
           <a [routerLink]="['/bordereaux']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-file-alt"></i>
             <p>Gestion bordereaux</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAgent()">
           <a [routerLink]="['/stock']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-boxes"></i>
             <p>Stock</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="isAdmin()">
           <a [routerLink]="['/users']" class="nav-link" routerLinkActive="active">
             <i class="nav-icon fas fa-users"></i>
             <p>Utilisateurs</p>
           </a>
         </li>
-        <li class="nav-item has-treeview" [class.menu-open]="isParametresOpen">
+        <li class="nav-item has-treeview" [class.menu-open]="isParametresOpen"  *ngIf="isAdmin()">
           <a href="#" class="nav-link" (click)="toggleParametres($event)">
             <i class="nav-icon fas fa-cogs"></i>
             <p>

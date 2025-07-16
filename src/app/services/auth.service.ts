@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
+  getRole() {
+    throw new Error('Method not implemented.');
+  }
   private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
@@ -27,11 +30,14 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
-  getRole(): string | null {
+  getUserRole(): string | null {
     return localStorage.getItem('role');
   }
 
   hasRole(role: string): boolean {
-    return this.getRole() === role;
+    return this.getUserRole() === role;
   }
+
+
+
 }

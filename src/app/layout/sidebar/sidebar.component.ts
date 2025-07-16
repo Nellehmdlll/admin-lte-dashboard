@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,12 +13,13 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-  // État du menu Paramètres
+  role: string | null = null;
   isParametresOpen = false;
   activeLink: string | null = null;
 
-  constructor(private router: Router) {
-    // S'abonner aux changements de route
+  constructor(private router: Router, private authService: AuthService) {
+    this.role = this.authService.getUserRole();
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -24,30 +27,31 @@ export class SidebarComponent {
     });
   }
 
-  // Basculer l'état d'ouverture du menu Paramètres
+  isUser(): boolean {
+    return this.role === 'utilisateur';
+  }
+
+  isAgent(): boolean {
+    return this.role === 'agent_mica';
+  }
+
+  isAdmin(): boolean {
+    return this.role === 'superadmin';
+  }
+
   toggleParametres(event: Event): void {
     event.preventDefault();
     this.isParametresOpen = !this.isParametresOpen;
   }
 
-  // Mettre à jour le lien actif en fonction de l'URL
   private updateActiveLink(): void {
     const url = this.router.url;
-    if (url.includes('marque-moto')) {
-      this.activeLink = 'marque-moto';
-      this.isParametresOpen = true;
-    } else if (url.includes('type-moto')) {
-      this.activeLink = 'type-moto';
-      this.isParametresOpen = true;
-    } else if (url.includes('ministere')) {
-      this.activeLink = 'ministere';
-      this.isParametresOpen = true;
-    } else {
-      this.activeLink = null;
-    }
+    if (url.includes('marque')) this.activeLink = 'marque';
+    else if (url.includes('type')) this.activeLink = 'type';
+    else if (url.includes('ministere')) this.activeLink = 'ministere';
+    else this.activeLink = null;
   }
 
-  // Définir le lien actif
   setActiveLink(link: string): void {
     this.activeLink = link;
     this.isParametresOpen = true;
