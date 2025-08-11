@@ -53,7 +53,7 @@
             <p>Bordereaux</p>
           </a>
         </li>
-        <li class="nav-item" *ngIf="isUser()">
+        <li class="nav-item" *ngIf="isAgent()">
           <a [routerLink]="['/bordereaux']" routerLinkActive="active" class="nav-link" [routerLinkActiveOptions]="{exact: true}">
             <i class="nav-icon fas fa-file-alt"></i>
             <p>Gestion bordereaux</p>

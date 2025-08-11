@@ -125,7 +125,7 @@ export const routes: Routes = [
       // Bordereaux
       { path: 'bordereau-reception', component: BordereauReceptionComponent },
       {
-        path: 'bordereaux',
+        path: 'bordereaux',canActivate: [roleGuard(['agent'])],
         children: [
           { path: '', component: GestionBordereauComponent },
           { path: ':id', component: GestionBordereauComponent }
@@ -137,7 +137,7 @@ export const routes: Routes = [
     ]
   },
 
-  // Fallback vers /unauthorized pour mieux tracer les erreurs (peut être login si tu préfères)
+  // Fallback vers /unauthorized pour mieux tracer les erreurs
   { path: '**', redirectTo: 'unauthorized' }
 ];
 
