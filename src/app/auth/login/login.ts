@@ -22,9 +22,14 @@ export class Login {
   this.authService.login(this.email, this.password).subscribe({
     next: (response: any) => {
       console.log('✅ Connexion réussie, réponse :', response);
-      localStorage.setItem('token', response.token);
+
+      // Stockage des données de connexion
+      localStorage.setItem('token', response.access_token); // ✅
+      localStorage.setItem('token_type', response.token_type);
       localStorage.setItem('role', response.roles[0]);
       localStorage.setItem('prenom', response.prenom);
+      localStorage.setItem('nom', response.nom);
+      localStorage.setItem('email', response.email);
 
       const role = response.roles[0];
       console.log('📦 Rôle reçu :', role);
@@ -43,6 +48,7 @@ export class Login {
     }
   });
 }
+
 
 
 

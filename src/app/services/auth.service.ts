@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  getRole() {
-    throw new Error('Method not implemented.');
-  }
   private apiUrl = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
@@ -17,17 +15,20 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, { email, password });
   }
 
-  register(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/inscription`, data);
-  }
-
   logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+    localStorage.clear();
   }
 
   isAuthenticated(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  getTokenType(): string {
+    return localStorage.getItem('token_type') || 'Bearer';
   }
 
   getUserRole(): string | null {
@@ -38,6 +39,8 @@ export class AuthService {
     return this.getUserRole() === role;
   }
 
-
-
+   register(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/inscription`, data);
+  }
 }
+
